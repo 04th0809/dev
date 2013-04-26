@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <div style="width:100%;margin:10px auto;" class="clearfix">
+        <ul class="bgConfig">
+            <li>
+                <div class="Lev1"><input id="Checkbox1" type="checkbox" class="checkbox" checked="checked"><label for="Checkbox1">&nbsp;一&nbsp;城市商业评价</label></div>
+                <ul>
+                    <li>
+                    <div class="Lev2"><div class="Point"></div><input id="Checkbox2" name="part1" value="01" checked="checked" type="checkbox" class="checkbox"><label for="Checkbox2">&nbsp;1&nbsp;城市概况</label></div>
+                    </li>
+                    <li>
+                    <div class="Lev2"><div class="Point"></div><input id="Checkbox3" name="part1" value="02" checked="checked" type="checkbox" class="checkbox"><label for="Checkbox3">&nbsp;2&nbsp;评价详情</label></div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="bgConfig">
+            <li>
+                <div class="Lev1"><input id="Checkbox17" type="checkbox" class="checkbox" checked="checked"><label for="Checkbox17">&nbsp;三&nbsp;城市商圈</label></div>
+                <ul>
+                    <li>
+                    <div class="Lev2"><div class="Point"></div><input id="Checkbox18" name="part3" value="01" type="checkbox" class="checkbox" checked="checked"><label for="Checkbox18">&nbsp;1&nbsp;商圈分布</label></div>
+
+                    </li>
+                    <li>
+                    <div class="Lev2"><div class="Point"></div><input id="Checkbox19" name="part3" value="02" type="checkbox" class="checkbox" checked="checked"><label for="Checkbox19">&nbsp;2&nbsp;商圈供应</label></div>
+
+                    </li>
+                    <li>
+                    <div class="Lev2"><div class="Point"></div><input id="Checkbox20" name="part3" value="03" type="checkbox" class="checkbox" checked="checked"><label for="Checkbox20">&nbsp;3&nbsp;商圈需求</label></div>
+
+                    </li>
+                    <li>
+                    <div class="Lev2"><div class="Point"></div><input id="Checkbox21" name="part3" value="04" type="checkbox" class="checkbox" checked="checked"><label for="Checkbox21">&nbsp;4&nbsp;商圈租金</label></div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        /*
+         * 父层绑定事件, 获取 target
+         * 因为 label上添加 for属性,相当于 单击input本身，所有target只需针对 input
+         * 适当结合原生js, 提升效率
+         * 子集input, 有两点逻辑:
+         *      1.当前子集checked=false时,全选input必定为false
+         *      2.当前子集checked=true时, 判断子集是否存在未选input, 如果不存在,全选input为 true, 反之false
+         */
+        $('.bgConfig').click(function(e){
+            var target = e.target, flag, lev1;
+            if(target.nodeName.toLowerCase() == 'input'){
+                flag = target.checked;
+                if(target.parentNode.className == 'Lev1'){
+                    $('li input',this).each(function(){
+                        this.checked = flag;
+                    })
+                }else if(target.parentNode.className == 'Lev2'){
+                    lev1 = $('.Lev1 input',this)[0];
+                    if(flag == false){
+                        lev1.checked = false;
+                    }else{
+                        lev1.checked = $('ul li input:not(:checked)',this).length == 0 ? true : false;
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
