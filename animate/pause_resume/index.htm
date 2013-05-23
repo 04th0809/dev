@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <title>Pause</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <style>
+html, body { background: #eaf2f5; margin: 0; padding: 0; }
+body { /font-size: 105%; }
+code { /font-size: 85%; /font-family: 'Lucida Console'; }
+div.body { background: white; margin: 1em 10%; padding: 0 1em; border: 1px solid #bedce7; }
+a:link, a:visited { color: #4183ca; }
+h1 { margin: .5em 0; }
+h2, p, ul, ol, li, pre, hr { margin-top: .8em; margin-bottom: .8em; }
+hr { /margin: 0; }
+em { color: #555; }
+p.menu { font-family: sans-serif; font-size: 90%; }
+p.footer { font-size: 90%; }
+div.demo { border: 1px solid #555; margin: 1em auto; width: 550px; }
+#box1, #box2, #box3 { width: 100px; height: 100px; position: relative; }
+#box1 { background: #0C0; }
+#box2 { background: #090; }
+#box3 { background: #060; }
+hr { border: none; color: #bedce7; background-color: #bedce7; height: 1px; }
+p { text-align: justify; }
+  </style>
+</head>
+<body>
+<div class=body>
+
+<h1>Pause</h1>
+<em>A jQuery plugin to pause and resume animations</em>
+<h2>Example</h2>
+
+<p>Move your mouse over the boxes:</p>
+
+<div class=demo>
+<div id=box1></div>
+<div id=box2></div>
+<div id=box3></div>
+</div>
+<pre><code>$box.hover(function() {
+  $box.pause();
+}, function() {
+  $box.resume();
+});
+</code></pre>
+
+</div>
+
+<script src='http://code.jquery.com/jquery-1.9.1.min.js'></script>
+<script src='jquery.pause.js'></script>
+<script>
+$(function() {
+	function setupBox(i) {
+		var $box = $('#box' + i);
+		function phase1() {
+			$box.animate({ left: 450 }, 2000, 'swing', phase2);
+		}
+		function phase2() {
+			$box.animate({ left: 0 }, 2000, 'swing', phase1);
+		}
+		$box.hover(function() {
+			$box.pause();
+		}, function() {
+			$box.resume();
+		});
+		phase1();
+	}
+	setupBox(1);
+	setupBox(2);
+	setupBox(3);
+});
+</script>
+</body>
+</html>
