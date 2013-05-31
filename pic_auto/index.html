@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=utf8" http-equiv="Content-Type" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>
+<style>
+*{margin:0;padding:0;}
+ul,ol{list-style:none;}
+img{border:0}
+span{height:200px; width:200px; float:left; margin-right:10px; border:1px solid #beceeb; text-align:center; font-size:0;overflow:hidden;}
+.p1{max-height:200px;max-width:200px;vertical-align:middle;margin-right:-1px;}
+.p2{display:inline-block;height:100%;width:1px;vertical-align:middle;}
+</style>
+</head>
+<body>
+	<div>
+		<span><img src="http://cache.house.sina.com.cn/housebaidu/ac/d1/ad5450bba0d712d219da0d1075a1ef1c_800X800.jpg" class="p1"/><s class="p2"></s></span>
+		<span><img src="031-01-01.jpg" class="p1"/><s class="p2"></s></span>
+	</div>
+	<script>
+	jQuery.fn.LoadImage=function(scaling,width,height,loadpic){
+        if(loadpic==null) loadpic="load3.gif";
+        return this.each(function(){
+            var t=$(this);
+            var src=$(this).attr("src")
+            var img=new Image();
+            img.src=src;
+            //自动缩放图片
+            var autoScaling=function(){
+                if(scaling){
+                    if(img.width>0 && img.height>0){
+                        if(img.width/img.height>=width/height){
+                            if(img.width>width){
+                                t.width(width);
+                            }else{
+                                t.width(img.width);
+                            }
+                        }
+                        else{
+                            if(img.height>height){
+                                t.height(height);
+                            }else{
+                                t.width(img.width);
+                            }
+                        }
+                    }
+                }
+            }
+            //处理ff下会自动读取缓存图片
+            if(img.complete){
+                //alert("getToCache!");
+                autoScaling();
+                return;
+            }
+            $(this).attr("src","");
+            var loading=$("<img alt=\"加载中...\" title=\"图片加载中...\" src=\""+loadpic+"\" />");
+
+            t.hide();
+            t.after(loading);
+            $(img).load(function(){
+                autoScaling();
+                loading.remove();
+                t.attr("src",this.src);
+                t.show();
+            });
+        });
+    }
+    $(function(){
+        $("div img").LoadImage(true,200,200,"loading.gif");
+    });
+	</script>
+</body>
+</html>
