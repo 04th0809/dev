@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <title>Pause</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="timeline.css" />
+</head>
+<body>
+<div id="slider" class="time_line"></div>
+<script src='http://code.jquery.com/jquery-1.9.1.min.js'></script>
+<script src='timeline.js'></script>
+<script>
+$(function() {
+    /* 时间刻度 */
+    $(".time_line").timeLine({ val: '2010.01', fn: function (v){
+        //回调函数
+        }
+    });
+});
+</script>
+</body>
+</html>
