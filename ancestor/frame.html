@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+    <link rel="stylesheet" href="css/main.css" type="text/css"/>
+    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+    <div id="header" class="header_s1">
+        <div class="logo"><img src="img/logo.png"></div>
+    </div>
+    <div class="frameWrap clearfix">
+        <div class="frame_box">
+            <div class="main_frame">12
+            </div>
+        </div>
+        <div class="extra_frame">
+            <div class="frame_sear clearfix">
+                <div class="frame_sear_form">
+                    <ul>
+                        <li>
+                            <label>-본인</label>
+                            <div class="field">
+                                <input type="text"/>
+                            </div>
+                        </li>
+                        <li>
+                            <label>-아버지</label>
+                            <div class="field">
+                                <input type="text"/>
+                            </div>
+                        </li>
+                        <li>
+                            <label>&nbsp;</label>
+                            <div class="field">
+                                <a href="#" class="submit_sear">search</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="frame_sear_result">
+                    <h3 class="tit">검색결과(搜索结果)</h3>
+                    <div class="loading"><img src="img/loading.gif"/></div>
+                    <p class="noresulte" style="display:none">검색된 데이터가 없습니다.(有没有发现任何数据)</p>
+                    <div class="lists" style="display:none">
+                        <ul>
+                            <li><a href="#">득겸(得謙) [2世] [병부공파] (父:능양) (祖:없음)</a></li>
+                            <li><a href="#">득겸(得謙) [3世] [병부공파] (父:능양) (祖:없음)</a></li>
+                            <li><a href="#">득겸(得謙) [6世] [병부공파] (父:능양) (祖:없음)</a></li>
+                            <li><a href="#">득겸(得謙) [3世] [병부공파] (父:능양) (祖:없음)</a></li>
+                            <li><a href="#">득겸(得謙) [6世] [병부공파] (父:능양) (祖:없음)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- tree -->
+            <div class="family_tree">
+                <div class="ft_tit">
+                    <div class="in_ft_tit">
+                        <table width="100%">
+                            <tr><td>5<br/>世</td></tr>
+                            <tr><td>6<br/>世</td></tr>
+                            <tr><td>7<br/>世</td></tr>
+                            <tr><td>8<br/>世</td></tr>
+                            <tr><td>9<br/>世</td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="ft_cont">
+                    <div id="tree"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var data = {
+            name: '\ub4dd\uacb8',
+            hname:'\u5f97\u8b19',
+            idx:1,
+            child: [
+                {
+                    name: 'a2_2',
+                    idx: '2',
+                    num: 16,
+                    child:[
+                        {
+                            id:49,
+                            name: '\ub4dd\uacb8',
+                            hname:'\u5f97\u8b19',
+                            idx: '3'
+                        },
+                        {
+                            name: 'a3_1',
+                            idx: '3',
+                            num: 9,
+                            child:[
+                                {
+                                    name: 'a4_0',
+                                    idx: '4'
+                                },
+                                {
+                                    name: 'a4_1',
+                                    idx: '4',
+                                    num: 6,
+                                    child:[
+                                        {
+                                            name: 'a5_0',
+                                            idx: '5'
+                                        },
+                                        {
+                                            name: 'a5_1',
+                                            idx: '5'
+                                        },
+                                        {
+                                            name: 'a5_2',
+                                            idx: '5'
+                                        },
+                                        {
+                                            name: 'a5_3',
+                                          idx: '5',
+                                          childs:1
+                                        },
+                                        {
+                                            name: 'a5_4',
+                                            idx: '5'
+                                        },
+                                        {
+                                            name: 'a5_5',
+                                            idx: '5'
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: 'a4_2',
+                                    idx: '4'
+                                },
+                                {
+                                    name: 'a4_3',
+                                    idx: '4'
+                                }
+                            ]
+                        },
+                        {
+                            name: 'a3_2',
+                            idx: '3',
+                            num: 6,
+                            child:[
+                                {
+                                    name: 'a4_4',
+                                    idx: '4'
+                                },
+                                {
+                                    name: 'a4_5',
+                                    idx: '4'
+                                },
+                                {
+                                    name: 'a4_6',
+                                    idx: '4'
+                                },
+                                {
+                                    name: 'a4_7',
+                                    idx: '4'
+                                },
+                                {
+                                    name: 'a4_8',
+                                    idx: '4'
+                                },
+                                {
+                                    name: 'a4_9',
+                                    idx: '4'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {name: 'a2_0',idx: '2'},
+                {name: 'a2_1',idx: '2',
+                    child:[
+                        {
+                            name: 'a3__1',
+                            idx: '3'
+                        }
+                    ]
+                }
+            ]
+        }
+
+        function tree(){
+            var a = '';
+                a += '<ul class="t_ul_first"><li>';
+                a += parse(data);
+                a += '</li></ul>';
+            return a;
+
+            function parse(obj){
+                var pre = '<img src="img/show/bt_pre.png"/>',
+                    next = '<img src="img/show/bt_next.png"/>',
+                    w = 43;
+                if(obj.hname){
+                    obj.name = obj.name + '︵' + obj.hname + '︶';
+                }
+
+                if(obj.child){
+                    var b = '';
+                    // 判断父类 第一行add pre
+                    if(obj.idx==1){
+                        b += '<div class="parNode clearfix"><a class="ancestor_tag">' + pre + '<i>' + obj.name +'</i></a></div>';
+                    }else{
+                        b += '<div class="parNode clearfix"><a class="ancestor_tag"><i class="' + obj.idx +'">' + obj.name +'</i></a></div>';
+                    }
+                    // 添加 ul
+                    b += '<ul class="t_ul">';
+
+                    // 循环 li
+                    for(var i=0, m= obj.child.length;i<m;i++){
+                        var n = obj.child[i] && obj.child[i].num || 1,
+                            className = '', style='', data= '';
+                        // 子类个数1，class=alone
+                        if(m==1){
+                            className = 'class="alone"';
+                        }else{
+                            // 子类第一个li，class=first
+                            if(i==0){
+                                className = 'class="first"';
+                            // 子类最后一个li，class=end
+                            }else if(i==m-1){
+                                if(obj.child[i].child && obj.child[i].child.length>1){
+                                    className = 'class="ends"';
+                                }else{
+                                    className = 'class="end"';
+                                }
+                            }
+                        }
+                        b += '<li ' + className + ' style="width: ' +  n*w + 'px">';
+                        // 循环子类,结果累计
+                        b += parse(obj.child[i]);
+                        b += '</li>';
+                    }
+                    b += '</ul>';
+                    return b;
+                }else{
+                    var act = '';
+                    // 节点为5，add next
+                    if(obj.idx == 5 && obj.childs){
+                        act = next
+                    }
+                    // 返还每个顶端节点
+                    return '<a class="child_tag" data-option=' + obj.id + '><i>' + obj.name +  act + '</i></a>';
+                }
+            }
+        }
+
+        $(function(){
+            $('#tree').html(tree());
+            var w = 0;
+            $('.t_ul_first > li > ul > li').each(function(){
+                w += $(this).width();
+            })
+            $('#tree').css('width',w);
+
+            $('.ft_cont').scrollLeft(10000);
+
+            $('.ft_cont').scroll(function(){
+                var t = $(this).scrollTop();
+                $('.in_ft_tit')[0].style.top = -t + 'px';
+            })
+        })
+    </script>
+</body>
+</html>

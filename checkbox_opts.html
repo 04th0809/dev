@@ -6,6 +6,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
+    <h2>第1种</h2>
     <div style="width:100%;margin:10px auto;" class="clearfix">
         <ul class="bgConfig">
             <li>
@@ -43,6 +44,28 @@
             </li>
         </ul>
     </div>
+
+    <h2>第2种</h2>
+    <div class="field" data-option="multiSelect">
+        <label><input type="checkbox" name="f" checked="checked" value="">全部</label>
+        <label><input type="checkbox" name="f" value="自营" checked="checked">自营</label>
+        <label><input type="checkbox" name="f" value="销售" checked="checked">销售</label>
+        <label><input type="checkbox" name="f" value="租赁" checked="checked">租赁</label>
+        <label><input type="checkbox" name="f" value="售后包租" checked="checked">售后包租</label>
+        <label><input type="checkbox" name="f" value="带租售销售" checked="checked">带租售销售</label>
+        <label><input type="checkbox" name="f" value="租售并举" checked="checked">租售并举</label>
+        <label><input type="checkbox" name="f" value="多种租售形式组合" checked="checked">多种租售形式组合</label>
+    </div>
+    <div class="field" data-option="multiSelect">
+        <label><input type="checkbox" name="e" checked="checked" value="">全部</label>
+        <label><input type="checkbox" name="e" value="在建" checked="checked">在建</label>
+        <label><input type="checkbox" name="e" value="未开业" checked="checked">未开业</label>
+        <label><input type="checkbox" name="e" value="部分开业" checked="checked">部分开业</label>
+        <label><input type="checkbox" name="e" value="已开业" checked="checked">已开业</label>
+        <label><input type="checkbox" name="e" value="暂停营业" checked="checked">暂停营业</label>
+    </div>
+
+
     <script type="text/javascript">
         /*
          * 父层绑定事件, 获取 target
@@ -66,6 +89,45 @@
                         lev1.checked = false;
                     }else{
                         lev1.checked = $('ul li input:not(:checked)',this).length == 0 ? true : false;
+                    }
+                }
+            }
+        })
+
+
+        // 多选封装
+        $("div[data-option='multiSelect']").click(function(e){
+            var tar = e.target, parNode,
+                nodeName = tar.nodeName.toLowerCase(),
+                isChecked = false,
+                //num_label = $('label',this).length,
+                _this = $(this);
+            if(nodeName=='label'){
+                isChecked = tar.getElementsByTagName('input')[0].checked;
+                select(tar,!isChecked);
+            }
+            if(nodeName=='input'){
+                parNode = tar.parentNode;
+                isChecked = tar.checked;
+                select(parNode,isChecked);
+            }
+            function select(obj,flag){
+                var idx = $(obj).index();
+                if(idx==0){
+                    $('input:gt(0)',_this).each(function(){
+                        this.checked = flag;
+                    })
+                }else{
+                    if(!flag){
+                        $('input:first',_this)[0].checked = flag;
+                    }else{
+                        $('input:first',_this)[0].checked = $('input:gt(0):not(:checked)',_this).length==0 ? true : false;
+                        /*
+                        var n = $('input:checked',_this).length;
+                        if(n == num_label-1){
+                            $('input:first',_this)[0].checked = flag;
+                        }
+                        */
                     }
                 }
             }

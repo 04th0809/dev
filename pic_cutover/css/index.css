@@ -1,0 +1,107 @@
+/*-----Index style-----*/
+html{overflow-y:scroll;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,hr,pre,code,form,input,button,fieldset,textarea,p,blockquote,th,td{margin:0;padding:0}
+body,button,input,select,textarea{font-size:12px;line-height:1.5;font-family:\5FAE\8F6F\96C5\9ED1,Arial,\5b8b\4f53,sans-serif;}
+table{border-collapse:collapse;border-spacing:0;table-layout:fixed;}
+label{white-space:nowrap;cursor:pointer;}
+fieldset,img{border:0}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}
+ol,ul{list-style:none}
+caption,th{}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;font-family:\5FAE\8F6F\96C5\9ED1;}
+input,button,textarea,select{font-size:100%}
+input:focus{outline:none}
+button::-moz-focus-inner,input::-moz-focus-inner{ border:0px; padding:0px;}
+.clearfix{*zoom:1;}
+.clearfix:after{content:'\20';display:block;height:0;clear:both;}
+
+a{color:#5074c0;text-decoration:none;outline:none;}
+a:hover{color:#5074c0;text-decoration:underline;}
+body{color:#505050;}
+.hilight{color:#f60}
+.ellipsis{display:inline-block;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+.fl{ float:left;}
+.fr{ float:right;}
+.none{display:none;}
+
+.wrap{width:990px;margin:0 auto;padding-top:115px;}
+.pg_idx{background:#d3d3d3 url(../img/index/rainbow.jpg) no-repeat 50% 50%}
+.pg_idx .wrap{padding-top:60px;}
+
+.header{position:fixed;left:0;top:0;height:37px;width:100%;min-width:990px;background-color:#414651;z-index:9999}
+.header a{color:#819cd3;}
+.header a:hover{color:#819cd3;}
+.header .logo{float:left;margin:12px 0 0 20px;}
+.header .other_proj{position:relative;float:left;width:78px;height:20px;margin-top:8px;margin-left:14px;background-color:#2c2e33;}
+.header .other_proj .label{display:block;width:72px;height:20px;line-height:20px;padding-left:6px;background:url(../img/index/hd_sp1.png) no-repeat 100% 8px;cursor:pointer;color:#f14634}
+.header .proj_box{display:none; position:absolute; width:78px;padding:5px 0;background-color:#2c2e33;}
+.header .other_proj_cur .proj_box{display:block;}
+.header .proj_box li{line-height:22px;}
+.header .proj_box li a{display:block;padding-left:8px;color:#fff;text-decoration:none;}
+.header .proj_box li a:hover{background-color:#181529;color:#fff;}
+.header .hd_sear{position:absolute;left:50%;top:0;margin-top:8px;margin-left:-100px;}
+.header .hd_sear .hdk_sear{float:left;width:238px;height:22px;background-color:#fff;}
+.header .hd_sear .hdk_sear input{float:left;width:210px;height:19px;margin:2px 0 0 3px;border:0;}
+.header .hd_sear .hdk_sear a{float:left;width:15px;height:15px;margin:4px 0 0 3px;background:url(../img/index/hd_sp1.png) no-repeat 1px -14px;overflow:hidden;text-indent:-999px;}
+.header .hign_sear{float:left;margin-top:2px}
+.header .hign_sear a{float:left;margin-left:10px;}
+
+.header .hd_user{float:right;margin-top:12px;margin-right:20px;color:#819cd3;}
+.header .hd_user li{float:left;line-height:12px;padding:0 5px;border-left:1px solid #819cd3;}
+.header .hd_user .fir{border:0;}
+
+.idx_head{font-size:22px;}
+.idx_panel{margin-top:5px;}
+.idx_animate_1{float:left;width:800px;margin-top:-10px;}
+.idx_animate_1 .item{position:relative;float:left;height:190px;width:190px;margin:10px 10px 0 0;overflow:hidden;}
+.idx_animate_1 .item a{display:block;position:absolute;top:0;left:0;cursor:pointer;text-decoration:none;}
+.idx_animate_1 .item img{vertical-align:top;}
+.idx_animate_1 .item .p{position:relative;float:left;width:190px;height:190px;color:#fff;}
+.idx_animate_1 .item .t{height:150px;padding:20px;background-color:#fff;}
+.idx_animate_1 .item .t{float:left;width:150px;}
+.idx_animate_1 .item_b .t{width:350px;}
+.idx_animate_1 .item .t1{font-size:14px;font-weight:700;color:#666}
+.idx_animate_1 .item .t2{margin-top:30px;color:#999;}
+.idx_animate_1 .item_b{width:390px;}
+.idx_animate_1 .item_b .p{width:390px;}
+
+.idx_animate_1 .i1 .p{background:url(../img/index/1.png) no-repeat 0 0 }
+.idx_animate_1 .i2 .p{background:url(../img/index/2.png) no-repeat 0 0 }
+.idx_animate_1 .i4 .p{background:url(../img/index/4.png) no-repeat 0 0 }
+
+.idx_animate_1 .p .date{position:absolute;top:22px;right:12px;font-size:18px;}
+.idx_animate_1 .i1 .cont{margin:50px 0 0 120px;font-size:14px;}
+.idx_animate_1 .i1 .cont b{font-size:30px;margin:0 5px 0 15px;font-family:Arial;font-weight:400;}
+
+.idx_animate_1 .i4 .cont{margin:60px 0 0 20px;}
+.idx_animate_1 .i4 .cont li{float:left;width:160px;line-height:22px;}
+.idx_animate_1 .i4 .cont li span{float:left;}
+.idx_animate_1 .i4 .cont li .city{width:35px}
+.idx_animate_1 .i4 .cont li .area{width:56px}
+.idx_animate_1 .i4 .cont li .num{width:50px}
+
+
+.idx_report{float:left;width:175px;height:390px;padding-left:15px;background-color:#2a5769;}
+.idx_report .hd{position:relative;height:39px;margin-top:16px;}
+.idx_report .hd h2{width:113px;height:39px;background:url(../img/index/10.png) no-repeat 0 0;text-indent:-9999px;overflow:hidden;}
+.idx_report .hd span{display:none;}
+.idx_report .tit{height:12px;margin-right:10px;border-top:1px solid #eee;}
+.idx_report .tit i{position:relative;top:-10px;left:65px;background-color:#2a5769;color:#fff;font-style:normal;padding:0 5px;}
+.idx_report .list li{float:left;width:100%;padding:5px 0;}
+.idx_report .list li a{color:#ccc;cursor:pointer;text-decoration:none;}
+.idx_report .list li a:hover{color:#fff;}
+.idx_report .list li .time{float:left;width:90px;}
+.idx_report .list li .txt{float:left;width:78px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+
+.idx_report .now{height:196px;margin-top:7px;overflow:hidden;}
+.idx_report .last{margin-top:27px;}
+
+/* shortcut */
+.shortcut{position:fixed;left:50%;top:98px;margin:0 0 0 500px;width:60px;height:243px;background:url(../img/index/shortcut.png) no-repeat 0 0}
+
+/* footer */
+.footer{position:relative;height:63px;padding-top:15px;line-height:27px;margin-top:65px;text-align:center;color:#fff;}
+.footer i{position:absolute;left:0;top:0;width:100%;height:100%;background-color:#000; filter:alpha(opacity=10); -moz-opacity: 0.1; opacity: 0.1; }
+.footer a{margin:0 15px;color:#fff;}
+.footer a:hover{color:#fff;}
+
