@@ -1,0 +1,18 @@
+<html>
+<title>限制文本要框只输入数字型</title>
+<body>
+    <input type="text" id="abc"/>
+<script>
+    var abc = document.getElementById("abc");
+    abc.onkeyup = function(){
+        this.value = this.value.replace(/[^0-9\.]/g,'');
+    }
+    abc.onblur = function(){
+        this.value = this.value.replace(/[^0-9\.]/g,'');
+    }
+    abc.onbeforepaste = function(){
+        clipboardData.setData('text', clipboardData.getData("text").replace(/[^0-9\.]/g,''));
+    }
+</script>
+</body>
+</html>
