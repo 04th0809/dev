@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+    <style>
+        *{margin:0;padding:0;}
+        body{font-size:12px;font-family:Tahoma;line-height:1.5;}
+        li{list-style:none;}
+        .pri_canvas{float:left;height:240px;padding:15px 15px 15px 0;border:1px solid #ddd;}
+        .pri_canvas .canvas{float:left;position:relative;height:240px;width:280px;}
+        .pri_canvas .canvas .cell{position:absolute;left:0;top:0;height:100%;width:32px;}
+        .pri_canvas .canvas .cell div{position:absolute;left:0;width:100%;text-align:right;}
+        .pri_canvas .coord{position:absolute;left:35px;top:0;width:5px;height:100%;border-right:2px solid #777;}
+        .pri_canvas .coord .line_cell{position:absolute;left:7px;width:240px;height:1px;background-color:#ccc;overflow:hidden;}
+        .pri_canvas .canvas_cont{position:absolute;left:40px;top:0;height:100%;border-bottom:2px solid #777;}
+        .pri_canvas .canvas .v{position:absolute;top:-20px;left:-25px;width:100px;color:#555;text-align:center;}
+        .pri_canvas .canvas .v_1{position:absolute;top:0;left:5px;color:#555;}
+        .pri_canvas .canvas .v_2{position:absolute;bottom:0;left:5px;color:#555}
+        .pri_canvas .canvas .field_1{position:absolute;left:50px;bottom:0;width:50px;}
+        .pri_canvas .canvas .field_2{position:absolute;left:150px;bottom:0;width:50px;}
+        .pri_canvas .canvas .field_3{position:absolute;left:2px;width:100%;}
+        .pri_canvas .canvas .box{position:absolute;bottom:0;left:0;width:100%;height:100%;}
+        .pri_canvas .canvas .field_1 .box{background-color:#D5B200;}
+        .pri_canvas .canvas .field_2 .box{background-color:#B80000;}
+        .pri_canvas .canvas .field_3 .box{background-color:#6BCFF1;filter:alpha(opacity=60);-moz-opacity:0.6;opacity:0.6}
+        .pri_canvas .legend{float:left;padding:5px 10px;margin-left:15px;margin-top:67px;border:1px solid #ddd;}
+        .pri_canvas .legend li{height:24px;}
+        .pri_canvas .legend li s{display:inline-block;width:10px;height:8px;}
+        .pri_canvas .legend li span{display:inline-block;margin-left:4px;}
+    </style>
+    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $.fn.flot = function(opt){
+                var defaults = {
+                    start: null,
+                    end: null,
+                    range: null
+                }
+                opt = $.extend({},defaults,opt);
+                var pri_start = opt.start,
+                    pri_end = opt.end,
+                    pri_range = opt.range,
+                    pri_r_max = null,
+                    html_cell = '',
+                    html_coord = '',
+                    html_cont = '',
+                    html_cont_1 = '',
+                    html_cont_2 = '',
+                    html_cont_3 = '',
+                    h = 240,
+                    w = 280;
+                if(!!pri_range){
+                    var pri_r1 = pri_range[0],
+                        pri_r2 = pri_range[1],
+                        pri_r_min = Math.min(pri_r1,pri_r2);
+                    pri_r_max = Math.max(pri_r1,pri_r2);
+                }
+                var cell_max = Math.max(pri_start,pri_end,pri_r_max);
+                var cell_loop = '',
+                    coord_loop = '',
+                    loop_num = 8;
+                if(cell_max < 6){
+                    loop_num = 3;
+                }
+                var cell_loop_n = parseInt(cell_max/loop_num) + 1;
+                cell_max = cell_loop_n*loop_num;
+                var ave = h/cell_max;
+                for(var i=loop_num; i>0; i--){
+                    var loop_h = cell_loop_n*(loop_num-i)*ave;
+                    cell_loop += '<div style="top:' + (loop_h-8) +'px">' + cell_loop_n*i +'</div>';
+                    coord_loop += '<div class="line_cell" style="top:' + loop_h + 'px"></div>';
+                }
+                html_cell += '<div class="cell">' + cell_loop + '<div style="bottom:-5px;">0</div></div>';
+                html_coord = '<div class="coord">'+ coord_loop + '</div>';
+                if(!!pri_range){
+                    html_cont_1 = '<div class="field_3" style="top:' + ave*(cell_max-pri_r_max) +'px;height:' + ave*Math.abs(pri_r1-pri_r2) + 'px;">'+
+                        '<span class="box"></span>'+
+                        '<span class="v_1">' + pri_r_max + '亿</span>'+
+                        '<span class="v_2">' + pri_r_min + '亿</span>'+
+                    '</div>';
+                }
+                if(!!pri_start){
+                    html_cont_2 = '<div class="field_1" style="height:' + ave*pri_start + 'px;">'+
+                        '<span class="box"></span>'+
+                        '<span class="v">挂牌' + opt.start +'亿</span>'+
+                    '</div>';
+                }
+                if(!!pri_end){
+                    html_cont_3 ='<div class="field_2" style="height:' + ave*pri_end + 'px;">'+
+                        '<span class="box"></span>'+
+                        '<span class="v">成交' + opt.end +'亿</span>'+
+                    '</div>';
+                }
+                html_cont = '<div class="canvas_cont" style="width:' + (w-40) +'px">'+
+                            html_cont_1 + html_cont_2 + html_cont_3;
+                        '</div>';
+                var html = html_cell + html_coord + html_cont;
+                $(this).html(html);
+            }
+        })
+    </script>
+</head>
+<body>
+    <div><img src="abc.png"/></div>
+    <div class="pri_canvas">
+        <div class="canvas" id="canvas_1"></div>
+        <div class="legend">
+            <ul>
+                <li><s style="background-color:#D5B200"></s><span>挂牌价格</span></li>
+                <li><s style="background-color:#B80000"></s><span>成交价格</span></li>
+                <li><s style="background-color:#6BCFF1"></s><span>Cric估计区间</span></li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $('#canvas_1').flot({start:24,end:13, range:[8,20]});
+            //$('#canvas_2').flot({end:13, range:[8,2]});
+            //$('#canvas_3').flot({start:2, end:5, range:[2,3]});
+        })
+    </script>
+</body>
+</html>
