@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta http-equiv="content-type" content="text/html; charset=gbk">
+        <style type="text/css">
+            #a{position:relative;width:400px;height:10px;border:1px solid rgb(80, 116, 192);margin:100px auto 0;}
+            #b{position:relative;width:400px;height:10px;border:1px solid rgb(80, 116, 192);margin:100px auto 0;}
+            s{position:absolute;height:6px;bottom:0;width:1px;background-color:#ccc;}
+        </style>
+        <script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div id="a"></div>
+        <div id="b"></div>
+        <script type="text/javascript">
+            function init(c1,c2,grade){
+                var cl_r = c1[0], cl_g = c1[1],  cl_b = c1[2],
+                    c2_r = c2[0], c2_g = c2[1],  c2_b = c2[2],
+                    diff_r = cl_r-c2_r,
+                    diff_g = cl_g-c2_g,
+                    diff_b = cl_b-c2_b,
+                    arr = [],
+                    html='',
+                    aveW = parseInt($("#a").width())/grade;
+                $.each([diff_r,diff_g,diff_b],function(n,item){
+                    arr.push(item/grade);
+                })
+                for(var i =1 ; i<grade; i++){
+                    var a = arr;
+                    var co_0 = parseInt(cl_r - arr[0]*i),
+                        co_1 = parseInt(cl_g - arr[1]*i),
+                        co_2 = parseInt(cl_b - arr[2]*i),
+                        co_rgb = 'rgb(' + co_0 +','+ co_1 + ',' + co_2 +')';
+                    html += '<s style="left:'+ parseInt(aveW*i-1) + 'px;background-color:' + co_rgb +'"></s>';
+                }
+                return html;
+            }
+            $('#a').append(init([255,255,0],[255,0,0],400));
+            $('#b').append(init([0,255,0],[255,0,0],400));
+        </script>
+    </body>
+</html>

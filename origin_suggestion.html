@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+    <style type="text/css">
+        *{margin:0;padding:0;}
+        ul,li{list-style:none;}
+        body{font-size:12px;height:500px;}
+        .wrap{margin:100px 0 0 100px;}
+        p{line-height:2;font-size:14px;}
+        .suggestion{position:relative;}
+        #ipt{width:200px;height:20px;border:1px solid #ddd;}
+        #sg{position:absolute;left:0;top:21px;width:200px;border:1px solid #ddd;}
+        #sg li{height:20px;}
+        #sg li.cur{background-color:#f2f2f2;}
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <p>原生 - suggestion</p>
+        <div class="suggestion">
+            <input type="text" id="ipt"/>
+            <div id="sg" style="display:none"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var Constant = ['abc','cde','ab1','ab2','ac3232','sf','ett'],
+            IDX = -1,
+            $ = function(s){ return typeof s == 'string' ? document.getElementById(s) : s},
+            ipt = $('ipt'),
+            sg = $('sg'),
+            temp_v = '';
+
+        /* 拼接 suggestion*/
+        function setHtml(s){
+            var html = '<ul>';
+            for(var i=0, n = s.length; i<n; i++){
+                html += '<li>' + s[i] + '</li>';
+            }
+            html += '</ul>';
+            return html;
+        }
+
+        /* 搜索结果 */
+        function sear(s,arr){
+            var temp = [];
+            for(var i=0; i<arr.length; i++){
+                if(arr[i].indexOf(s) > -1){
+                    temp.push(arr[i]);
+                }
+            }
+            return temp;
+        }
+
+        /* 键盘控制 (上下左右)*/
+        function addCur(m){
+            var lis = sg.getElementsByTagName('li'),
+                length = lis.length;
+            for(var i=0; i<lis.length; i++){
+                lis[i].className = '';
+            }
+
+            if(m<-1){
+                m = m+length+1;
+            }else if(m>length-1){
+                m = -1;
+            }
+            IDX = m;
+            if(m==-1){
+                ipt.value = temp_v;
+                return false;
+            }
+            lis[m].className = 'cur';
+            var v = lis[m].innerHTML;
+            ipt.value = v;
+        }
+
+        /* 鼠标滑过 */
+        function setSuggestion(s){
+            sg.innerHTML = setHtml(sear(s,Constant));
+            sg.style.display = 'block';
+            var lis = sg.getElementsByTagName('li');
+            sg.onmouseover = function(e){
+                e = e || window.event;
+                var tar = e.srcElement ? e.srcElement : e.target,
+                    nodeName = tar.nodeName.toLowerCase();
+
+                for(var i=0; i<lis.length; i++){
+                    lis[i].className = '';
+                }
+                if(nodeName == 'li'){
+                    tar.className = 'cur';
+                }
+
+            }
+            sg.onclick = function(e){
+                e = e || window.event;
+                var tar = e.srcElement ? e.srcElement : e.target,
+                    nodeName = tar.nodeName.toLowerCase();
+                if(nodeName == 'li'){
+                    ipt.value = tar.innerHTML;
+                }
+
+            }
+        }
+
+        /* 按键下 */
+        ipt.onkeydown = function(e){
+            var e = e || window.event,
+                curKey = e.keyCode || e.which || e.charCode;
+            switch(curKey){
+                case 37:
+                    return true;
+                    break;
+                case 38:
+                    addCur(--IDX);
+                    return false;
+                    break;
+                case 39:
+                    return true;
+                    break;
+                case 40:
+                    addCur(++IDX);
+                    return false;
+                    break;
+            }
+        }
+
+        /* 按键开 */
+        ipt.onkeyup = function(e){
+            var e = e || window.event,
+                curKey = e.keyCode || e.which || e.charCode;
+            if(curKey == 37 || curKey == 38 || curKey == 39 || curKey == 40){
+                return false;
+            }
+            if(ipt.value != '' && ipt.value != temp_v){
+                setSuggestion(ipt.value);
+            }
+            if(ipt.value ==''){
+                sg.style.display = 'none';
+                sg.innerHTML = '';
+            }
+            temp_v = ipt.value;
+        }
+
+        /* 鼠标点击body 隐藏sg */
+        document.body.onclick = function(e){
+            e = e || window.event;
+            var tar = e.srcElement ? e.srcElement : e.target;
+            var nodeName = tar.nodeName.toLowerCase();
+            if(nodeName == 'input'){
+                return false;
+            }
+            sg.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
