@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+    <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
+</head>
+<body>
+    <img src="" id="a"/>
+    <button id="b">change</button>
+    <p id="p"></p>
+    <script type="text/javascript">
+        var arr = ['http://designmodo.com/wp-content/uploads/2013/10/Subtle-Slim-Type-Web-Design.jpg','http://s0.2mdn.net/3130388/1-TagMan-trial-balloon-200x125-us.jpg','https://d3ui957tjb5bqd.cloudfront.net/images/screenshots/products/0/1/1653/developer-icon-set-preview-16x16-f.jpg?1350421639'];
+        var i = 0;
+        $('#b').click(function(){
+            if(i>2){ i=0};
+            var img = new Image(),
+                src = arr[i];
+            img.src = src;
+            imgLoad(img,function(){
+                $("#a").attr('src',src)
+                $('#p').html('宽度：'+$('#a').width())
+            })
+            i++;
+        })
+
+        function imgLoad(img,callback){
+            img.complete || img.readyState == 'loading' || img.readyState == 'complete' ? callback() : img.onload = callback;
+        }
+    </script>
+</body>
+</html>
