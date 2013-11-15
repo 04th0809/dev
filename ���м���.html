@@ -363,6 +363,7 @@
         });
         // 外部设置值
         $("#btn").click(function(){
+            /*
             var obj1 = $("#country").data('select');
             obj1.setVal('大区','大区');
             obj1.exec_callback('大区');
@@ -371,6 +372,20 @@
             obj2.setVal('华北 , 华中','华北,华中');
             obj2.setCheck('华北,华中');
             obj2.exec_callback('华北 , 华中','华北,华中');
+            */
+            var obj1 = $("#country").data('select');
+            obj1.setVal('城市','城市');
+            obj1.exec_callback('城市');
+
+            var obj2 = $("#city").data('data_city');
+            obj2.setVal(['北京']);
+            obj2.exec_callback(['城市'],$('#city'));
+
+            var obj3 = $("#city_area1").data('select');
+            obj3.setVal('宝山','宝山');
+            obj3.setCheck('宝山');
+            obj3.exec_callback('宝山');
+
         })
         // 大区
         $('#couRegion').cr_select({
@@ -381,6 +396,7 @@
             width: 140,
             align: 'right',
             fun_hover: function(arg){
+                console.log(arg.t)
             }
         });
         // 经济区
@@ -404,6 +420,7 @@
             align: 'right',
             //checked: true,
             fun_hover: function(arg){
+                console.log(arg)
                 if(arg.v.length>0){
                     var $this = $(arg.obj);
                     // 对比上一次选择项, 新的选择才调用ajax
@@ -1813,224 +1830,244 @@
         </div>
     </div>
     <script type="text/javascript">
-        $('.wgc_tab li a').click(function () {
-            var pa = $(this).parent(),
-                idx = pa.index(),
-                $item = $(".wg_citys .wgc_item");
+        $.fn.cr_city = function(opts){
+            var data_city = $.data(this[0],'data_city');
+            if(data_city){
+                return data_city;
+            }
+            data_city = new $.cr_city(opts, this[0]);
+            $.data(this[0],'data_city',data_city);
+            return data_city;
+        }
+        $.cr_city = function(opts,ele){
+            this.opts = $.extend({},$.cr_city.defaults,opts);
+            this.ele = ele;
+            this.init();
+        }
+        $.extend($.cr_city,{
+            defaults: {
+                getDistrict: false,
+                align: 'left',
+                city:[],
+                fun: function(){},
+                fun_hover: function(){}
+            },
+            prototype: {
+                init: function(){
+                    var $ele = $(this.ele),
+                        _this = this,
+                        opts = this.opts;
+                    var $wg_citys  = this.$wg_citys = $('.wg_citys');
+                    var $citys = this.$citys = $('#citys');
+                    var $listbox = this.$listbox = $('.list_box',$wg_citys);
+                    var $listbox_li = this.$listbox_li = $listbox.find('li');
+                    this.aResCity = opts.city;
 
-            $('.wgc_tab li a').removeClass('cur');
-            $(this).addClass('cur');
-            $item.hide();
-            $item.eq(idx).show();
-        })
+                    this.setVal(this.aResCity);
+                    $('.wgc_tab li a',$wg_citys).click(function () {
+                        var pa = $(this).parent(),
+                            idx = pa.index(),
+                            $item = $(".wgc_item",$wg_citys);
 
-        $.fn.citys = function (options) {
-            var val = $('.smd_val',this).text(),
-                aMCity = [],
-                aAllCity = [],
-                aResCity = [], //val != '' ? [].push(val) :
-                $citys = $('#citys'),
-                defaults = {
-                    getDistrict: false,
-                    fun: function(){},
-                    align: 'left'
+                        $('.wgc_tab li .cur',$wg_citys).removeClass('cur');
+                        $(this).addClass('cur');
+                        $item.hide();
+                        $item.eq(idx).show();
+                    })
+                    $wg_citys.hover(
+                        function () {
+                            $(this).show();
+                        },
+                        function () {
+                            $(this).hide();
+                            opts.fun_hover(_this.aResCity,$ele);
+                        }
+                    )
+                    $ele.hover(
+                        function () {
+                            var offset = $(this).offset();
+                            if(opts.align=='left'){
+                                $wg_citys.css({ 'left': offset.left});
+                            }else if(opts.align == 'center'){
+                                $wg_citys.css({ 'left': '50%', 'margin-left':-400});
+                            }
+                            $wg_citys.css({ 'top': offset.top + 27 }).show();
+                        },
+                        function () {
+                            $wg_citys.hide();
+                        }
+                    )
+                    $listbox_li.hover(
+                        function () {
+                            $(this).addClass('cur');
+                        },
+                        function () {
+                            $(this).removeClass('cur');
+                        }
+                    );
+
+                    $listbox.click(function (e) {
+                        var tar = e.target,
+                            nodeName = tar.nodeName.toLowerCase(),
+                            pa = tar.parentNode,
+                            paNodeName = pa.nodeName.toLowerCase();
+
+                        if (nodeName == 'li') {
+                            var ipt = tar.getElementsByTagName('input')[0],
+                                v = ipt.nextSibling.innerHTML;
+                            ipt.checked = !ipt.checked;
+                            _this.check(v, ipt.checked);
+                            _this.getText();
+                            _this.isItemCheck(v);
+                        }
+                        if (paNodeName == 'li') {
+                            var isChecked = false;
+                            if (nodeName != 'input') {
+                                var ipt = tar.previousSibling,
+                                    v = tar.innerHTML;
+                                isChecked = ipt.checked = !ipt.checked;
+                            } else {
+                                var v = tar.nextSibling.innerHTML;
+                                isChecked = tar.checked;
+                            }
+                            _this.check(v, isChecked);
+                            _this.getText();
+                            _this.isItemCheck(v);
+                        }
+                    });
+                    $('.wg_citys .wgc_tit').click(function (e) {
+                        var tar = e.target,
+                            nodeName = tar.nodeName.toLowerCase(),
+                            pa = tar.parentNode,
+                            paNodeName = pa.nodeName.toLowerCase(),
+                            isAll = ($(this).attr('tdata') == 'all');
+                        if (pa.className == 'wgc_tit') {
+                            var ipt = $('input', this)[0],
+                                $list = $(this).next('.list_box');
+                            if (nodeName != 'input') {
+                                var ipt = tar.previousSibling;
+                                ipt.checked = !ipt.checked;
+                            }
+                            var isChecked = ipt.checked;
+                            if (isAll) {
+                                $listbox.find('input').each(function () {
+                                    var v = $(this).next().text();
+                                    $(this)[0].checked = isChecked;
+                                    _this.checkGroup(v, isChecked);
+                                })
+                                $('.wgc_tit input').each(function () {
+                                    $(this)[0].checked = isChecked;
+                                })
+                                _this.getText();
+                            } else {
+                                $('input', $list).each(function () {
+                                    var v = $(this).next().text();
+                                    this.checked = isChecked;
+                                    _this.check(v, this.checked);
+                                    _this.getText();
+                                })
+                            }
+                        }
+                    });
+                    $('#citysClean').click(function () {
+                        _this.clean();
+                        $('.smd_val',$ele).html('');
+                        $('.wgc_tit input',$wg_citys).each(function () {
+                            $(this)[0].checked = false;
+                        })
+                    })
                 },
-                opts = $.extend({}, defaults, options),
-                $listbox = $('.wg_citys .list_box'),
-                $listbox_li = $listbox.find('li'),
-                _this = $(this);
-
-            $('.wg_citys').hover(
-                function () {
-                    $(this).show();
-                },
-                function () {
-                    $(this).hide();
-                    opts.fun(aResCity,_this);
-                }
-            )
-            $(this).hover(
-                function () {
-                    clean();
-                    setVal($('.smd_val',this).text());
-                    var offset = $(this).offset();
-                    if(opts.align=='left'){
-                        $('.wg_citys').css({ 'left': offset.left});
-                    }else if(opts.align == 'center'){
-                        $('.wg_citys').css({ 'left': '50%', 'margin-left':-400});
+                setVal: function(arr){
+                    var _this = this;
+                    this.aResCity = arr;
+                    if (arr.length) {
+                        $.each(arr, function (i, v) {
+                            _this.$listbox_li.each(function () {
+                                var v1 = $(this).attr('title');
+                                if (v1.indexOf(v) > -1) {
+                                    $('input', this)[0].checked = true;
+                                }
+                            })
+                        })
+                        this.$citys.text(arr.join());
+                        $('.smd_val',this.ele).text(arr.join(' , '));
                     }
-                    $('.wg_citys').css({ 'top': offset.top + 27 }).show();
                 },
-                function () {
-                    $('.wg_citys').hide();
-                }
-            )
-            setVal(val);
-            function setVal(val){
-                if (val !== '') {
-                    if (val.indexOf(',') < 0) {
-                        aResCity.push(val);
-                    }else{
-                        aResCity = val.split(' , ');
+                check: function(v, isChecked) {
+                    var oriV = v;
+                    v = v.replace(/\([A-Z]\)/g, '');
+                    if (isChecked) {
+                        var idx = $.inArray(v, this.aResCity);
+                        if (idx == -1) {
+                            this.aResCity.push(v);
+                        }
+                    } else {
+                        var idx = $.inArray(v, this.aResCity);
+                        this.aResCity.splice(idx, 1);
                     }
-                    $.each(aResCity, function (i, v) {
-                        $listbox_li.each(function () {
-                            var v1 = $(this).attr('title');
-                            if (v1.indexOf(v) > -1) {
-                                $('input', this)[0].checked = true;
+                    this.$listbox.find('li[title="' + oriV + '"]').each(function () {
+                        $('input', this)[0].checked = isChecked;
+                    })
+                },
+                checkGroup: function(v, isChecked) {
+                    v = v.replace(/\([A-Z]\)/g, '');
+                    if (isChecked) {
+                        var idx = $.inArray(v, this.aResCity);
+                        if (idx == -1) {
+                            this.aResCity.push(v);
+                        }
+                    } else {
+                        var idx = $.inArray(v, this.aResCity);
+                        this.aResCity.splice(idx, 1);
+                    }
+                },
+                getText: function() {
+                    var s = this.aResCity.join(' , ');
+                    this.$citys.text(s).attr('title', s);
+                    $('.smd_val', this.ele).text(s);
+                },
+                isItemCheck: function(v) {
+                    var $arrBox = this.getBox(v);
+                    $arrBox.each(function () {
+                        var flag = true;
+                        $('input', this).each(function () {
+                            if (!this.checked) {
+                                return flag = !flag;
                             }
                         })
+                        var $tit = $(this).prev('.wgc_tit');
+                        $tit.find('input')[0].checked = flag;
                     })
-                    $citys.text(val);
-                }
-            }
-
-            $listbox_li.hover(
-                function () {
-                    $(this).addClass('cur');
                 },
-                function () {
-                    $(this).removeClass('cur');
-                }
-            );
-            function check(v, isChecked) {
-                var oriV = v;
-                v = v.replace(/\([A-Z]\)/g, '');
-                if (isChecked) {
-                    var idx = $.inArray(v, aResCity);
-                    if (idx == -1) {
-                        aResCity.push(v);
-                    }
-                } else {
-                    var idx = $.inArray(v, aResCity);
-                    aResCity.splice(idx, 1);
-                }
-                $listbox.find('li[title="' + oriV + '"]').each(function () {
-                    $('input', this)[0].checked = isChecked;
-                })
-            }
-            function checkGroup(v, isChecked) {
-                v = v.replace(/\([A-Z]\)/g, '');
-                if (isChecked) {
-                    var idx = $.inArray(v, aResCity);
-                    if (idx == -1) {
-                        aResCity.push(v);
-                    }
-                } else {
-                    var idx = $.inArray(v, aResCity);
-                    aResCity.splice(idx, 1);
-                }
-            }
-            function getText() {
-                var s = aResCity.join(' , ');
-                $citys.text(s).attr('title', s);
-                $('.smd_val', _this).text(s);
-            }
-            function isItemCheck(v) {
-                var $arrBox = getBox(v);
-                $arrBox.each(function () {
-                    var flag = true;
-                    $('input', this).each(function () {
-                        if (!this.checked) {
-                            return flag = !flag;
+                getBox: function(v) {
+                    var $arrBox = $([]),
+                        v = v.replace(/\([A-Z]\)/g, '');
+                    this.$listbox_li.find('span').each(function () {
+                        var $box = $(this).parents('.list_box'),
+                            v1 = $(this).text().replace(/\([A-Z]\)/g, '');
+                        if (v == v1) {
+                            $arrBox = $arrBox.add($box);
                         }
                     })
-                    var $tit = $(this).prev('.wgc_tit');
-                    $tit.find('input')[0].checked = flag;
-                })
-            }
-            function getBox(v) {
-                var $arrBox = $([]),
-                    v = v.replace(/\([A-Z]\)/g, '');
-                $listbox_li.find('span').each(function () {
-                    var $box = $(this).parents('.list_box'),
-                        v1 = $(this).text().replace(/\([A-Z]\)/g, '');
-                    if (v == v1) {
-                        $arrBox = $arrBox.add($box);
-                    }
-                })
-                return $arrBox;
-            }
-            $listbox.click(function (e) {
-                var tar = e.target,
-                    nodeName = tar.nodeName.toLowerCase(),
-                    pa = tar.parentNode,
-                    paNodeName = pa.nodeName.toLowerCase();
-
-                if (nodeName == 'li') {
-                    var ipt = tar.getElementsByTagName('input')[0],
-                        v = ipt.nextSibling.innerHTML;
-                    ipt.checked = !ipt.checked;
-                    check(v, ipt.checked);
-                    getText();
-                    isItemCheck(v);
+                    return $arrBox;
+                },
+                clean: function(){
+                    var _this = this;
+                    $('.list_box li[title] input',this.$wg_citys).each(function () {
+                        $(this)[0].checked = false;
+                        _this.aResCity = [];
+                        _this.$citys.text('').attr('title', '');
+                    })
+                },
+                exec_callback: function(arr,ele){
+                    this.opts.fun(arr,ele);
+                    this.opts.fun_hover(arr,ele);
                 }
-                if (paNodeName == 'li') {
-                    var isChecked = false;
-                    if (nodeName != 'input') {
-                        var ipt = tar.previousSibling,
-                            v = tar.innerHTML;
-                        isChecked = ipt.checked = !ipt.checked;
-                    } else {
-                        var v = tar.nextSibling.innerHTML;
-                        isChecked = tar.checked;
-                    }
-                    check(v, isChecked);
-                    getText();
-                    isItemCheck(v);
-                }
-            });
-            $('.wg_citys .wgc_tit').click(function (e) {
-                var tar = e.target,
-                    nodeName = tar.nodeName.toLowerCase(),
-                    pa = tar.parentNode,
-                    paNodeName = pa.nodeName.toLowerCase(),
-                    isAll = ($(this).attr('tdata') == 'all');
-                if (pa.className == 'wgc_tit') {
-                    var ipt = $('input', this)[0],
-                        $list = $(this).next('.list_box');
-                    if (nodeName != 'input') {
-                        var ipt = tar.previousSibling;
-                        ipt.checked = !ipt.checked;
-                    }
-                    var isChecked = ipt.checked;
-                    if (isAll) {
-                        $listbox.find('input').each(function () {
-                            var v = $(this).next().text();
-                            $(this)[0].checked = isChecked;
-                            checkGroup(v, isChecked);
-                        })
-                        $('.wgc_tit input').each(function () {
-                            $(this)[0].checked = isChecked;
-                        })
-                        getText();
-                    } else {
-                        $('input', $list).each(function () {
-                            var v = $(this).next().text();
-                            this.checked = isChecked;
-                            check(v, this.checked);
-                            getText();
-                        })
-                    }
-                }
-            });
-            function clean(){
-                $listbox.find('li[title] input').each(function () {
-                    $(this)[0].checked = false;
-                    aResCity = [];
-                    $citys.text('').attr('title', '');
-                })
             }
-            $('#citysClean').click(function () {
-                clean();
-                $('.smd_val',_this).html('');
-                $('.wgc_tit input').each(function () {
-                    $(this)[0].checked = false;
-                })
-            })
-        }
-        $('#city').citys({
-            fun: function(arg,ele){
+        })
+        $('#city').cr_city({
+            city: ['上海','北京'],
+            fun_hover: function(arg,ele){
                 if(arg.length==1){
                     var ele, str = arg.join();
                     // 对比上一次选择项, 新的选择才调用ajax
