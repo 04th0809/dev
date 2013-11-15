@@ -29,7 +29,7 @@
         .fr{ float:right;}
 
         body{padding:50px;}
-        .select_mod{position:relative;float:left;height:22px;padding:5px 25px 0 5px;background-color:#fff;border:1px solid #ddd;}
+        .select_mod{position:relative;float:left;height:22px;line-height:1.5;padding:5px 25px 0 5px;background-color:#fff;border:1px solid #ddd;}
         .select_mod .smd_val{display:block;*zoom:1;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;cursor:default;}
         .select_mod .smd_arrow{position:absolute;top:13px;right:5px;width:0px; height:0px;font-size:0px; border:4px solid; border-color:#999 transparent transparent transparent;}
         .select_mod .smd_list{display:none;position:absolute;top:27px;left:-1px;padding:5px;background-color:#fff;border:1px solid #ddd;}
@@ -56,51 +56,47 @@
     </style>
 </head>
 <body>
-
-    <!--
-        功能:
-        info: [
-            {'tit':['全选'],'cont':[['东北','东北','checked'],['华北','华北'],['华东','华东'],['华中','华中'],['华南','华南'],['西北','西北'],['西南','西南'],['海南岛','海南岛']]}
-        ]
-        checked 默认第一个
-
-        column: 1,
-        width: 90,
-        align: 'left'
-            自定义宽度
-    -->
-    <div id="country" class="select_mod" style="width:100px">
-        <span class="smd_val"></span>
-        <em class="smd_arrow"></em>
-    </div>
-    <div id="city_detail" style="display:none">
-        <div id="city" class="select_mod" style="width:250px">
+    <div style="height:300px;">
+        <div id="country" class="select_mod" style="width:50px">
             <span class="smd_val"></span>
             <em class="smd_arrow"></em>
         </div>
-        <div id="city_area1_box" class="select_mod_area" style="display:none">
-            <span class="select_mod_label">区域</span>
-            <div id="city_area1" class="select_mod" style="width:150px">
+        <div id="city_detail" style="display:none">
+            <div id="city" class="select_mod" style="width:250px">
                 <span class="smd_val"></span>
                 <em class="smd_arrow"></em>
             </div>
-        </div>
-        <div id="city_area2_box" class="select_mod_area" style="display:none">
-            <span class="select_mod_label">板块</span>
-            <div id="city_area2" class="select_mod" style="width:150px">
-                <span class="smd_val"></span>
-                <em class="smd_arrow"></em>
+            <div id="city_area1_box" class="select_mod_area" style="display:none">
+                <span class="select_mod_label">区域</span>
+                <div id="city_area1" class="select_mod" style="width:150px">
+                    <span class="smd_val"></span>
+                    <em class="smd_arrow"></em>
+                </div>
+            </div>
+            <div id="city_area2_box" class="select_mod_area" style="display:none">
+                <span class="select_mod_label">板块</span>
+                <div id="city_area2" class="select_mod" style="width:150px">
+                    <span class="smd_val"></span>
+                    <em class="smd_arrow"></em>
+                </div>
             </div>
         </div>
+        <div id="couRegion" class="select_mod" style="display:none;width:150px">
+            <span class="smd_val"></span>
+            <em class="smd_arrow"></em>
+        </div>
+        <div id="ecAreas" class="select_mod" style="display:none;width:150px">
+            <span class="smd_val"></span>
+            <em class="smd_arrow"></em>
+        </div>
     </div>
-    <div id="region" class="select_mod" style="display:none;width:150px">
-        <span class="smd_val"></span>
-        <em class="smd_arrow"></em>
+    <div style="height:300px;">
+        <div id="sig_country" class="select_mod" style="width:50px">
+            <span class="smd_val"></span>
+            <em class="smd_arrow"></em>
+        </div>
     </div>
-    <div id="ecAreas" class="select_mod" style="display:none;width:150px">
-        <span class="smd_val"></span>
-        <em class="smd_arrow"></em>
-    </div>
+    <button id="btn">外部设置值</button>
     <script>
         $.fn.cr_select = function(opts){
             var select = $.data(this[0],"select");
@@ -120,7 +116,7 @@
             defaults: {
                 column : 1,
                 info: {},
-                width: 90,
+                width: 70,
                 type: 'm',
                 align:'left',
                 fun: function(){},
@@ -131,8 +127,6 @@
                 init: function(){
                     var $ele = $(this.ele), opts = this.opts, __this = this;
                     var w = $ele.width() + 30, info = opts.info;
-                    //$('.smd_val',$ele).width(w - 25);
-
                     if(opts.align == 'right'){
                         $smd_list = $('<div class="smd_list" style="left:auto;right:-1px"></div>');
                     }else{
@@ -156,13 +150,10 @@
                         $smd_list.html(this.getHtml_m());
                         $ele.append($smd_list);
 
-                        __this.setTxt(__this.m_getTxt());
-                        __this.setVal(__this.m_getVal());
-                        //opts.fun(__this.m_getArg());
+                        __this.setVal(__this.m_getTxt(),__this.m_getVal());
 
                         // click
                         $('.smd_item',$ele).click(function(e){
-                            if(!info[0].tit){return true}
                             var tar = e.target,
                                 nodeName = tar.nodeName.toLowerCase(),
                                 isChecked = false,
@@ -178,25 +169,27 @@
                                 select(tar.parentNode, isChecked);
                             }
                             function select(obj, flag){
-                                var isBar = $(obj).parents('.smdl_bar').length,
-                                    bar_ipt = $('.smdl_bar input',_this)[0],
-                                    box = $('.smdl_box',_this);
-                                if(isBar){
-                                    $('input',box).each(function(){
-                                        this.checked = flag;
-                                    })
-                                }else{
-                                    if(!flag){
-                                        bar_ipt.checked = flag;
+                                // 有tit 才进行 全选交互
+                                if(info[0].tit){
+                                    var isBar = $(obj).parents('.smdl_bar').length,
+                                        bar_ipt = $('.smdl_bar input',_this)[0],
+                                        box = $('.smdl_box',_this);
+                                    if(isBar){
+                                        $('input',box).each(function(){
+                                            this.checked = flag;
+                                        })
                                     }else{
-                                        var n = $('input:checked',box).length;
-                                        if(n == num_label){
+                                        if(!flag){
                                             bar_ipt.checked = flag;
+                                        }else{
+                                            var n = $('input:checked',box).length;
+                                            if(n == num_label){
+                                                bar_ipt.checked = flag;
+                                            }
                                         }
                                     }
                                 }
-                                __this.setTxt(__this.m_getTxt());
-                                __this.setVal(__this.m_getVal());
+                                __this.setVal(__this.m_getTxt(),__this.m_getVal());
                                 opts.fun(__this.m_getArg());
                             }
                         })
@@ -221,16 +214,13 @@
                         // click
                         $('.smd_item span',$ele).click(function(e){
                             var t = $(this).text(), v = $(this).attr('v');
-                            __this.setTxt(t);
-                            __this.setVal(v);
+                            __this.setVal(t,v);
                             s_getArg.v = v;
                             s_getArg.t = t;
                             __this.hide();
                             opts.fun(s_getArg);
                         })
-                        this.setTxt(s_getArg.t);
-                        this.setVal(s_getArg.v);
-                        //opts.fun(s_getArg);
+                        this.setVal(s_getArg.t,s_getArg.v);
                     }
                     // hover
                     $ele.hover(
@@ -286,6 +276,15 @@
                     })
                     return arr_val;
                 },
+                setCheck: function(s){
+                    var arr = s.split(',');
+                    $('.smdl_box input:checked',this.ele).each(function(){
+                        this.checked = false;
+                    })
+                    $.each(arr,function(i,item){
+                        $('.smdl_box input[value="' + item + '"]',this.ele)[0].checked = true;
+                    })
+                },
                 // 取val
                 m_getVal: function(){
                     return this.checkVal().val.join();
@@ -294,21 +293,20 @@
                 m_getTxt: function(){
                     return this.checkVal().txt.join(' , ');
                 },
-                // 赋文字
-                setTxt: function(str){
-                    $('.smd_val',this.ele).text(str);
-                },
                 // 赋值
-                setVal: function(str){
-                    $('.smd_val',this.ele).attr('v',str);
+                setVal: function(s1,s2){
+                    $('.smd_val',this.ele).text(s1).attr('v',s2);
+                },
+                exec_callback: function(s1,s2){
+                    this.opts.fun({obj:this.ele, v:s2, t:s1});
+                    this.opts.fun_hover({obj:this.ele, v:s2, t:s1});
                 },
                 // 回调参数
                 m_getArg: function(){
                     return {
                         obj: this.ele,
                         v: this.m_getVal(),
-                        t: this.m_getTxt(),
-                        n: this.checkVal().val.length
+                        t: this.m_getTxt()
                     }
                 },
                 hide: function(){
@@ -347,7 +345,7 @@
                         act('city_detail');
                         break;
                     case "大区" :
-                        act('region');
+                        act('couRegion');
                         break;
                     case "经济区" :
                         act('ecAreas');
@@ -355,7 +353,7 @@
                 }
                 function act(name){
                     $('#city_detail').hide();
-                    $('#region').hide();
+                    $('#couRegion').hide();
                     $('#ecAreas').hide();
                     if(name!==''){
                         $('#'+name).show();
@@ -363,14 +361,27 @@
                 }
             }
         });
+        // 外部设置值
+        $("#btn").click(function(){
+            var obj1 = $("#country").data('select');
+            obj1.setVal('大区','大区');
+            obj1.exec_callback('大区');
+
+            var obj2 = $("#couRegion").data('select');
+            obj2.setVal('华北 , 华中','华北,华中');
+            obj2.setCheck('华北,华中');
+            obj2.exec_callback('华北 , 华中','华北,华中');
+        })
         // 大区
-        $('#region').cr_select({
+        $('#couRegion').cr_select({
             info: [
                 {'tit':['全选'],'cont':[['东北','东北','checked'],['华北','华北'],['华东','华东'],['华中','华中'],['华南','华南'],['西北','西北'],['西南','西南'],['海南岛','海南岛']]}
             ],
             column: 2,
             width: 140,
-            align: 'right'
+            align: 'right',
+            fun_hover: function(arg){
+            }
         });
         // 经济区
         $('#ecAreas').cr_select({
@@ -393,7 +404,7 @@
             align: 'right',
             //checked: true,
             fun_hover: function(arg){
-                if(arg.n>0){
+                if(arg.v.length>0){
                     var $this = $(arg.obj);
                     // 对比上一次选择项, 新的选择才调用ajax
                     if($this.data('v') !== arg.t){
@@ -422,6 +433,15 @@
             }
         });
 
+        // 全国单选
+        $('#sig_country').cr_select({
+            info: [
+                {'cont':[['全国','全国'],['上海','上海'],['南京','南京'],['杭州','杭州'],['合肥','合肥'],['宁波','宁波'],['无锡','无锡'],['苏州','苏州'],['厦门','厦门'],['常州','常州'],['南昌','南昌'],['徐州','徐州'],['福州','福州'],['连云港','连云港'],['漳州','漳州'],['淮安','淮安'],['北京','北京'],['天津','天津'],['青岛','青岛'],['济南','济南'],['太原','太原'],['烟台','烟台'],['唐山','唐山'],['沈阳','沈阳'],['长春','长春'],['大连','大连'],['哈尔滨','哈尔滨'],['广州','广州'],['深圳','深圳'],['南宁','南宁'],['东莞','东莞'],['佛山','佛山'],['中山','中山'],['惠州','惠州'],['成都','成都'],['重庆','重庆'],['昆明','昆明'],['贵阳','贵阳'],['西安','西安'],['兰州','兰州'],['银川','银川'],['武汉','武汉'],['郑州','郑州'],['长沙','长沙'],['海口','海口']]}
+            ],
+            type: 's',
+            column: 8,
+            width: 60
+        });
     </script>
 
     <link href="http://app.cric.com/landv2/assets/css/city.css" type="text/css" rel="stylesheet"/>
@@ -1826,9 +1846,7 @@
                 },
                 function () {
                     $(this).hide();
-                    if(opts.fun){
-                        opts.fun(aResCity,_this);
-                    }
+                    opts.fun(aResCity,_this);
                 }
             )
             $(this).hover(
@@ -2011,21 +2029,23 @@
                 })
             })
         }
-        $('#city').citys({fun:function(arg,ele){
-            if(arg.length==1){
-                var ele, str = arg.join();
-                // 对比上一次选择项, 新的选择才调用ajax
-                if(ele.data('v') !== str){
-                    // ajax
-                    console.log('新的');
+        $('#city').citys({
+            fun: function(arg,ele){
+                if(arg.length==1){
+                    var ele, str = arg.join();
+                    // 对比上一次选择项, 新的选择才调用ajax
+                    if(ele.data('v') !== str){
+                        // ajax
+                        console.log('新的');
+                    }
+                    $("#city_area1_box").show();
+                    ele.data('v',str);
+                }else{
+                    $("#city_area1_box").hide();
+                    $("#city_area2_box").hide();
                 }
-                $("#city_area1_box").show();
-                ele.data('v',str);
-            }else{
-                $("#city_area1_box").hide();
-                $("#city_area2_box").hide();
             }
-        }});
+        });
     </script>
 </body>
 </html>
