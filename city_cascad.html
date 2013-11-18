@@ -32,7 +32,7 @@
         .select_mod{position:relative;float:left;height:22px;line-height:1.5;padding:5px 25px 0 5px;background-color:#fff;border:1px solid #ddd;}
         .select_mod .smd_val{display:block;*zoom:1;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;cursor:default;}
         .select_mod .smd_arrow{position:absolute;top:13px;right:5px;width:0px; height:0px;font-size:0px; border:4px solid; border-color:#999 transparent transparent transparent;}
-        .select_mod .smd_list{display:none;position:absolute;top:27px;left:-1px;padding:5px;background-color:#fff;border:1px solid #ddd;}
+        .select_mod .smd_list{display:none;position:absolute;top:27px;left:-1px;padding:5px;background-color:#fff;border:1px solid #ddd;overflow-y:auto;overflow-x:hidden;}
         .smd_list .smdl_bar{margin-bottom:3px;background-color:#f1f1f1;}
         .smd_list .smdl_box li{float:left;}
         .smd_list .smdl_box li:hover{background-color:#f1f1f1;}
@@ -40,8 +40,9 @@
         .smd_list label input{float:left;margin-left:-17px;margin-top:2px;*margin:-1px 0 0 -20px;}
         .smd_list label input,.smd_list label span{vertical-align:middle;}
         .smd_list label span{float:left;width:100%;*zoom:1;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
-        .smd_list_sig label{padding:0;height:26px;}
-        .smd_list_sig label span{padding:5px 0 3px 3px;}
+        .smd_list_sig label{padding:0 0 0 3px;height:26px;}
+        .smd_list_sig label span{padding:5px 0 3px 0;}
+        .smd_list_sig .smdl_bar label{cursor:default;}
 
         .smd_item + .smd_item{margin-top:10px;}
 
@@ -135,7 +136,7 @@
 
                     if(opts.column == 1 && opts.width< w -10){
                         $smd_list.width(w-10);
-                        opts.width = '100%';
+                        opts.width = w-10;
                     }else{
                         if(opts.column * opts.width < w){
                             $smd_list.width(w-10);
@@ -143,7 +144,9 @@
                         }else{
                             $smd_list.width(opts.width*opts.column);
                         }
-                        opts.width += 'px';
+                    }
+                    if(opts.height){
+                        $smd_list.height(opts.height);
                     }
 
                     if(opts.type=='m'){
@@ -212,7 +215,7 @@
                             t: cont[idx][0]
                         }
                         // click
-                        $('.smd_item span',$ele).click(function(e){
+                        $('.smd_item .smdl_box span',$ele).click(function(e){
                             var t = $(this).text(), v = $(this).attr('v');
                             __this.setVal(t,v);
                             s_getArg.v = v;
@@ -259,7 +262,7 @@
                                 if(opts.checked || subItem[2]!==undefined){
                                     item_checked = 'checked';
                                 }
-                                str_li += '<li style="width:' + opts.width + '"><label><input type="checkbox" value="' + subItem[1]+ '"' + item_checked +'/><span>' + subItem[0] + '</span></label></li>';
+                                str_li += '<li style="width:' + opts.width + 'px"><label><input type="checkbox" value="' + subItem[1]+ '"' + item_checked +'/><span>' + subItem[0] + '</span></label></li>';
                             })
                             str_cont = '<div class="smdl_box clearfix"><ul>' + str_li + '</ul></div>';
                         }
@@ -269,12 +272,12 @@
                 },
                 // 选中项
                 checkVal: function(){
-                    var arr_val = { val:[], txt:[] };
+                    var aVal = [], aTxt = [];
                     $('.smdl_box input:checked',this.ele).each(function(){
-                        arr_val.val.push(this.value);
-                        arr_val.txt.push($(this).next().text());
+                        aVal.push(this.value);
+                        aTxt.push($(this).next().text());
                     })
-                    return arr_val;
+                    return {val: aVal.join(), txt: aTxt.join(' , ')};
                 },
                 setCheck: function(s){
                     var arr = s.split(',');
@@ -287,11 +290,11 @@
                 },
                 // 取val
                 m_getVal: function(){
-                    return this.checkVal().val.join();
+                    return this.checkVal().val;
                 },
                 // 取文字
                 m_getTxt: function(){
-                    return this.checkVal().txt.join(' , ');
+                    return this.checkVal().txt;
                 },
                 // 赋值
                 setVal: function(s1,s2){
@@ -314,15 +317,28 @@
                 },
                 // 单选html
                 getHtml_s: function(){
-                    var str_cont='',  __this = this, info = this.opts.info[0];
-                    if(info['cont'] instanceof Array){
-                        var cont = info['cont'], str_li = '';
-                        $.each(cont,function(j,subItem){
-                            str_li += '<li style="width:' + __this.opts.width + '"><label><span v="' + subItem[1] + '">' + subItem[0] + '</span></label></li>';
-                        })
-                        str_cont = '<div class="smdl_box clearfix"><ul>' + str_li + '</ul></div>';
-                    }
-                    return '<div class="smd_item">' + str_cont + '</div>';
+                    var html = '', __this = this, opts = this.opts;
+                    $.each(opts.info,function(i,item){
+                        var str_tit = '', str_cont='';
+                        if(item['tit'] instanceof Array){
+                            var tit = item['tit'];
+                            if(tit.length){
+                                str_tit =
+                                        '<div class="smdl_bar clearfix">'+
+                                            '<label><span>' + tit[0] + '</span></label>'+
+                                        '</div>';
+                            }
+                        }
+                        if(item['cont'] instanceof Array){
+                            var cont = item['cont'], str_li = '';
+                            $.each(cont,function(j,subItem){
+                                str_li += '<li style="width:' + opts.width + 'px"><label><span v="' + subItem[1]+ '">' + subItem[0] + '</span></label></li>';
+                            })
+                            str_cont = '<div class="smdl_box clearfix"><ul>' + str_li + '</ul></div>';
+                        }
+                        html += '<div class="smd_item">' + str_tit + str_cont + '</div>';
+                    })
+                    return html;
                 }
             }
         })
@@ -375,7 +391,7 @@
             */
             var obj1 = $("#country").data('select');
             obj1.setVal('城市','城市');
-            obj1.exec_callback('城市');
+            obj1.exec_callback('城市','城市');
 
             var obj2 = $("#city").data('data_city');
             obj2.setVal(['北京']);
@@ -384,7 +400,7 @@
             var obj3 = $("#city_area1").data('select');
             obj3.setVal('宝山','宝山');
             obj3.setCheck('宝山');
-            obj3.exec_callback('宝山');
+            obj3.exec_callback('宝山','宝山');
 
         })
         // 大区
@@ -453,10 +469,50 @@
         // 全国单选
         $('#sig_country').cr_select({
             info: [
-                {'cont':[['全国','全国'],['上海','上海'],['南京','南京'],['杭州','杭州'],['合肥','合肥'],['宁波','宁波'],['无锡','无锡'],['苏州','苏州'],['厦门','厦门'],['常州','常州'],['南昌','南昌'],['徐州','徐州'],['福州','福州'],['连云港','连云港'],['漳州','漳州'],['淮安','淮安'],['北京','北京'],['天津','天津'],['青岛','青岛'],['济南','济南'],['太原','太原'],['烟台','烟台'],['唐山','唐山'],['沈阳','沈阳'],['长春','长春'],['大连','大连'],['哈尔滨','哈尔滨'],['广州','广州'],['深圳','深圳'],['南宁','南宁'],['东莞','东莞'],['佛山','佛山'],['中山','中山'],['惠州','惠州'],['成都','成都'],['重庆','重庆'],['昆明','昆明'],['贵阳','贵阳'],['西安','西安'],['兰州','兰州'],['银川','银川'],['武汉','武汉'],['郑州','郑州'],['长沙','长沙'],['海口','海口']]}
+            {
+                'tit':['全国'],
+                'cont':[['全国','全国']]
+            },
+            {
+                'tit':['重点城市'],
+                'cont':[['上海','上海'],['北京','北京'],['广州','广州'],['深圳','深圳'],['南京','南京'],['杭州','杭州'],['天津','天津'],['成都','成都'],['重庆','重庆'],['武汉','武汉'],['沈阳','沈阳'],['合肥','合肥']]
+            },
+            {
+                'tit':['华东'],
+                'cont':[['安庆','安庆'],['蚌埠','蚌埠'],['滨州','滨州'],['亳州','亳州'],['常熟','常熟'],['常州','常州'],['巢湖','巢湖'],['池州','池州'],['滁州','滁州'],['淳安','淳安'],['慈溪','慈溪'],['大厂','大厂'],['德清','德清'],['德州','德州'],['东阳','东阳'],['东营','东营'],['福州','福州'],['抚州','抚州'],['阜阳','阜阳'],['赣州','赣州'],['海门','海门'],['涵江','涵江'],['菏泽','菏泽'],['湖州','湖州'],['淮安','淮安'],['淮北','淮北'],['淮南','淮南'],['黄山','黄山'],['吉安','吉安'],['济南','济南'],['济宁','济宁'],['嘉善','嘉善'],['嘉兴','嘉兴'],['建瓯','建瓯'],['江阴','江阴'],['胶州','胶州'],['金华','金华'],['晋江','晋江'],['景德镇','景德镇'],['九江','九江'],['昆山','昆山'],['莱芜','莱芜'],['丽水','丽水'],['连云港','连云港'],['聊城','聊城'],['临安','临安'],['临沂','临沂'],['六安','六安'],['龙岩','龙岩'],['马鞍山','马鞍山'],['南昌','南昌'],['南平','南平'],['南通','南通'],['宁波','宁波'],['宁德','宁德'],['萍乡','萍乡'],['莆田','莆田'],['启东','启东'],['青岛','青岛'],['衢州','衢州'],['泉州','泉州'],['日照','日照'],['三明','三明'],['厦门','厦门'],['上饶','上饶'],['上虞','上虞'],['绍兴','绍兴'],['苏州','苏州'],['台州','台州'],['太仓','太仓'],['泰安','泰安'],['泰州','泰州'],['铜陵','铜陵'],['威海','威海'],['潍坊','潍坊'],['温州','温州'],['无锡','无锡'],['芜湖','芜湖'],['吴江','吴江'],['武夷山','武夷山'],['新昌','新昌'],['新余','新余'],['宿迁','宿迁'],['宿州','宿州'],['徐州','徐州'],['宣城','宣城'],['烟台','烟台'],['盐城','盐城'],['扬州','扬州'],['宜春','宜春'],['宜兴','宜兴'],['鹰潭','鹰潭'],['余姚','余姚'],['枣庄','枣庄'],['湛江','湛江'],['张家港','张家港'],['漳州','漳州'],['镇江','镇江'],['舟山','舟山'],['诸暨','诸暨'],['淄博','淄博']]
+            },
+            {
+                'tit':['华北'],
+                'cont':[['安阳','安阳'],['巴彦淖尔市','巴彦淖尔市'],['包头','包头'],['保定','保定'],['沧州','沧州'],['承德','承德'],['大同','大同'],['固安','固安'],['邯郸','邯郸'],['衡水','衡水'],['呼和浩特','呼和浩特'],['晋城','晋城'],['廊坊','廊坊'],['临汾','临汾'],['滦南','滦南'],['吕梁','吕梁'],['秦皇岛','秦皇岛'],['三河','三河'],['石家庄','石家庄'],['朔州','朔州'],['太原','太原'],['唐山','唐山'],['乌海','乌海'],['乌兰察布市','乌兰察布市'],['香河','香河'],['忻州','忻州'],['邢台','邢台'],['燕郊','燕郊'],['阳泉','阳泉'],['运城','运城'],['张家口','张家口'],['长治','长治'],['涿州','涿州']]
+            },
+            {
+                'tit':['东北'],
+                'cont':[['鞍山','鞍山'],['白城','白城'],['白山','白山'],['本溪','本溪'],['赤峰','赤峰'],['大连','大连'],['大庆','大庆'],['丹东','丹东'],['抚顺','抚顺'],['阜新','阜新'],['哈尔滨','哈尔滨'],['鹤岗','鹤岗'],['黑河','黑河'],['呼伦贝尔','呼伦贝尔'],['葫芦岛','葫芦岛'],['鸡西','鸡西'],['吉林','吉林'],['佳木斯','佳木斯'],['锦州','锦州'],['辽阳','辽阳'],['辽源','辽源'],['牡丹江','牡丹江'],['盘锦','盘锦'],['七台河','七台河'],['齐齐哈尔','齐齐哈尔'],['双鸭山','双鸭山'],['四平','四平'],['松原','松原'],['绥化','绥化'],['铁岭','铁岭'],['通化','通化'],['通辽','通辽'],['锡林郭勒盟','锡林郭勒盟'],['延边朝鲜族自治州','延边朝鲜族自治州'],['伊春','伊春'],['营口','营口'],['长春','长春']]
+            },
+            {
+                'tit':['华南'],
+                'cont':[['百色','百色'],['北海','北海'],['潮州','潮州'],['从化','从化'],['东莞','东莞'],['防城港市','防城港市'],['佛山','佛山'],['桂林','桂林'],['河池','河池'],['河源','河源'],['贺州','贺州'],['惠州','惠州'],['江门','江门'],['揭阳','揭阳'],['来宾','来宾'],['柳州','柳州'],['茂名','茂名'],['梅州','梅州'],['南宁','南宁'],['钦州','钦州'],['清远','清远'],['汕头','汕头'],['汕尾','汕尾'],['韶关','韶关'],['四会','四会'],['梧州','梧州'],['阳江','阳江'],['玉林','玉林'],['云浮','云浮'],['肇庆','肇庆'],['中山','中山'],['珠海','珠海']]
+            },
+            {
+                'tit':['西南'],
+                'cont':[['安顺','安顺'],['巴中','巴中'],['保山','保山'],['毕节','毕节'],['楚雄','楚雄'],['达州','达州'],['大理','大理'],['德宏傣族景颇族自治州','德宏傣族景颇族自治州'],['德阳','德阳'],['迪庆藏族自治州','迪庆藏族自治州'],['都江堰','都江堰'],['甘孜藏族自治州','甘孜藏族自治州'],['广安','广安'],['广元','广元'],['贵阳','贵阳'],['汉中','汉中'],['红河哈尼族彝族自治州','红河哈尼族彝族自治州'],['昆明','昆明'],['乐山','乐山'],['丽江','丽江'],['凉山彝族自治州','凉山彝族自治州'],['临沧','临沧'],['六盘水','六盘水'],['泸州','泸州'],['眉山','眉山'],['绵阳','绵阳'],['南充','南充'],['内江','内江'],['怒江傈僳族自治州','怒江傈僳族自治州'],['攀枝花','攀枝花'],['彭山','彭山'],['普洱','普洱'],['黔东南苗族侗族自治州','黔东南苗族侗族自治州'],['黔南布依族苗族自治州','黔南布依族苗族自治州'],['黔西南布依族苗族自治州','黔西南布依族苗族自治州'],['曲靖','曲靖'],['遂宁','遂宁'],['铜仁地区','铜仁地区'],['文山','文山'],['西昌','西昌'],['西双版纳','西双版纳'],['雅安','雅安'],['宜宾','宜宾'],['玉溪','玉溪'],['昭通','昭通'],['资阳','资阳'],['自贡','自贡'],['遵义','遵义']]
+            },
+            {
+                'tit':['西北'],
+                'cont':[['阿克苏','阿克苏'],['安康','安康'],['巴音郭楞蒙古自治州','巴音郭楞蒙古自治州'],['白银','白银'],['宝鸡','宝鸡'],['博尔塔拉蒙古自治州','博尔塔拉蒙古自治州'],['昌吉','昌吉'],['定西','定西'],['鄂尔多斯','鄂尔多斯'],['甘南藏族自治州','甘南藏族自治州'],['固原','固原'],['哈密','哈密'],['海北藏族自治州','海北藏族自治州'],['海东地区','海东地区'],['海南藏族自治州','海南藏族自治州'],['海西蒙古族藏族自治州','海西蒙古族藏族自治州'],['和田','和田'],['黄南藏族自治州','黄南藏族自治州'],['嘉峪关','嘉峪关'],['金昌','金昌'],['酒泉','酒泉'],['喀什','喀什'],['克拉玛依','克拉玛依'],['克孜勒苏柯尔克孜自治州','克孜勒苏柯尔克孜自治州'],['兰州','兰州'],['临夏','临夏'],['陇南','陇南'],['平凉','平凉'],['庆阳','庆阳'],['商洛','商洛'],['塔城','塔城'],['天水','天水'],['铜川','铜川'],['吐鲁番','吐鲁番'],['渭南','渭南'],['乌鲁木齐','乌鲁木齐'],['吴忠','吴忠'],['武威','武威'],['西安','西安'],['西宁','西宁'],['咸阳','咸阳'],['延安','延安'],['伊犁哈萨克自治州','伊犁哈萨克自治州'],['银川','银川'],['榆林','榆林'],['张掖','张掖'],['中卫','中卫']]
+            },
+            {
+                'tit':['华中'],
+                'cont':[['常德','常德'],['郴州','郴州'],['崇左','崇左'],['恩施','恩施'],['贵港','贵港'],['鹤壁','鹤壁'],['衡阳','衡阳'],['怀化','怀化'],['黄冈','黄冈'],['黄石','黄石'],['济源','济源'],['焦作','焦作'],['荆门','荆门'],['荆州','荆州'],['开封','开封'],['娄底','娄底'],['洛阳','洛阳'],['漯河','漯河'],['平顶山','平顶山'],['濮阳','濮阳'],['三门峡','三门峡'],['商丘','商丘'],['邵阳','邵阳'],['十堰','十堰'],['随州','随州'],['咸宁','咸宁'],['湘潭','湘潭'],['湘西','湘西'],['襄樊','襄樊'],['孝感','孝感'],['新乡','新乡'],['信阳','信阳'],['许昌','许昌'],['宜昌','宜昌'],['益阳','益阳'],['永州','永州'],['岳阳','岳阳'],['张家界','张家界'],['长沙','长沙'],['郑州','郑州'],['周口','周口'],['株洲','株洲'],['驻马店','驻马店']]
+            },
+            {
+                'tit':['海南岛'],
+                'cont':[['白沙','白沙'],['保亭','保亭'],['昌江','昌江'],['澄迈','澄迈'],['儋州','儋州'],['定安','定安'],['东方','东方'],['海口','海口'],['乐东','乐东'],['临高','临高'],['陵水','陵水'],['琼海','琼海'],['琼山','琼山'],['琼中','琼中'],['三亚','三亚'],['屯昌','屯昌'],['万宁','万宁'],['文昌','文昌'],['五指山','五指山'],['洋浦','洋浦']]
+            }
             ],
             type: 's',
             column: 8,
+            height:200,
             width: 60
         });
     </script>
@@ -1861,9 +1917,8 @@
                     var $citys = this.$citys = $('#citys');
                     var $listbox = this.$listbox = $('.list_box',$wg_citys);
                     var $listbox_li = this.$listbox_li = $listbox.find('li');
-                    this.aResCity = opts.city;
+                    this.city = opts.city;
 
-                    this.setVal(this.aResCity);
                     $('.wgc_tab li a',$wg_citys).click(function () {
                         var pa = $(this).parent(),
                             idx = pa.index(),
@@ -1880,7 +1935,7 @@
                         },
                         function () {
                             $(this).hide();
-                            opts.fun_hover(_this.aResCity,$ele);
+                            opts.fun_hover(_this.city,$ele);
                         }
                     )
                     $ele.hover(
@@ -1971,39 +2026,43 @@
                     });
                     $('#citysClean').click(function () {
                         _this.clean();
-                        $('.smd_val',$ele).html('');
+                        $('.smd_val',$ele).html('').attr('v','');
                         $('.wgc_tit input',$wg_citys).each(function () {
                             $(this)[0].checked = false;
                         })
                     })
+                    this.setVal(this.city);
                 },
                 setVal: function(arr){
                     var _this = this;
-                    this.aResCity = arr;
                     if (arr.length) {
                         $.each(arr, function (i, v) {
-                            _this.$listbox_li.each(function () {
-                                var v1 = $(this).attr('title');
-                                if (v1.indexOf(v) > -1) {
-                                    $('input', this)[0].checked = true;
-                                }
+                            _this.$wg_citys.find('input').each(function(){
+                                this.checked = false;
+                            })
+                            _this.$listbox.find('li[title^="' + v + '"]').each(function () {
+                                $(this).css('color','red')
+                                $('input', this)[0].checked = true;
+                                //$('input', this)[0].checked = true;
+                                //console.log($('span',this).text())
                             })
                         })
                         this.$citys.text(arr.join());
-                        $('.smd_val',this.ele).text(arr.join(' , '));
+                        $('.smd_val',this.ele).text(arr.join(' , ')).attr('v',arr.join());
+                        this.city = arr;
                     }
                 },
                 check: function(v, isChecked) {
                     var oriV = v;
                     v = v.replace(/\([A-Z]\)/g, '');
                     if (isChecked) {
-                        var idx = $.inArray(v, this.aResCity);
+                        var idx = $.inArray(v, this.city);
                         if (idx == -1) {
-                            this.aResCity.push(v);
+                            this.city.push(v);
                         }
                     } else {
-                        var idx = $.inArray(v, this.aResCity);
-                        this.aResCity.splice(idx, 1);
+                        var idx = $.inArray(v, this.city);
+                        this.city.splice(idx, 1);
                     }
                     this.$listbox.find('li[title="' + oriV + '"]').each(function () {
                         $('input', this)[0].checked = isChecked;
@@ -2012,19 +2071,19 @@
                 checkGroup: function(v, isChecked) {
                     v = v.replace(/\([A-Z]\)/g, '');
                     if (isChecked) {
-                        var idx = $.inArray(v, this.aResCity);
+                        var idx = $.inArray(v, this.city);
                         if (idx == -1) {
-                            this.aResCity.push(v);
+                            this.city.push(v);
                         }
                     } else {
-                        var idx = $.inArray(v, this.aResCity);
-                        this.aResCity.splice(idx, 1);
+                        var idx = $.inArray(v, this.city);
+                        this.city.splice(idx, 1);
                     }
                 },
                 getText: function() {
-                    var s = this.aResCity.join(' , ');
-                    this.$citys.text(s).attr('title', s);
-                    $('.smd_val', this.ele).text(s);
+                    var t = this.city.join(' , '), v = this.city.join();
+                    this.$citys.text(t).attr('title', t);
+                    $('.smd_val', this.ele).text(t).attr('v',v);
                 },
                 isItemCheck: function(v) {
                     var $arrBox = this.getBox(v);
@@ -2055,7 +2114,7 @@
                     var _this = this;
                     $('.list_box li[title] input',this.$wg_citys).each(function () {
                         $(this)[0].checked = false;
-                        _this.aResCity = [];
+                        _this.city = [];
                         _this.$citys.text('').attr('title', '');
                     })
                 },
@@ -2066,7 +2125,7 @@
             }
         })
         $('#city').cr_city({
-            city: ['上海','北京'],
+            city: ['广州','上海','沈阳'],
             fun_hover: function(arg,ele){
                 if(arg.length==1){
                     var ele, str = arg.join();
