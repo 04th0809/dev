@@ -2036,15 +2036,12 @@
                 setVal: function(arr){
                     var _this = this;
                     if (arr.length) {
+                        this.$wg_citys.find('input').each(function(){
+                            this.checked = false;
+                        })
                         $.each(arr, function (i, v) {
-                            _this.$wg_citys.find('input').each(function(){
-                                this.checked = false;
-                            })
                             _this.$listbox.find('li[title^="' + v + '"]').each(function () {
-                                $(this).css('color','red')
                                 $('input', this)[0].checked = true;
-                                //$('input', this)[0].checked = true;
-                                //console.log($('span',this).text())
                             })
                         })
                         this.$citys.text(arr.join());
