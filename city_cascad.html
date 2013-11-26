@@ -30,6 +30,7 @@
 
         body{padding:50px;}
         .select_mod{position:relative;float:left;height:22px;line-height:1.5;padding:5px 25px 0 5px;background-color:#fff;border:1px solid #ddd;}
+        .select_mod_sep{margin-right:10px}
         .select_mod .smd_val{display:block;*zoom:1;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;cursor:default;}
         .select_mod .smd_arrow{position:absolute;top:13px;right:5px;width:0px; height:0px;font-size:0px; border:4px solid; border-color:#999 transparent transparent transparent;}
         .select_mod .smd_list{display:none;position:absolute;top:27px;left:-1px;padding:5px;background-color:#fff;border:1px solid #ddd;overflow-y:auto;overflow-x:hidden;}
@@ -43,26 +44,30 @@
         .smd_list_sig label{padding:0 0 0 3px;height:26px;}
         .smd_list_sig label span{padding:5px 0 3px 0;}
         .smd_list_sig .smdl_bar label{cursor:default;}
-
         .smd_item + .smd_item{margin-top:10px;}
-
         .select_mod_focus{border-color:#008000;}
         .select_mod_focus .smd_list{display:block;border-color:#008000;}
         .select_mod_focus .smd_arrow{ border-color:#008000 transparent transparent transparent;}
+        .smd_act{height:30px;margin-top:10px;}
+        .smd_act .smd_btn{float:right;line-height:24px;width:70px;text-align:center;cursor:pointer;}
+        .smd_act .smd_true{margin-right:10px;background-color:#555;color:#fff;text-decoration:none;}
+        .smd_act .smd_true:hover{margin-right:10px;background-color:#333;color:#fff;}
+        .smd_act .smd_false{background-color:#eee;color:#666;text-decoration:none}
+        .smd_act .smd_false:hover{background-color:#e0e0e0;color:#666;}
 
-        #country{margin-right:10px;}
-        #city_detail{float:left;}
+        .region_type{margin-right:10px;}
+        .gp_city_select{float: left;}
         .select_mod_area{float:left;}
-        .select_mod_label{float:left;margin:8px 10px 0 10px;}
+        .select_mod_label{float:left;line-height:1.5;margin:5px 10px 0 10px;}
     </style>
 </head>
 <body>
     <div style="height:300px;">
-        <div id="country" class="select_mod" style="width:50px">
+        <div id="country" class="select_mod region_type" style="width:50px">
             <span class="smd_val"></span>
             <em class="smd_arrow"></em>
         </div>
-        <div id="city_detail" style="display:none">
+        <div id="city_detail" class="gp_city_select" style="display:none">
             <div id="city" class="select_mod" style="width:250px">
                 <span class="smd_val"></span>
                 <em class="smd_arrow"></em>
@@ -96,6 +101,10 @@
             <span class="smd_val"></span>
             <em class="smd_arrow"></em>
         </div>
+        <div id="fix_head" class="select_mod" style="width:50px">
+            <span class="smd_val">表头设置</span>
+            <em class="smd_arrow"></em>
+        </div>
     </div>
     <button id="btn">外部设置值</button>
     <script>
@@ -120,6 +129,8 @@
                 width: 70,
                 type: 'm',
                 align:'left',
+                fix_tit: false,
+                act_btn: null,
                 fun: function(){},
                 fun_hover: function(){},
                 checked: false
@@ -129,9 +140,9 @@
                     var $ele = $(this.ele), opts = this.opts, __this = this;
                     var w = $ele.width() + 30, info = opts.info;
                     if(opts.align == 'right'){
-                        $smd_list = $('<div class="smd_list" style="left:auto;right:-1px"></div>');
+                        $smd_list = $('<div class="smd_list" style="left:auto;right:-1px;z-index:' + $ele.css('zIndex') +'"></div>');
                     }else{
-                        $smd_list = $('<div class="smd_list"></div>');
+                        $smd_list = $('<div class="smd_list" style="z-index:' + $ele.css('zIndex') +'"></div>');
                     }
 
                     if(opts.column == 1 && opts.width< w -10){
@@ -140,15 +151,22 @@
                     }else{
                         if(opts.column * opts.width < w){
                             $smd_list.width(w-10);
-                            opts.width = Math.floor((w-10)/opts.column);
+                            if(opts.height){
+                                opts.width = Math.floor((w-30)/opts.column);
+                            }else{
+                                opts.width = Math.floor((w-10)/opts.column);
+                            }
                         }else{
-                            $smd_list.width(opts.width*opts.column);
+                            if(opts.height){
+                                $smd_list.width(opts.width*opts.column + 20);
+                            }else{
+                                $smd_list.width(opts.width*opts.column);
+                            }
                         }
                     }
-                    if(opts.height){
-                        $smd_list.height(opts.height);
+                    if($ele.find('.smd_list').length){
+                        $ele.find('.smd_list').remove();
                     }
-
                     if(opts.type=='m'){
                         $smd_list.html(this.getHtml_m());
                         $ele.append($smd_list);
@@ -225,6 +243,19 @@
                         })
                         this.setVal(s_getArg.t,s_getArg.v);
                     }
+                    if(opts.act_btn instanceof Function){
+                        $(".smd_act",$ele).click(function(e){
+                            var tar = e.target,
+                                nodeName = tar.nodeName.toLowerCase();
+                            if(nodeName === 'a'){
+                                if($(tar).hasClass('smd_true')){
+                                    opts.act_btn($ele, __this.m_getVal());
+                                }
+                                $ele.removeClass('select_mod_focus');
+                                return false;
+                            }
+                        })
+                    }
                     // hover
                     $ele.hover(
                         function(){
@@ -237,6 +268,9 @@
                             }
                         }
                     )
+                    if($smd_list.height() > opts.height){
+                        $smd_list.css({'height':opts.height});
+                    }
                 },
                 // 多选html
                 getHtml_m: function(){
@@ -251,7 +285,7 @@
                             if(tit.length){
                                 str_tit =
                                         '<div class="smdl_bar clearfix">'+
-                                            '<label><input type="checkbox" value="' + tit[0] + '"' + all_checked +'/><span>' + tit[0] + '</span></label>'+
+                                            '<label><input type="checkbox" value="' + tit[0] + '"' + all_checked +'/><span title="'+ tit[0] +'">' + tit[0] + '</span></label>'+
                                         '</div>';
                             }
                         }
@@ -262,12 +296,15 @@
                                 if(opts.checked || subItem[2]!==undefined){
                                     item_checked = 'checked';
                                 }
-                                str_li += '<li style="width:' + opts.width + 'px"><label><input type="checkbox" value="' + subItem[1]+ '"' + item_checked +'/><span>' + subItem[0] + '</span></label></li>';
+                                str_li += '<li style="width:' + opts.width + 'px"><label><input type="checkbox" value="' + subItem[1]+ '"' + item_checked +'/><span title="' + subItem[0] + '">' + subItem[0] + '</span></label></li>';
                             })
                             str_cont = '<div class="smdl_box clearfix"><ul>' + str_li + '</ul></div>';
                         }
                         html += '<div class="smd_item">' + str_tit + str_cont + '</div>';
                     })
+                    if(opts.act_btn instanceof Function){
+                        html += '<div class="smd_act"><a href="#" class="smd_btn smd_false">取消</a><a href="#" class="smd_btn smd_true">确定</a></div>';
+                    }
                     return html;
                 },
                 // 选中项
@@ -279,14 +316,35 @@
                     })
                     return {val: aVal.join(), txt: aTxt.join(' , ')};
                 },
-                setCheck: function(s){
-                    var arr = s.split(',');
+                setCheck: function(arr){
+                    var opts = this.opts;
                     $('.smdl_box input:checked',this.ele).each(function(){
                         this.checked = false;
                     })
-                    $.each(arr,function(i,item){
-                        $('.smdl_box input[value="' + item + '"]',this.ele)[0].checked = true;
-                    })
+                    // 为空,就取消查找
+                    if(arr.join().length){
+                        $.each(arr,function(i,item){
+                            $('.smdl_box input[value="' + item + '"]',this.ele)[0].checked = true;
+                        })
+                    }
+                    // tit存在, 判断是否为全选
+                    if(opts.info[0]['tit']!= undefined){
+                        $('.smdl_box',this.ele).each(function(){
+                            var sign = true;
+                            // 只有内部有一个未选,就取消全选
+                            $('input',this).each(function(){
+                                if(!this.checked){
+                                    sign = false;
+                                    return false;
+                                }
+                            })
+                            if(sign){
+                                $(this).prev().find('input')[0].checked = true;
+                            }else{
+                                $(this).prev().find('input')[0].checked = false;
+                            }
+                        })
+                    }
                 },
                 // 取val
                 m_getVal: function(){
@@ -298,9 +356,19 @@
                 },
                 // 赋值
                 setVal: function(s1,s2){
-                    $('.smd_val',this.ele).text(s1).attr('v',s2);
+                    if(this.opts.fix_tit){
+                        $('.smd_val',this.ele).attr('v',s2);
+                    }else{
+                        $('.smd_val',this.ele).text(s1).attr('v',s2);
+                    }
                 },
-                exec_callback: function(s1,s2){
+                exec_callback: function(aTxt,aVal){
+                    var s1 = aTxt.join(' , '),
+                        s2 = aVal.join();
+                    this.setVal(s1,s2);
+                    if(this.opts.type == 'm'){
+                        this.setCheck(aVal);
+                    }
                     this.opts.fun({obj:this.ele, v:s2, t:s1});
                     this.opts.fun_hover({obj:this.ele, v:s2, t:s1});
                 },
@@ -379,28 +447,14 @@
         });
         // 外部设置值
         $("#btn").click(function(){
-            /*
             var obj1 = $("#country").data('select');
-            obj1.setVal('大区','大区');
-            obj1.exec_callback('大区');
-
-            var obj2 = $("#couRegion").data('select');
-            obj2.setVal('华北 , 华中','华北,华中');
-            obj2.setCheck('华北,华中');
-            obj2.exec_callback('华北 , 华中','华北,华中');
-            */
-            var obj1 = $("#country").data('select');
-            obj1.setVal('城市','城市');
-            obj1.exec_callback('城市','城市');
+            obj1.exec_callback(['城市'],['城市']);
 
             var obj2 = $("#city").data('data_city');
-            obj2.setVal(['北京']);
-            obj2.exec_callback(['城市'],$('#city'));
+            obj2.exec_callback(['上海']);
 
             var obj3 = $("#city_area1").data('select');
-            obj3.setVal('宝山','宝山');
-            obj3.setCheck('宝山');
-            obj3.exec_callback('宝山','宝山');
+            obj3.exec_callback(['宝山','长宁'],['宝山','长宁']);
 
         })
         // 大区
@@ -436,13 +490,12 @@
             align: 'right',
             //checked: true,
             fun_hover: function(arg){
-                console.log(arg)
                 if(arg.v.length>0){
                     var $this = $(arg.obj);
                     // 对比上一次选择项, 新的选择才调用ajax
                     if($this.data('v') !== arg.t){
                         // ajax
-                        console.log('新的');
+                        console.log(arg.v);
                     }
                     $("#city_area2_box").show();
                     $this.data('v',arg.t);
@@ -451,7 +504,7 @@
                 }
             }
         });
-        // 区域
+        // 板块
         $('#city_area2').cr_select({
             info: [
                 {'tit':['宝山'],'cont':[['东城板块','东城板块'],['西城板块','西城板块'],['顾村板块','顾村板块'],['大华板块','大华板块'],['祁连板块','祁连板块'],['共富、共康板块','共富、共康板块'],['淞南板块','淞南板块'],['月浦板块','月浦板块'],['罗店板块','罗店板块']]},
@@ -515,6 +568,34 @@
             height:200,
             width: 60
         });
+        // 固定表头
+        $('#fix_head').cr_select({
+            info: [
+                {'tit':['基本信息'],'cont':[['城市','城市'],['区域','区域'],['商圈','商圈'],['项目类型','办公类型'],['总建面积','总建面积'],['租售方式','租售现状'],['开盘时间','开盘日期'],['竣工时间','竣工时间'],['租金报价','租金报价'],['产权年限','产权年限']]},
+                {'tit':['企业信息'],'cont':[['投资商','投资商'],['物业管理公司','物业管理公司'],['开发商','开发企业']]},
+                {'tit':['产品信息'],'cont':[['容积率','容积率'],['物业管理费','物业管理费'],['装修情况','装修情况'],['停车位','停车位']]}
+            ],
+            column: 4,
+            width: 120,
+            fix_tit: true,
+            fun_hover: function(arg){
+                var $this = $(arg.obj), data_v = $this.data('v');
+                var obj = $this.data('select');
+                obj.setVal(data_v,data_v);
+                obj.setCheck(data_v.split(','));
+            },
+            act_btn: function(ele,arg){
+                ele.data('v',arg);
+                console.log(arg)
+            },
+        });
+
+        // 赋值
+        var obj3 = $("#fix_head").data('select');
+        var init_tableHeader_v = '城市,区域,商圈,办公类型,总建面积,租售现状,开盘日期,竣工时间,租金报价,物业管理公司,开发企业';
+        obj3.setVal(init_tableHeader_v,init_tableHeader_v);
+        obj3.setCheck(init_tableHeader_v.split(','));
+        $("#fix_head").data('v',init_tableHeader_v);
     </script>
 
     <link href="http://app.cric.com/landv2/assets/css/city.css" type="text/css" rel="stylesheet"/>
@@ -2115,9 +2196,14 @@
                         _this.$citys.text('').attr('title', '');
                     })
                 },
-                exec_callback: function(arr,ele){
-                    this.opts.fun(arr,ele);
-                    this.opts.fun_hover(arr,ele);
+                exec_callback: function(arr){
+                    if(!arr || !arr.length){
+                        arr = this.city
+                    }else{
+                        this.setVal(arr);
+                    }
+                    this.opts.fun(arr,$(this.ele));
+                    this.opts.fun_hover(arr,$(this.ele));
                 }
             }
         })
@@ -2129,7 +2215,7 @@
                     // 对比上一次选择项, 新的选择才调用ajax
                     if(ele.data('v') !== str){
                         // ajax
-                        console.log('新的');
+                        console.log(str);
                     }
                     $("#city_area1_box").show();
                     ele.data('v',str);
