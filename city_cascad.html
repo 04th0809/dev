@@ -466,7 +466,7 @@
             width: 140,
             align: 'right',
             fun_hover: function(arg){
-                console.log(arg.t)
+                //console.log(arg.t)
             }
         });
         // 经济区
@@ -490,12 +490,13 @@
             align: 'right',
             //checked: true,
             fun_hover: function(arg){
-                if(arg.v.length>0){
+                var v = $("#city .smd_val").attr('v') || '';
+                if(arg.v.length>0 && v!=='' && v.split(',').length==1){
                     var $this = $(arg.obj);
                     // 对比上一次选择项, 新的选择才调用ajax
                     if($this.data('v') !== arg.t){
                         // ajax
-                        console.log(arg.v);
+                        //console.log(arg.v);
                     }
                     $("#city_area2_box").show();
                     $this.data('v',arg.t);
@@ -586,8 +587,7 @@
             },
             act_btn: function(ele,arg){
                 ele.data('v',arg);
-                console.log(arg)
-            },
+            }
         });
 
         // 赋值
@@ -605,8 +605,9 @@
                 <li><a href="javascript:void(0)" class="cur"><span>拼音排序</span></a></li>
                 <li><a href="javascript:void(0)"><span>经济区</span></a></li>
                 <li><a href="javascript:void(0)"><span>大区</span></a></li>
+                <li><a href="javascript:void(0)"><span>城市等级</span></a></li>
             </ul>
-            <p>(共373个城市）</p>
+            <p>(共316个城市）</p>
         </div>
         <div class="wgc_cont">
             <div class="wgc_item" style="display:block">
@@ -634,7 +635,6 @@
                     <div class="listBox_s1">
                         <div class="label">A</div>
                         <ul>
-                            <li title="阿克苏(A)"><input type="checkbox"/><span>阿克苏(A)</span></li>
                             <li title="安康(A)"><input type="checkbox"/><span>安康(A)</span></li>
                             <li title="安庆(A)"><input type="checkbox"/><span>安庆(A)</span></li>
                             <li title="安顺(A)"><input type="checkbox"/><span>安顺(A)</span></li>
@@ -645,9 +645,7 @@
                     <div class="listBox_s1">
                         <div class="label">B</div>
                         <ul>
-                            <li title="巴彦淖尔市(B)"><input type="checkbox"/><span>巴彦淖尔市(B)</span></li>
                             <li title="巴音郭楞蒙古自治州(B)"><input type="checkbox"/><span>巴音郭楞蒙古自治州(B)</span></li>
-                            <li title="巴中(B)"><input type="checkbox"/><span>巴中(B)</span></li>
                             <li title="白城(B)"><input type="checkbox"/><span>白城(B)</span></li>
                             <li title="白沙(B)"><input type="checkbox"/><span>白沙(B)</span></li>
                             <li title="白山(B)"><input type="checkbox"/><span>白山(B)</span></li>
@@ -662,7 +660,6 @@
                             <li title="北海(B)"><input type="checkbox"/><span>北海(B)</span></li>
                             <li title="北京(B)"><input type="checkbox"/><span>北京(B)</span></li>
                             <li title="本溪(B)"><input type="checkbox"/><span>本溪(B)</span></li>
-                            <li title="毕节(B)"><input type="checkbox"/><span>毕节(B)</span></li>
                             <li title="滨州(B)"><input type="checkbox"/><span>滨州(B)</span></li>
                             <li title="亳州(B)"><input type="checkbox"/><span>亳州(B)</span></li>
                             <li title="博尔塔拉蒙古自治州(B)"><input type="checkbox"/><span>博尔塔拉蒙古自治州(B)</span></li>
@@ -672,16 +669,13 @@
                         <div class="label">C</div>
                         <ul>
                             <li title="沧州(C)"><input type="checkbox"/><span>沧州(C)</span></li>
-                            <li title="昌吉(C)"><input type="checkbox"/><span>昌吉(C)</span></li>
                             <li title="昌江(C)"><input type="checkbox"/><span>昌江(C)</span></li>
                             <li title="长春(C)"><input type="checkbox"/><span>长春(C)</span></li>
                             <li title="长沙(C)"><input type="checkbox"/><span>长沙(C)</span></li>
-                            <li title="长治(C)"><input type="checkbox"/><span>长治(C)</span></li>
                             <li title="重庆(C)"><input type="checkbox"/><span>重庆(C)</span></li>
                             <li title="常德(C)"><input type="checkbox"/><span>常德(C)</span></li>
                             <li title="常熟(C)"><input type="checkbox"/><span>常熟(C)</span></li>
                             <li title="常州(C)"><input type="checkbox"/><span>常州(C)</span></li>
-                            <li title="巢湖(C)"><input type="checkbox"/><span>巢湖(C)</span></li>
                             <li title="潮州(C)"><input type="checkbox"/><span>潮州(C)</span></li>
                             <li title="郴州(C)"><input type="checkbox"/><span>郴州(C)</span></li>
                             <li title="成都(C)"><input type="checkbox"/><span>成都(C)</span></li>
@@ -691,9 +685,6 @@
                             <li title="赤峰(C)"><input type="checkbox"/><span>赤峰(C)</span></li>
                             <li title="崇左(C)"><input type="checkbox"/><span>崇左(C)</span></li>
                             <li title="滁州(C)"><input type="checkbox"/><span>滁州(C)</span></li>
-                            <li title="楚雄(C)"><input type="checkbox"/><span>楚雄(C)</span></li>
-                            <li title="淳安(C)"><input type="checkbox"/><span>淳安(C)</span></li>
-                            <li title="慈溪(C)"><input type="checkbox"/><span>慈溪(C)</span></li>
                             <li title="从化(C)"><input type="checkbox"/><span>从化(C)</span></li>
                         </ul>
                     </div>
@@ -702,14 +693,12 @@
                         <ul>
                             <li title="达州(D)"><input type="checkbox"/><span>达州(D)</span></li>
                             <li title="大厂(D)"><input type="checkbox"/><span>大厂(D)</span></li>
-                            <li title="大理(D)"><input type="checkbox"/><span>大理(D)</span></li>
                             <li title="大连(D)"><input type="checkbox"/><span>大连(D)</span></li>
                             <li title="大庆(D)"><input type="checkbox"/><span>大庆(D)</span></li>
                             <li title="大同(D)"><input type="checkbox"/><span>大同(D)</span></li>
                             <li title="丹东(D)"><input type="checkbox"/><span>丹东(D)</span></li>
                             <li title="儋州(D)"><input type="checkbox"/><span>儋州(D)</span></li>
                             <li title="德宏傣族景颇族自治州(D)"><input type="checkbox"/><span>德宏傣族景颇族自治州(D)</span></li>
-                            <li title="德清(D)"><input type="checkbox"/><span>德清(D)</span></li>
                             <li title="德阳(D)"><input type="checkbox"/><span>德阳(D)</span></li>
                             <li title="德州(D)"><input type="checkbox"/><span>德州(D)</span></li>
                             <li title="迪庆藏族自治州(D)"><input type="checkbox"/><span>迪庆藏族自治州(D)</span></li>
@@ -717,27 +706,22 @@
                             <li title="定西(D)"><input type="checkbox"/><span>定西(D)</span></li>
                             <li title="东方(D)"><input type="checkbox"/><span>东方(D)</span></li>
                             <li title="东莞(D)"><input type="checkbox"/><span>东莞(D)</span></li>
-                            <li title="东阳(D)"><input type="checkbox"/><span>东阳(D)</span></li>
                             <li title="东营(D)"><input type="checkbox"/><span>东营(D)</span></li>
-                            <li title="都江堰(D)"><input type="checkbox"/><span>都江堰(D)</span></li>
                         </ul>
                     </div>
                     <div class="listBox_s1">
                         <div class="label">E</div>
                         <ul>
                             <li title="鄂尔多斯(E)"><input type="checkbox"/><span>鄂尔多斯(E)</span></li>
-                            <li title="恩施(E)"><input type="checkbox"/><span>恩施(E)</span></li>
                         </ul>
                     </div>
                     <div class="listBox_s1">
                         <div class="label">F</div>
                         <ul>
-                            <li title="防城港市(F)"><input type="checkbox"/><span>防城港市(F)</span></li>
                             <li title="佛山(F)"><input type="checkbox"/><span>佛山(F)</span></li>
                             <li title="福州(F)"><input type="checkbox"/><span>福州(F)</span></li>
                             <li title="抚顺(F)"><input type="checkbox"/><span>抚顺(F)</span></li>
                             <li title="抚州(F)"><input type="checkbox"/><span>抚州(F)</span></li>
-                            <li title="阜新(F)"><input type="checkbox"/><span>阜新(F)</span></li>
                             <li title="阜阳(F)"><input type="checkbox"/><span>阜阳(F)</span></li>
                         </ul>
                     </div>
@@ -746,13 +730,11 @@
                         <ul>
                             <li title="甘南藏族自治州(G)"><input type="checkbox"/><span>甘南藏族自治州(G)</span></li>
                             <li title="甘孜藏族自治州(G)"><input type="checkbox"/><span>甘孜藏族自治州(G)</span></li>
-                            <li title="赣州(G)"><input type="checkbox"/><span>赣州(G)</span></li>
                             <li title="固安(G)"><input type="checkbox"/><span>固安(G)</span></li>
                             <li title="固原(G)"><input type="checkbox"/><span>固原(G)</span></li>
                             <li title="广安(G)"><input type="checkbox"/><span>广安(G)</span></li>
                             <li title="广元(G)"><input type="checkbox"/><span>广元(G)</span></li>
                             <li title="广州(G)"><input type="checkbox"/><span>广州(G)</span></li>
-                            <li title="贵港(G)"><input type="checkbox"/><span>贵港(G)</span></li>
                             <li title="贵阳(G)"><input type="checkbox"/><span>贵阳(G)</span></li>
                             <li title="桂林(G)"><input type="checkbox"/><span>桂林(G)</span></li>
                         </ul>
@@ -761,7 +743,6 @@
                         <div class="label">H</div>
                         <ul>
                             <li title="哈尔滨(H)"><input type="checkbox"/><span>哈尔滨(H)</span></li>
-                            <li title="哈密(H)"><input type="checkbox"/><span>哈密(H)</span></li>
                             <li title="海北藏族自治州(H)"><input type="checkbox"/><span>海北藏族自治州(H)</span></li>
                             <li title="海东地区(H)"><input type="checkbox"/><span>海东地区(H)</span></li>
                             <li title="海口(H)"><input type="checkbox"/><span>海口(H)</span></li>
@@ -769,11 +750,9 @@
                             <li title="海南藏族自治州(H)"><input type="checkbox"/><span>海南藏族自治州(H)</span></li>
                             <li title="海西蒙古族藏族自治州(H)"><input type="checkbox"/><span>海西蒙古族藏族自治州(H)</span></li>
                             <li title="邯郸(H)"><input type="checkbox"/><span>邯郸(H)</span></li>
-                            <li title="涵江(H)"><input type="checkbox"/><span>涵江(H)</span></li>
                             <li title="汉中(H)"><input type="checkbox"/><span>汉中(H)</span></li>
                             <li title="杭州(H)"><input type="checkbox"/><span>杭州(H)</span></li>
                             <li title="合肥(H)"><input type="checkbox"/><span>合肥(H)</span></li>
-                            <li title="和田(H)"><input type="checkbox"/><span>和田(H)</span></li>
                             <li title="河池(H)"><input type="checkbox"/><span>河池(H)</span></li>
                             <li title="河源(H)"><input type="checkbox"/><span>河源(H)</span></li>
                             <li title="菏泽(H)"><input type="checkbox"/><span>菏泽(H)</span></li>
@@ -788,13 +767,10 @@
                             <li title="呼伦贝尔(H)"><input type="checkbox"/><span>呼伦贝尔(H)</span></li>
                             <li title="葫芦岛(H)"><input type="checkbox"/><span>葫芦岛(H)</span></li>
                             <li title="湖州(H)"><input type="checkbox"/><span>湖州(H)</span></li>
-                            <li title="怀化(H)"><input type="checkbox"/><span>怀化(H)</span></li>
                             <li title="淮安(H)"><input type="checkbox"/><span>淮安(H)</span></li>
                             <li title="淮北(H)"><input type="checkbox"/><span>淮北(H)</span></li>
                             <li title="淮南(H)"><input type="checkbox"/><span>淮南(H)</span></li>
-                            <li title="黄冈(H)"><input type="checkbox"/><span>黄冈(H)</span></li>
                             <li title="黄南藏族自治州(H)"><input type="checkbox"/><span>黄南藏族自治州(H)</span></li>
-                            <li title="黄山(H)"><input type="checkbox"/><span>黄山(H)</span></li>
                             <li title="黄石(H)"><input type="checkbox"/><span>黄石(H)</span></li>
                             <li title="惠州(H)"><input type="checkbox"/><span>惠州(H)</span></li>
                         </ul>
@@ -807,15 +783,11 @@
                             <li title="吉林(J)"><input type="checkbox"/><span>吉林(J)</span></li>
                             <li title="济南(J)"><input type="checkbox"/><span>济南(J)</span></li>
                             <li title="济宁(J)"><input type="checkbox"/><span>济宁(J)</span></li>
-                            <li title="济源(J)"><input type="checkbox"/><span>济源(J)</span></li>
                             <li title="佳木斯(J)"><input type="checkbox"/><span>佳木斯(J)</span></li>
-                            <li title="嘉善(J)"><input type="checkbox"/><span>嘉善(J)</span></li>
                             <li title="嘉兴(J)"><input type="checkbox"/><span>嘉兴(J)</span></li>
                             <li title="嘉峪关(J)"><input type="checkbox"/><span>嘉峪关(J)</span></li>
-                            <li title="建瓯(J)"><input type="checkbox"/><span>建瓯(J)</span></li>
                             <li title="江门(J)"><input type="checkbox"/><span>江门(J)</span></li>
                             <li title="江阴(J)"><input type="checkbox"/><span>江阴(J)</span></li>
-                            <li title="胶州(J)"><input type="checkbox"/><span>胶州(J)</span></li>
                             <li title="焦作(J)"><input type="checkbox"/><span>焦作(J)</span></li>
                             <li title="揭阳(J)"><input type="checkbox"/><span>揭阳(J)</span></li>
                             <li title="金昌(J)"><input type="checkbox"/><span>金昌(J)</span></li>
@@ -825,7 +797,6 @@
                             <li title="晋江(J)"><input type="checkbox"/><span>晋江(J)</span></li>
                             <li title="荆门(J)"><input type="checkbox"/><span>荆门(J)</span></li>
                             <li title="荆州(J)"><input type="checkbox"/><span>荆州(J)</span></li>
-                            <li title="景德镇(J)"><input type="checkbox"/><span>景德镇(J)</span></li>
                             <li title="九江(J)"><input type="checkbox"/><span>九江(J)</span></li>
                             <li title="酒泉(J)"><input type="checkbox"/><span>酒泉(J)</span></li>
                         </ul>
@@ -833,18 +804,17 @@
                     <div class="listBox_s1">
                         <div class="label">K</div>
                         <ul>
-                            <li title="喀什(K)"><input type="checkbox"/><span>喀什(K)</span></li>
                             <li title="开封(K)"><input type="checkbox"/><span>开封(K)</span></li>
                             <li title="克拉玛依(K)"><input type="checkbox"/><span>克拉玛依(K)</span></li>
                             <li title="克孜勒苏柯尔克孜自治州(K)"><input type="checkbox"/><span>克孜勒苏柯尔克孜自治州(K)</span></li>
                             <li title="昆明(K)"><input type="checkbox"/><span>昆明(K)</span></li>
                             <li title="昆山(K)"><input type="checkbox"/><span>昆山(K)</span></li>
-                            <li title="来宾(K)"><input type="checkbox"/><span>来宾(K)</span></li>
                         </ul>
                     </div>
                     <div class="listBox_s1">
                         <div class="label">L</div>
                         <ul>
+                            <li title="来宾(L)"><input type="checkbox"/><span>来宾(L)</span></li>
                             <li title="莱芜(L)"><input type="checkbox"/><span>莱芜(L)</span></li>
                             <li title="兰州(L)"><input type="checkbox"/><span>兰州(L)</span></li>
                             <li title="廊坊(L)"><input type="checkbox"/><span>廊坊(L)</span></li>
@@ -857,21 +827,17 @@
                             <li title="辽阳(L)"><input type="checkbox"/><span>辽阳(L)</span></li>
                             <li title="辽源(L)"><input type="checkbox"/><span>辽源(L)</span></li>
                             <li title="聊城(L)"><input type="checkbox"/><span>聊城(L)</span></li>
-                            <li title="临安(L)"><input type="checkbox"/><span>临安(L)</span></li>
                             <li title="临沧(L)"><input type="checkbox"/><span>临沧(L)</span></li>
                             <li title="临汾(L)"><input type="checkbox"/><span>临汾(L)</span></li>
                             <li title="临高(L)"><input type="checkbox"/><span>临高(L)</span></li>
-                            <li title="临夏(L)"><input type="checkbox"/><span>临夏(L)</span></li>
                             <li title="临沂(L)"><input type="checkbox"/><span>临沂(L)</span></li>
                             <li title="陵水(L)"><input type="checkbox"/><span>陵水(L)</span></li>
                             <li title="柳州(L)"><input type="checkbox"/><span>柳州(L)</span></li>
                             <li title="六安(L)"><input type="checkbox"/><span>六安(L)</span></li>
-                            <li title="六盘水(L)"><input type="checkbox"/><span>六盘水(L)</span></li>
                             <li title="龙岩(L)"><input type="checkbox"/><span>龙岩(L)</span></li>
                             <li title="陇南(L)"><input type="checkbox"/><span>陇南(L)</span></li>
                             <li title="娄底(L)"><input type="checkbox"/><span>娄底(L)</span></li>
                             <li title="泸州(L)"><input type="checkbox"/><span>泸州(L)</span></li>
-                            <li title="滦南(L)"><input type="checkbox"/><span>滦南(L)</span></li>
                             <li title="洛阳(L)"><input type="checkbox"/><span>洛阳(L)</span></li>
                             <li title="漯河(L)"><input type="checkbox"/><span>漯河(L)</span></li>
                             <li title="吕梁(L)"><input type="checkbox"/><span>吕梁(L)</span></li>
@@ -932,9 +898,7 @@
                             <li title="清远(Q)"><input type="checkbox"/><span>清远(Q)</span></li>
                             <li title="庆阳(Q)"><input type="checkbox"/><span>庆阳(Q)</span></li>
                             <li title="琼海(Q)"><input type="checkbox"/><span>琼海(Q)</span></li>
-                            <li title="琼山(Q)"><input type="checkbox"/><span>琼山(Q)</span></li>
                             <li title="琼中(Q)"><input type="checkbox"/><span>琼中(Q)</span></li>
-                            <li title="衢州(Q)"><input type="checkbox"/><span>衢州(Q)</span></li>
                             <li title="曲靖(Q)"><input type="checkbox"/><span>曲靖(Q)</span></li>
                             <li title="泉州(Q)"><input type="checkbox"/><span>泉州(Q)</span></li>
                         </ul>
@@ -958,7 +922,6 @@
                             <li title="商丘(S)"><input type="checkbox"/><span>商丘(S)</span></li>
                             <li title="上海(S)"><input type="checkbox"/><span>上海(S)</span></li>
                             <li title="上饶(S)"><input type="checkbox"/><span>上饶(S)</span></li>
-                            <li title="上虞(S)"><input type="checkbox"/><span>上虞(S)</span></li>
                             <li title="韶关(S)"><input type="checkbox"/><span>韶关(S)</span></li>
                             <li title="邵阳(S)"><input type="checkbox"/><span>邵阳(S)</span></li>
                             <li title="绍兴(S)"><input type="checkbox"/><span>绍兴(S)</span></li>
@@ -968,27 +931,24 @@
                             <li title="石家庄(S)"><input type="checkbox"/><span>石家庄(S)</span></li>
                             <li title="双鸭山(S)"><input type="checkbox"/><span>双鸭山(S)</span></li>
                             <li title="朔州(S)"><input type="checkbox"/><span>朔州(S)</span></li>
-                            <li title="四会(S)"><input type="checkbox"/><span>四会(S)</span></li>
                             <li title="四平(S)"><input type="checkbox"/><span>四平(S)</span></li>
                             <li title="松原(S)"><input type="checkbox"/><span>松原(S)</span></li>
                             <li title="苏州(S)"><input type="checkbox"/><span>苏州(S)</span></li>
-                            <li title="宿迁(S)"><input type="checkbox"/><span>宿迁(S)</span></li>
-                            <li title="宿州(S)"><input type="checkbox"/><span>宿州(S)</span></li>
                             <li title="绥化(S)"><input type="checkbox"/><span>绥化(S)</span></li>
                             <li title="随州(S)"><input type="checkbox"/><span>随州(S)</span></li>
                             <li title="遂宁(S)"><input type="checkbox"/><span>遂宁(S)</span></li>
+                            <li title="宿迁(S)"><input type="checkbox"/><span>宿迁(S)</span></li>
+                            <li title="宿州(S)"><input type="checkbox"/><span>宿州(S)</span></li>
                         </ul>
                     </div>
                     <div class="listBox_s1">
                         <div class="label">T</div>
                         <ul>
-                            <li title="塔城(T)"><input type="checkbox"/><span>塔城(T)</span></li>
                             <li title="台州(T)"><input type="checkbox"/><span>台州(T)</span></li>
                             <li title="太仓(T)"><input type="checkbox"/><span>太仓(T)</span></li>
                             <li title="太原(T)"><input type="checkbox"/><span>太原(T)</span></li>
                             <li title="泰安(T)"><input type="checkbox"/><span>泰安(T)</span></li>
                             <li title="泰州(T)"><input type="checkbox"/><span>泰州(T)</span></li>
-                            <li title="唐山(T)"><input type="checkbox"/><span>唐山(T)</span></li>
                             <li title="天津(T)"><input type="checkbox"/><span>天津(T)</span></li>
                             <li title="天水(T)"><input type="checkbox"/><span>天水(T)</span></li>
                             <li title="铁岭(T)"><input type="checkbox"/><span>铁岭(T)</span></li>
@@ -997,7 +957,6 @@
                             <li title="铜川(T)"><input type="checkbox"/><span>铜川(T)</span></li>
                             <li title="铜陵(T)"><input type="checkbox"/><span>铜陵(T)</span></li>
                             <li title="铜仁地区(T)"><input type="checkbox"/><span>铜仁地区(T)</span></li>
-                            <li title="吐鲁番(T)"><input type="checkbox"/><span>吐鲁番(T)</span></li>
                             <li title="屯昌(T)"><input type="checkbox"/><span>屯昌(T)</span></li>
                         </ul>
                     </div>
@@ -1031,15 +990,11 @@
                             <li title="西安(X)"><input type="checkbox"/><span>西安(X)</span></li>
                             <li title="西昌(X)"><input type="checkbox"/><span>西昌(X)</span></li>
                             <li title="西宁(X)"><input type="checkbox"/><span>西宁(X)</span></li>
-                            <li title="西双版纳(X)"><input type="checkbox"/><span>西双版纳(X)</span></li>
                             <li title="锡林郭勒盟(X)"><input type="checkbox"/><span>锡林郭勒盟(X)</span></li>
                             <li title="厦门(X)"><input type="checkbox"/><span>厦门(X)</span></li>
-                            <li title="咸宁(X)"><input type="checkbox"/><span>咸宁(X)</span></li>
                             <li title="咸阳(X)"><input type="checkbox"/><span>咸阳(X)</span></li>
                             <li title="香河(X)"><input type="checkbox"/><span>香河(X)</span></li>
                             <li title="湘潭(X)"><input type="checkbox"/><span>湘潭(X)</span></li>
-                            <li title="湘西(X)"><input type="checkbox"/><span>湘西(X)</span></li>
-                            <li title="襄樊(X)"><input type="checkbox"/><span>襄樊(X)</span></li>
                             <li title="孝感(X)"><input type="checkbox"/><span>孝感(X)</span></li>
                             <li title="忻州(X)"><input type="checkbox"/><span>忻州(X)</span></li>
                             <li title="新昌(X)"><input type="checkbox"/><span>新昌(X)</span></li>
@@ -1055,7 +1010,6 @@
                     <div class="listBox_s1">
                         <div class="label">Y</div>
                         <ul>
-                            <li title="雅安(Y)"><input type="checkbox"/><span>雅安(Y)</span></li>
                             <li title="烟台(Y)"><input type="checkbox"/><span>烟台(Y)</span></li>
                             <li title="延安(Y)"><input type="checkbox"/><span>延安(Y)</span></li>
                             <li title="延边朝鲜族自治州(Y)"><input type="checkbox"/><span>延边朝鲜族自治州(Y)</span></li>
@@ -1064,7 +1018,6 @@
                             <li title="扬州(Y)"><input type="checkbox"/><span>扬州(Y)</span></li>
                             <li title="阳江(Y)"><input type="checkbox"/><span>阳江(Y)</span></li>
                             <li title="阳泉(Y)"><input type="checkbox"/><span>阳泉(Y)</span></li>
-                            <li title="洋浦(Y)"><input type="checkbox"/><span>洋浦(Y)</span></li>
                             <li title="伊春(Y)"><input type="checkbox"/><span>伊春(Y)</span></li>
                             <li title="伊犁哈萨克自治州(Y)"><input type="checkbox"/><span>伊犁哈萨克自治州(Y)</span></li>
                             <li title="宜宾(Y)"><input type="checkbox"/><span>宜宾(Y)</span></li>
@@ -1072,11 +1025,9 @@
                             <li title="宜春(Y)"><input type="checkbox"/><span>宜春(Y)</span></li>
                             <li title="宜兴(Y)"><input type="checkbox"/><span>宜兴(Y)</span></li>
                             <li title="益阳(Y)"><input type="checkbox"/><span>益阳(Y)</span></li>
-                            <li title="银川(Y)"><input type="checkbox"/><span>银川(Y)</span></li>
                             <li title="鹰潭(Y)"><input type="checkbox"/><span>鹰潭(Y)</span></li>
                             <li title="营口(Y)"><input type="checkbox"/><span>营口(Y)</span></li>
                             <li title="永州(Y)"><input type="checkbox"/><span>永州(Y)</span></li>
-                            <li title="余姚(Y)"><input type="checkbox"/><span>余姚(Y)</span></li>
                             <li title="榆林(Y)"><input type="checkbox"/><span>榆林(Y)</span></li>
                             <li title="玉林(Y)"><input type="checkbox"/><span>玉林(Y)</span></li>
                             <li title="玉溪(Y)"><input type="checkbox"/><span>玉溪(Y)</span></li>
@@ -1092,9 +1043,9 @@
                             <li title="湛江(Z)"><input type="checkbox"/><span>湛江(Z)</span></li>
                             <li title="张家港(Z)"><input type="checkbox"/><span>张家港(Z)</span></li>
                             <li title="张家界(Z)"><input type="checkbox"/><span>张家界(Z)</span></li>
-                            <li title="张家口(Z)"><input type="checkbox"/><span>张家口(Z)</span></li>
                             <li title="张掖(Z)"><input type="checkbox"/><span>张掖(Z)</span></li>
                             <li title="漳州(Z)"><input type="checkbox"/><span>漳州(Z)</span></li>
+                            <li title="长治(C)"><input type="checkbox"/><span>长治(C)</span></li>
                             <li title="昭通(Z)"><input type="checkbox"/><span>昭通(Z)</span></li>
                             <li title="肇庆(Z)"><input type="checkbox"/><span>肇庆(Z)</span></li>
                             <li title="镇江(Z)"><input type="checkbox"/><span>镇江(Z)</span></li>
@@ -1105,13 +1056,11 @@
                             <li title="周口(Z)"><input type="checkbox"/><span>周口(Z)</span></li>
                             <li title="珠海(Z)"><input type="checkbox"/><span>珠海(Z)</span></li>
                             <li title="株洲(Z)"><input type="checkbox"/><span>株洲(Z)</span></li>
-                            <li title="诸暨(Z)"><input type="checkbox"/><span>诸暨(Z)</span></li>
                             <li title="驻马店(Z)"><input type="checkbox"/><span>驻马店(Z)</span></li>
                             <li title="涿州(Z)"><input type="checkbox"/><span>涿州(Z)</span></li>
                             <li title="资阳(Z)"><input type="checkbox"/><span>资阳(Z)</span></li>
                             <li title="淄博(Z)"><input type="checkbox"/><span>淄博(Z)</span></li>
                             <li title="自贡(Z)"><input type="checkbox"/><span>自贡(Z)</span></li>
-                            <li title="遵义(Z)"><input type="checkbox"/><span>遵义(Z)</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1125,12 +1074,11 @@
                             <li title="白城(B)"><input type="checkbox"/><span>白城(B)</span></li>
                             <li title="白山(B)"><input type="checkbox"/><span>白山(B)</span></li>
                             <li title="本溪(B)"><input type="checkbox"/><span>本溪(B)</span></li>
-                            <li title="长春(C)"><input type="checkbox"/><span>长春(C)</span></li>
+                            <li title="长春(C)"><input type="checkbox"/><span>常 长春(C)</span></li>
                             <li title="大连(D)"><input type="checkbox"/><span>大连(D)</span></li>
                             <li title="大庆(D)"><input type="checkbox"/><span>大庆(D)</span></li>
                             <li title="丹东(D)"><input type="checkbox"/><span>丹东(D)</span></li>
                             <li title="抚顺(F)"><input type="checkbox"/><span>抚顺(F)</span></li>
-                            <li title="阜新(F)"><input type="checkbox"/><span>阜新(F)</span></li>
                             <li title="哈尔滨(H)"><input type="checkbox"/><span>哈尔滨(H)</span></li>
                             <li title="鹤岗(H)"><input type="checkbox"/><span>鹤岗(H)</span></li>
                             <li title="黑河(H)"><input type="checkbox"/><span>黑河(H)</span></li>
@@ -1174,19 +1122,16 @@
                             <li title="衡水(H)"><input type="checkbox"/><span>衡水(H)</span></li>
                             <li title="济南(J)"><input type="checkbox"/><span>济南(J)</span></li>
                             <li title="济宁(J)"><input type="checkbox"/><span>济宁(J)</span></li>
-                            <li title="胶州(J)"><input type="checkbox"/><span>胶州(J)</span></li>
                             <li title="莱芜(L)"><input type="checkbox"/><span>莱芜(L)</span></li>
                             <li title="廊坊(L)"><input type="checkbox"/><span>廊坊(L)</span></li>
                             <li title="聊城(L)"><input type="checkbox"/><span>聊城(L)</span></li>
                             <li title="临沂(L)"><input type="checkbox"/><span>临沂(L)</span></li>
-                            <li title="滦南(L)"><input type="checkbox"/><span>滦南(L)</span></li>
                             <li title="秦皇岛(Q)"><input type="checkbox"/><span>秦皇岛(Q)</span></li>
                             <li title="青岛(Q)"><input type="checkbox"/><span>青岛(Q)</span></li>
                             <li title="日照(R)"><input type="checkbox"/><span>日照(R)</span></li>
                             <li title="三河(S)"><input type="checkbox"/><span>三河(S)</span></li>
                             <li title="石家庄(S)"><input type="checkbox"/><span>石家庄(S)</span></li>
                             <li title="泰安(T)"><input type="checkbox"/><span>泰安(T)</span></li>
-                            <li title="唐山(T)"><input type="checkbox"/><span>唐山(T)</span></li>
                             <li title="天津(T)"><input type="checkbox"/><span>天津(T)</span></li>
                             <li title="威海(W)"><input type="checkbox"/><span>威海(W)</span></li>
                             <li title="潍坊(W)"><input type="checkbox"/><span>潍坊(W)</span></li>
@@ -1196,7 +1141,6 @@
                             <li title="燕郊(Y)"><input type="checkbox"/><span>燕郊(Y)</span></li>
                             <li title="营口(Y)"><input type="checkbox"/><span>营口(Y)</span></li>
                             <li title="枣庄(Z)"><input type="checkbox"/><span>枣庄(Z)</span></li>
-                            <li title="张家口(Z)"><input type="checkbox"/><span>张家口(Z)</span></li>
                             <li title="涿州(Z)"><input type="checkbox"/><span>涿州(Z)</span></li>
                             <li title="淄博(Z)"><input type="checkbox"/><span>淄博(Z)</span></li>
                         </ul>
@@ -1211,14 +1155,9 @@
                             <li title="亳州(B)"><input type="checkbox"/><span>亳州(B)</span></li>
                             <li title="常熟(C)"><input type="checkbox"/><span>常熟(C)</span></li>
                             <li title="常州(C)"><input type="checkbox"/><span>常州(C)</span></li>
-                            <li title="巢湖(C)"><input type="checkbox"/><span>巢湖(C)</span></li>
                             <li title="池州(C)"><input type="checkbox"/><span>池州(C)</span></li>
                             <li title="滁州(C)"><input type="checkbox"/><span>滁州(C)</span></li>
-                            <li title="淳安(C)"><input type="checkbox"/><span>淳安(C)</span></li>
-                            <li title="慈溪(C)"><input type="checkbox"/><span>慈溪(C)</span></li>
                             <li title="大厂(D)"><input type="checkbox"/><span>大厂(D)</span></li>
-                            <li title="德清(D)"><input type="checkbox"/><span>德清(D)</span></li>
-                            <li title="东阳(D)"><input type="checkbox"/><span>东阳(D)</span></li>
                             <li title="阜阳(F)"><input type="checkbox"/><span>阜阳(F)</span></li>
                             <li title="海门(H)"><input type="checkbox"/><span>海门(H)</span></li>
                             <li title="杭州(H)"><input type="checkbox"/><span>杭州(H)</span></li>
@@ -1227,28 +1166,21 @@
                             <li title="淮安(H)"><input type="checkbox"/><span>淮安(H)</span></li>
                             <li title="淮北(H)"><input type="checkbox"/><span>淮北(H)</span></li>
                             <li title="淮南(H)"><input type="checkbox"/><span>淮南(H)</span></li>
-                            <li title="黄山(H)"><input type="checkbox"/><span>黄山(H)</span></li>
-                            <li title="嘉善(J)"><input type="checkbox"/><span>嘉善(J)</span></li>
                             <li title="嘉兴(J)"><input type="checkbox"/><span>嘉兴(J)</span></li>
                             <li title="江阴(J)"><input type="checkbox"/><span>江阴(J)</span></li>
                             <li title="金华(J)"><input type="checkbox"/><span>金华(J)</span></li>
                             <li title="昆山(K)"><input type="checkbox"/><span>昆山(K)</span></li>
                             <li title="丽水(L)"><input type="checkbox"/><span>丽水(L)</span></li>
                             <li title="连云港(L)"><input type="checkbox"/><span>连云港(L)</span></li>
-                            <li title="临安(L)"><input type="checkbox"/><span>临安(L)</span></li>
                             <li title="六安(L)"><input type="checkbox"/><span>六安(L)</span></li>
                             <li title="马鞍山(M)"><input type="checkbox"/><span>马鞍山(M)</span></li>
                             <li title="南京(N)"><input type="checkbox"/><span>南京(N)</span></li>
                             <li title="南通(N)"><input type="checkbox"/><span>南通(N)</span></li>
                             <li title="宁波(N)"><input type="checkbox"/><span>宁波(N)</span></li>
                             <li title="启东(Q)"><input type="checkbox"/><span>启东(Q)</span></li>
-                            <li title="衢州(Q)"><input type="checkbox"/><span>衢州(Q)</span></li>
                             <li title="上海(S)"><input type="checkbox"/><span>上海(S)</span></li>
-                            <li title="上虞(S)"><input type="checkbox"/><span>上虞(S)</span></li>
                             <li title="绍兴(S)"><input type="checkbox"/><span>绍兴(S)</span></li>
                             <li title="苏州(S)"><input type="checkbox"/><span>苏州(S)</span></li>
-                            <li title="宿迁(S)"><input type="checkbox"/><span>宿迁(S)</span></li>
-                            <li title="宿州(S)"><input type="checkbox"/><span>宿州(S)</span></li>
                             <li title="台州(T)"><input type="checkbox"/><span>台州(T)</span></li>
                             <li title="太仓(T)"><input type="checkbox"/><span>太仓(T)</span></li>
                             <li title="泰州(T)"><input type="checkbox"/><span>泰州(T)</span></li>
@@ -1258,16 +1190,16 @@
                             <li title="芜湖(W)"><input type="checkbox"/><span>芜湖(W)</span></li>
                             <li title="吴江(W)"><input type="checkbox"/><span>吴江(W)</span></li>
                             <li title="新昌(X)"><input type="checkbox"/><span>新昌(X)</span></li>
+                            <li title="宿迁(S)"><input type="checkbox"/><span>宿迁(S)</span></li>
+                            <li title="宿州(S)"><input type="checkbox"/><span>宿州(S)</span></li>
                             <li title="徐州(X)"><input type="checkbox"/><span>徐州(X)</span></li>
                             <li title="宣城(X)"><input type="checkbox"/><span>宣城(X)</span></li>
                             <li title="盐城(Y)"><input type="checkbox"/><span>盐城(Y)</span></li>
                             <li title="扬州(Y)"><input type="checkbox"/><span>扬州(Y)</span></li>
                             <li title="宜兴(Y)"><input type="checkbox"/><span>宜兴(Y)</span></li>
-                            <li title="余姚(Y)"><input type="checkbox"/><span>余姚(Y)</span></li>
                             <li title="张家港(Z)"><input type="checkbox"/><span>张家港(Z)</span></li>
                             <li title="镇江(Z)"><input type="checkbox"/><span>镇江(Z)</span></li>
                             <li title="舟山(Z)"><input type="checkbox"/><span>舟山(Z)</span></li>
-                            <li title="诸暨(Z)"><input type="checkbox"/><span>诸暨(Z)</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1290,10 +1222,8 @@
                             <li title="广州(G)"><input type="checkbox"/><span>广州(G)</span></li>
                             <li title="海口(H)"><input type="checkbox"/><span>海口(H)</span></li>
                             <li title="海南藏族自治州(H)"><input type="checkbox"/><span>海南藏族自治州(H)</span></li>
-                            <li title="涵江(H)"><input type="checkbox"/><span>涵江(H)</span></li>
                             <li title="河源(H)"><input type="checkbox"/><span>河源(H)</span></li>
                             <li title="惠州(H)"><input type="checkbox"/><span>惠州(H)</span></li>
-                            <li title="建瓯(J)"><input type="checkbox"/><span>建瓯(J)</span></li>
                             <li title="江门(J)"><input type="checkbox"/><span>江门(J)</span></li>
                             <li title="揭阳(J)"><input type="checkbox"/><span>揭阳(J)</span></li>
                             <li title="晋江(J)"><input type="checkbox"/><span>晋江(J)</span></li>
@@ -1308,7 +1238,6 @@
                             <li title="莆田(P)"><input type="checkbox"/><span>莆田(P)</span></li>
                             <li title="清远(Q)"><input type="checkbox"/><span>清远(Q)</span></li>
                             <li title="琼海(Q)"><input type="checkbox"/><span>琼海(Q)</span></li>
-                            <li title="琼山(Q)"><input type="checkbox"/><span>琼山(Q)</span></li>
                             <li title="琼中(Q)"><input type="checkbox"/><span>琼中(Q)</span></li>
                             <li title="泉州(Q)"><input type="checkbox"/><span>泉州(Q)</span></li>
                             <li title="三明(S)"><input type="checkbox"/><span>三明(S)</span></li>
@@ -1317,15 +1246,12 @@
                             <li title="汕尾(S)"><input type="checkbox"/><span>汕尾(S)</span></li>
                             <li title="韶关(S)"><input type="checkbox"/><span>韶关(S)</span></li>
                             <li title="深圳(S)"><input type="checkbox"/><span>深圳(S)</span></li>
-                            <li title="四会(S)"><input type="checkbox"/><span>四会(S)</span></li>
                             <li title="屯昌(T)"><input type="checkbox"/><span>屯昌(T)</span></li>
                             <li title="万宁(W)"><input type="checkbox"/><span>万宁(W)</span></li>
                             <li title="文昌(W)"><input type="checkbox"/><span>文昌(W)</span></li>
                             <li title="五指山(W)"><input type="checkbox"/><span>五指山(W)</span></li>
-                            <li title="武夷山(W)"><input type="checkbox"/><span>武夷山(W)</span></li>
                             <li title="厦门(X)"><input type="checkbox"/><span>厦门(X)</span></li>
                             <li title="阳江(Y)"><input type="checkbox"/><span>阳江(Y)</span></li>
-                            <li title="洋浦(Y)"><input type="checkbox"/><span>洋浦(Y)</span></li>
                             <li title="云浮(Y)"><input type="checkbox"/><span>云浮(Y)</span></li>
                             <li title="湛江(Z)"><input type="checkbox"/><span>湛江(Z)</span></li>
                             <li title="漳州(Z)"><input type="checkbox"/><span>漳州(Z)</span></li>
@@ -1339,58 +1265,43 @@
                 <div class="list_box clearfix">
                     <div class="listBox_s0">
                         <ul class="clearfix">
-                            <li title="阿克苏(A)"><input type="checkbox"/><span>阿克苏(A)</span></li>
                             <li title="安康(A)"><input type="checkbox"/><span>安康(A)</span></li>
                             <li title="安顺(A)"><input type="checkbox"/><span>安顺(A)</span></li>
                             <li title="安阳(A)"><input type="checkbox"/><span>安阳(A)</span></li>
-                            <li title="巴彦淖尔市(B)"><input type="checkbox"/><span>巴彦淖尔市(B)</span></li>
                             <li title="巴音郭楞蒙古自治州(B)"><input type="checkbox"/><span>巴音郭楞蒙古自治州(B)</span></li>
-                            <li title="巴中(B)"><input type="checkbox"/><span>巴中(B)</span></li>
                             <li title="白银(B)"><input type="checkbox"/><span>白银(B)</span></li>
                             <li title="百色(B)"><input type="checkbox"/><span>百色(B)</span></li>
                             <li title="包头(B)"><input type="checkbox"/><span>包头(B)</span></li>
                             <li title="宝鸡(B)"><input type="checkbox"/><span>宝鸡(B)</span></li>
                             <li title="保山(B)"><input type="checkbox"/><span>保山(B)</span></li>
                             <li title="北海(B)"><input type="checkbox"/><span>北海(B)</span></li>
-                            <li title="毕节(B)"><input type="checkbox"/><span>毕节(B)</span></li>
                             <li title="博尔塔拉蒙古自治州(B)"><input type="checkbox"/><span>博尔塔拉蒙古自治州(B)</span></li>
-                            <li title="昌吉(C)"><input type="checkbox"/><span>昌吉(C)</span></li>
                             <li title="长沙(C)"><input type="checkbox"/><span>长沙(C)</span></li>
-                            <li title="长治(C)"><input type="checkbox"/><span>长治(C)</span></li>
                             <li title="重庆(C)"><input type="checkbox"/><span>重庆(C)</span></li>
                             <li title="常德(C)"><input type="checkbox"/><span>常德(C)</span></li>
                             <li title="郴州(C)"><input type="checkbox"/><span>郴州(C)</span></li>
                             <li title="成都(C)"><input type="checkbox"/><span>成都(C)</span></li>
                             <li title="赤峰(C)"><input type="checkbox"/><span>赤峰(C)</span></li>
                             <li title="崇左(C)"><input type="checkbox"/><span>崇左(C)</span></li>
-                            <li title="楚雄(C)"><input type="checkbox"/><span>楚雄(C)</span></li>
                             <li title="达州(D)"><input type="checkbox"/><span>达州(D)</span></li>
-                            <li title="大理(D)"><input type="checkbox"/><span>大理(D)</span></li>
                             <li title="大同(D)"><input type="checkbox"/><span>大同(D)</span></li>
                             <li title="德宏傣族景颇族自治州(D)"><input type="checkbox"/><span>德宏傣族景颇族自治州(D)</span></li>
                             <li title="德阳(D)"><input type="checkbox"/><span>德阳(D)</span></li>
                             <li title="迪庆藏族自治州(D)"><input type="checkbox"/><span>迪庆藏族自治州(D)</span></li>
                             <li title="定西(D)"><input type="checkbox"/><span>定西(D)</span></li>
-                            <li title="都江堰(D)"><input type="checkbox"/><span>都江堰(D)</span></li>
                             <li title="鄂尔多斯(E)"><input type="checkbox"/><span>鄂尔多斯(E)</span></li>
-                            <li title="恩施(E)"><input type="checkbox"/><span>恩施(E)</span></li>
-                            <li title="防城港市(F)"><input type="checkbox"/><span>防城港市(F)</span></li>
                             <li title="抚州(F)"><input type="checkbox"/><span>抚州(F)</span></li>
                             <li title="甘南藏族自治州(G)"><input type="checkbox"/><span>甘南藏族自治州(G)</span></li>
                             <li title="甘孜藏族自治州(G)"><input type="checkbox"/><span>甘孜藏族自治州(G)</span></li>
-                            <li title="赣州(G)"><input type="checkbox"/><span>赣州(G)</span></li>
                             <li title="固原(G)"><input type="checkbox"/><span>固原(G)</span></li>
                             <li title="广安(G)"><input type="checkbox"/><span>广安(G)</span></li>
                             <li title="广元(G)"><input type="checkbox"/><span>广元(G)</span></li>
-                            <li title="贵港(G)"><input type="checkbox"/><span>贵港(G)</span></li>
                             <li title="贵阳(G)"><input type="checkbox"/><span>贵阳(G)</span></li>
                             <li title="桂林(G)"><input type="checkbox"/><span>桂林(G)</span></li>
-                            <li title="哈密(H)"><input type="checkbox"/><span>哈密(H)</span></li>
                             <li title="海北藏族自治州(H)"><input type="checkbox"/><span>海北藏族自治州(H)</span></li>
                             <li title="海东地区(H)"><input type="checkbox"/><span>海东地区(H)</span></li>
                             <li title="海西蒙古族藏族自治州(H)"><input type="checkbox"/><span>海西蒙古族藏族自治州(H)</span></li>
                             <li title="汉中(H)"><input type="checkbox"/><span>汉中(H)</span></li>
-                            <li title="和田(H)"><input type="checkbox"/><span>和田(H)</span></li>
                             <li title="河池(H)"><input type="checkbox"/><span>河池(H)</span></li>
                             <li title="贺州(H)"><input type="checkbox"/><span>贺州(H)</span></li>
                             <li title="鹤壁(H)"><input type="checkbox"/><span>鹤壁(H)</span></li>
@@ -1398,36 +1309,29 @@
                             <li title="红河哈尼族彝族自治州(H)"><input type="checkbox"/><span>红河哈尼族彝族自治州(H)</span></li>
                             <li title="呼和浩特(H)"><input type="checkbox"/><span>呼和浩特(H)</span></li>
                             <li title="呼伦贝尔(H)"><input type="checkbox"/><span>呼伦贝尔(H)</span></li>
-                            <li title="怀化(H)"><input type="checkbox"/><span>怀化(H)</span></li>
-                            <li title="黄冈(H)"><input type="checkbox"/><span>黄冈(H)</span></li>
                             <li title="黄南藏族自治州(H)"><input type="checkbox"/><span>黄南藏族自治州(H)</span></li>
                             <li title="黄石(H)"><input type="checkbox"/><span>黄石(H)</span></li>
                             <li title="吉安(J)"><input type="checkbox"/><span>吉安(J)</span></li>
-                            <li title="济源(J)"><input type="checkbox"/><span>济源(J)</span></li>
                             <li title="嘉峪关(J)"><input type="checkbox"/><span>嘉峪关(J)</span></li>
                             <li title="焦作(J)"><input type="checkbox"/><span>焦作(J)</span></li>
                             <li title="金昌(J)"><input type="checkbox"/><span>金昌(J)</span></li>
                             <li title="晋城(J)"><input type="checkbox"/><span>晋城(J)</span></li>
                             <li title="荆门(J)"><input type="checkbox"/><span>荆门(J)</span></li>
                             <li title="荆州(J)"><input type="checkbox"/><span>荆州(J)</span></li>
-                            <li title="景德镇(J)"><input type="checkbox"/><span>景德镇(J)</span></li>
                             <li title="九江(J)"><input type="checkbox"/><span>九江(J)</span></li>
                             <li title="酒泉(J)"><input type="checkbox"/><span>酒泉(J)</span></li>
-                            <li title="喀什(K)"><input type="checkbox"/><span>喀什(K)</span></li>
                             <li title="开封(K)"><input type="checkbox"/><span>开封(K)</span></li>
                             <li title="克拉玛依(K)"><input type="checkbox"/><span>克拉玛依(K)</span></li>
                             <li title="克孜勒苏柯尔克孜自治州(K)"><input type="checkbox"/><span>克孜勒苏柯尔克孜自治州(K)</span></li>
                             <li title="昆明(K)"><input type="checkbox"/><span>昆明(K)</span></li>
-                            <li title="来宾(K)"><input type="checkbox"/><span>来宾(K)</span></li>
+                            <li title="来宾(L)"><input type="checkbox"/><span>来宾(L)</span></li>
                             <li title="兰州(L)"><input type="checkbox"/><span>兰州(L)</span></li>
                             <li title="乐山(L)"><input type="checkbox"/><span>乐山(L)</span></li>
                             <li title="丽江(L)"><input type="checkbox"/><span>丽江(L)</span></li>
                             <li title="凉山彝族自治州(L)"><input type="checkbox"/><span>凉山彝族自治州(L)</span></li>
                             <li title="临沧(L)"><input type="checkbox"/><span>临沧(L)</span></li>
                             <li title="临汾(L)"><input type="checkbox"/><span>临汾(L)</span></li>
-                            <li title="临夏(L)"><input type="checkbox"/><span>临夏(L)</span></li>
                             <li title="柳州(L)"><input type="checkbox"/><span>柳州(L)</span></li>
-                            <li title="六盘水(L)"><input type="checkbox"/><span>六盘水(L)</span></li>
                             <li title="陇南(L)"><input type="checkbox"/><span>陇南(L)</span></li>
                             <li title="娄底(L)"><input type="checkbox"/><span>娄底(L)</span></li>
                             <li title="泸州(L)"><input type="checkbox"/><span>泸州(L)</span></li>
@@ -1463,39 +1367,28 @@
                             <li title="朔州(S)"><input type="checkbox"/><span>朔州(S)</span></li>
                             <li title="随州(S)"><input type="checkbox"/><span>随州(S)</span></li>
                             <li title="遂宁(S)"><input type="checkbox"/><span>遂宁(S)</span></li>
-                            <li title="塔城(T)"><input type="checkbox"/><span>塔城(T)</span></li>
                             <li title="太原(T)"><input type="checkbox"/><span>太原(T)</span></li>
                             <li title="天水(T)"><input type="checkbox"/><span>天水(T)</span></li>
                             <li title="通辽(T)"><input type="checkbox"/><span>通辽(T)</span></li>
                             <li title="铜川(T)"><input type="checkbox"/><span>铜川(T)</span></li>
                             <li title="铜仁地区(T)"><input type="checkbox"/><span>铜仁地区(T)</span></li>
-                            <li title="吐鲁番(T)"><input type="checkbox"/><span>吐鲁番(T)</span></li>
                             <li title="渭南(W)"><input type="checkbox"/><span>渭南(W)</span></li>
-                            <li title="文山(W)"><input type="checkbox"/><span>文山(W)</span></li>
-                            <li title="乌海(W)"><input type="checkbox"/><span>乌海(W)</span></li>
-                            <li title="乌兰察布市(W)"><input type="checkbox"/><span>乌兰察布市(W)</span></li>
                             <li title="乌鲁木齐(W)"><input type="checkbox"/><span>乌鲁木齐(W)</span></li>
-                            <li title="吴忠(W)"><input type="checkbox"/><span>吴忠(W)</span></li>
                             <li title="梧州(W)"><input type="checkbox"/><span>梧州(W)</span></li>
                             <li title="武汉(W)"><input type="checkbox"/><span>武汉(W)</span></li>
                             <li title="武威(W)"><input type="checkbox"/><span>武威(W)</span></li>
                             <li title="西安(X)"><input type="checkbox"/><span>西安(X)</span></li>
                             <li title="西昌(X)"><input type="checkbox"/><span>西昌(X)</span></li>
                             <li title="西宁(X)"><input type="checkbox"/><span>西宁(X)</span></li>
-                            <li title="西双版纳(X)"><input type="checkbox"/><span>西双版纳(X)</span></li>
                             <li title="锡林郭勒盟(X)"><input type="checkbox"/><span>锡林郭勒盟(X)</span></li>
-                            <li title="咸宁(X)"><input type="checkbox"/><span>咸宁(X)</span></li>
                             <li title="咸阳(X)"><input type="checkbox"/><span>咸阳(X)</span></li>
                             <li title="湘潭(X)"><input type="checkbox"/><span>湘潭(X)</span></li>
-                            <li title="湘西(X)"><input type="checkbox"/><span>湘西(X)</span></li>
-                            <li title="襄樊(X)"><input type="checkbox"/><span>襄樊(X)</span></li>
                             <li title="孝感(X)"><input type="checkbox"/><span>孝感(X)</span></li>
                             <li title="忻州(X)"><input type="checkbox"/><span>忻州(X)</span></li>
                             <li title="新乡(X)"><input type="checkbox"/><span>新乡(X)</span></li>
                             <li title="新余(X)"><input type="checkbox"/><span>新余(X)</span></li>
                             <li title="信阳(X)"><input type="checkbox"/><span>信阳(X)</span></li>
                             <li title="许昌(X)"><input type="checkbox"/><span>许昌(X)</span></li>
-                            <li title="雅安(Y)"><input type="checkbox"/><span>雅安(Y)</span></li>
                             <li title="延安(Y)"><input type="checkbox"/><span>延安(Y)</span></li>
                             <li title="阳泉(Y)"><input type="checkbox"/><span>阳泉(Y)</span></li>
                             <li title="伊犁哈萨克自治州(Y)"><input type="checkbox"/><span>伊犁哈萨克自治州(Y)</span></li>
@@ -1503,7 +1396,6 @@
                             <li title="宜昌(Y)"><input type="checkbox"/><span>宜昌(Y)</span></li>
                             <li title="宜春(Y)"><input type="checkbox"/><span>宜春(Y)</span></li>
                             <li title="益阳(Y)"><input type="checkbox"/><span>益阳(Y)</span></li>
-                            <li title="银川(Y)"><input type="checkbox"/><span>银川(Y)</span></li>
                             <li title="鹰潭(Y)"><input type="checkbox"/><span>鹰潭(Y)</span></li>
                             <li title="永州(Y)"><input type="checkbox"/><span>永州(Y)</span></li>
                             <li title="榆林(Y)"><input type="checkbox"/><span>榆林(Y)</span></li>
@@ -1513,6 +1405,7 @@
                             <li title="运城(Y)"><input type="checkbox"/><span>运城(Y)</span></li>
                             <li title="张家界(Z)"><input type="checkbox"/><span>张家界(Z)</span></li>
                             <li title="张掖(Z)"><input type="checkbox"/><span>张掖(Z)</span></li>
+                            <li title="长治(C)"><input type="checkbox"/><span>长治(C)</span></li>
                             <li title="昭通(Z)"><input type="checkbox"/><span>昭通(Z)</span></li>
                             <li title="郑州(Z)"><input type="checkbox"/><span>郑州(Z)</span></li>
                             <li title="中卫(Z)"><input type="checkbox"/><span>中卫(Z)</span></li>
@@ -1521,7 +1414,6 @@
                             <li title="驻马店(Z)"><input type="checkbox"/><span>驻马店(Z)</span></li>
                             <li title="资阳(Z)"><input type="checkbox"/><span>资阳(Z)</span></li>
                             <li title="自贡(Z)"><input type="checkbox"/><span>自贡(Z)</span></li>
-                            <li title="遵义(Z)"><input type="checkbox"/><span>遵义(Z)</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1541,7 +1433,6 @@
                             <li title="大庆(D)"><input type="checkbox"/><span>大庆(D)</span></li>
                             <li title="丹东(D)"><input type="checkbox"/><span>丹东(D)</span></li>
                             <li title="抚顺(F)"><input type="checkbox"/><span>抚顺(F)</span></li>
-                            <li title="阜新(F)"><input type="checkbox"/><span>阜新(F)</span></li>
                             <li title="哈尔滨(H)"><input type="checkbox"/><span>哈尔滨(H)</span></li>
                             <li title="鹤岗(H)"><input type="checkbox"/><span>鹤岗(H)</span></li>
                             <li title="黑河(H)"><input type="checkbox"/><span>黑河(H)</span></li>
@@ -1577,12 +1468,10 @@
                     <div class="listBox_s0">
                         <ul class="clearfix">
                             <li title="安阳(A)"><input type="checkbox"/><span>安阳(A)</span></li>
-                            <li title="巴彦淖尔市(B)"><input type="checkbox"/><span>巴彦淖尔市(B)</span></li>
                             <li title="包头(B)"><input type="checkbox"/><span>包头(B)</span></li>
                             <li title="保定(B)"><input type="checkbox"/><span>保定(B)</span></li>
                             <li title="北京(B)"><input type="checkbox"/><span>北京(B)</span></li>
                             <li title="沧州(C)"><input type="checkbox"/><span>沧州(C)</span></li>
-                            <li title="长治(C)"><input type="checkbox"/><span>长治(C)</span></li>
                             <li title="承德(C)"><input type="checkbox"/><span>承德(C)</span></li>
                             <li title="大同(D)"><input type="checkbox"/><span>大同(D)</span></li>
                             <li title="固安(G)"><input type="checkbox"/><span>固安(G)</span></li>
@@ -1592,24 +1481,20 @@
                             <li title="晋城(J)"><input type="checkbox"/><span>晋城(J)</span></li>
                             <li title="廊坊(L)"><input type="checkbox"/><span>廊坊(L)</span></li>
                             <li title="临汾(L)"><input type="checkbox"/><span>临汾(L)</span></li>
-                            <li title="滦南(L)"><input type="checkbox"/><span>滦南(L)</span></li>
                             <li title="吕梁(L)"><input type="checkbox"/><span>吕梁(L)</span></li>
                             <li title="秦皇岛(Q)"><input type="checkbox"/><span>秦皇岛(Q)</span></li>
                             <li title="三河(S)"><input type="checkbox"/><span>三河(S)</span></li>
                             <li title="石家庄(S)"><input type="checkbox"/><span>石家庄(S)</span></li>
                             <li title="朔州(S)"><input type="checkbox"/><span>朔州(S)</span></li>
                             <li title="太原(T)"><input type="checkbox"/><span>太原(T)</span></li>
-                            <li title="唐山(T)"><input type="checkbox"/><span>唐山(T)</span></li>
                             <li title="天津(T)"><input type="checkbox"/><span>天津(T)</span></li>
-                            <li title="乌海(W)"><input type="checkbox"/><span>乌海(W)</span></li>
-                            <li title="乌兰察布市(W)"><input type="checkbox"/><span>乌兰察布市(W)</span></li>
                             <li title="香河(X)"><input type="checkbox"/><span>香河(X)</span></li>
                             <li title="忻州(X)"><input type="checkbox"/><span>忻州(X)</span></li>
                             <li title="邢台(X)"><input type="checkbox"/><span>邢台(X)</span></li>
                             <li title="燕郊(Y)"><input type="checkbox"/><span>燕郊(Y)</span></li>
                             <li title="阳泉(Y)"><input type="checkbox"/><span>阳泉(Y)</span></li>
                             <li title="运城(Y)"><input type="checkbox"/><span>运城(Y)</span></li>
-                            <li title="张家口(Z)"><input type="checkbox"/><span>张家口(Z)</span></li>
+                            <li title="长治(C)"><input type="checkbox"/><span>长治(C)</span></li>
                             <li title="涿州(Z)"><input type="checkbox"/><span>涿州(Z)</span></li>
                         </ul>
                     </div>
@@ -1624,22 +1509,15 @@
                             <li title="亳州(B)"><input type="checkbox"/><span>亳州(B)</span></li>
                             <li title="常熟(C)"><input type="checkbox"/><span>常熟(C)</span></li>
                             <li title="常州(C)"><input type="checkbox"/><span>常州(C)</span></li>
-                            <li title="巢湖(C)"><input type="checkbox"/><span>巢湖(C)</span></li>
                             <li title="池州(C)"><input type="checkbox"/><span>池州(C)</span></li>
                             <li title="滁州(C)"><input type="checkbox"/><span>滁州(C)</span></li>
-                            <li title="淳安(C)"><input type="checkbox"/><span>淳安(C)</span></li>
-                            <li title="慈溪(C)"><input type="checkbox"/><span>慈溪(C)</span></li>
                             <li title="大厂(D)"><input type="checkbox"/><span>大厂(D)</span></li>
-                            <li title="德清(D)"><input type="checkbox"/><span>德清(D)</span></li>
                             <li title="德州(D)"><input type="checkbox"/><span>德州(D)</span></li>
-                            <li title="东阳(D)"><input type="checkbox"/><span>东阳(D)</span></li>
                             <li title="东营(D)"><input type="checkbox"/><span>东营(D)</span></li>
                             <li title="福州(F)"><input type="checkbox"/><span>福州(F)</span></li>
                             <li title="抚州(F)"><input type="checkbox"/><span>抚州(F)</span></li>
                             <li title="阜阳(F)"><input type="checkbox"/><span>阜阳(F)</span></li>
-                            <li title="赣州(G)"><input type="checkbox"/><span>赣州(G)</span></li>
                             <li title="海门(H)"><input type="checkbox"/><span>海门(H)</span></li>
-                            <li title="涵江(H)"><input type="checkbox"/><span>涵江(H)</span></li>
                             <li title="杭州(H)"><input type="checkbox"/><span>杭州(H)</span></li>
                             <li title="合肥(H)"><input type="checkbox"/><span>合肥(H)</span></li>
                             <li title="菏泽(H)"><input type="checkbox"/><span>菏泽(H)</span></li>
@@ -1647,25 +1525,19 @@
                             <li title="淮安(H)"><input type="checkbox"/><span>淮安(H)</span></li>
                             <li title="淮北(H)"><input type="checkbox"/><span>淮北(H)</span></li>
                             <li title="淮南(H)"><input type="checkbox"/><span>淮南(H)</span></li>
-                            <li title="黄山(H)"><input type="checkbox"/><span>黄山(H)</span></li>
                             <li title="吉安(J)"><input type="checkbox"/><span>吉安(J)</span></li>
                             <li title="济南(J)"><input type="checkbox"/><span>济南(J)</span></li>
                             <li title="济宁(J)"><input type="checkbox"/><span>济宁(J)</span></li>
-                            <li title="嘉善(J)"><input type="checkbox"/><span>嘉善(J)</span></li>
                             <li title="嘉兴(J)"><input type="checkbox"/><span>嘉兴(J)</span></li>
-                            <li title="建瓯(J)"><input type="checkbox"/><span>建瓯(J)</span></li>
                             <li title="江阴(J)"><input type="checkbox"/><span>江阴(J)</span></li>
-                            <li title="胶州(J)"><input type="checkbox"/><span>胶州(J)</span></li>
                             <li title="金华(J)"><input type="checkbox"/><span>金华(J)</span></li>
                             <li title="晋江(J)"><input type="checkbox"/><span>晋江(J)</span></li>
-                            <li title="景德镇(J)"><input type="checkbox"/><span>景德镇(J)</span></li>
                             <li title="九江(J)"><input type="checkbox"/><span>九江(J)</span></li>
                             <li title="昆山(K)"><input type="checkbox"/><span>昆山(K)</span></li>
                             <li title="莱芜(L)"><input type="checkbox"/><span>莱芜(L)</span></li>
                             <li title="丽水(L)"><input type="checkbox"/><span>丽水(L)</span></li>
                             <li title="连云港(L)"><input type="checkbox"/><span>连云港(L)</span></li>
                             <li title="聊城(L)"><input type="checkbox"/><span>聊城(L)</span></li>
-                            <li title="临安(L)"><input type="checkbox"/><span>临安(L)</span></li>
                             <li title="临沂(L)"><input type="checkbox"/><span>临沂(L)</span></li>
                             <li title="六安(L)"><input type="checkbox"/><span>六安(L)</span></li>
                             <li title="龙岩(L)"><input type="checkbox"/><span>龙岩(L)</span></li>
@@ -1680,17 +1552,13 @@
                             <li title="莆田(P)"><input type="checkbox"/><span>莆田(P)</span></li>
                             <li title="启东(Q)"><input type="checkbox"/><span>启东(Q)</span></li>
                             <li title="青岛(Q)"><input type="checkbox"/><span>青岛(Q)</span></li>
-                            <li title="衢州(Q)"><input type="checkbox"/><span>衢州(Q)</span></li>
                             <li title="泉州(Q)"><input type="checkbox"/><span>泉州(Q)</span></li>
                             <li title="日照(R)"><input type="checkbox"/><span>日照(R)</span></li>
                             <li title="三明(S)"><input type="checkbox"/><span>三明(S)</span></li>
                             <li title="上海(S)"><input type="checkbox"/><span>上海(S)</span></li>
                             <li title="上饶(S)"><input type="checkbox"/><span>上饶(S)</span></li>
-                            <li title="上虞(S)"><input type="checkbox"/><span>上虞(S)</span></li>
                             <li title="绍兴(S)"><input type="checkbox"/><span>绍兴(S)</span></li>
                             <li title="苏州(S)"><input type="checkbox"/><span>苏州(S)</span></li>
-                            <li title="宿迁(S)"><input type="checkbox"/><span>宿迁(S)</span></li>
-                            <li title="宿州(S)"><input type="checkbox"/><span>宿州(S)</span></li>
                             <li title="台州(T)"><input type="checkbox"/><span>台州(T)</span></li>
                             <li title="太仓(T)"><input type="checkbox"/><span>太仓(T)</span></li>
                             <li title="泰安(T)"><input type="checkbox"/><span>泰安(T)</span></li>
@@ -1702,10 +1570,11 @@
                             <li title="无锡(W)"><input type="checkbox"/><span>无锡(W)</span></li>
                             <li title="芜湖(W)"><input type="checkbox"/><span>芜湖(W)</span></li>
                             <li title="吴江(W)"><input type="checkbox"/><span>吴江(W)</span></li>
-                            <li title="武夷山(W)"><input type="checkbox"/><span>武夷山(W)</span></li>
                             <li title="厦门(X)"><input type="checkbox"/><span>厦门(X)</span></li>
                             <li title="新昌(X)"><input type="checkbox"/><span>新昌(X)</span></li>
                             <li title="新余(X)"><input type="checkbox"/><span>新余(X)</span></li>
+                            <li title="宿迁(S)"><input type="checkbox"/><span>宿迁(S)</span></li>
+                            <li title="宿州(S)"><input type="checkbox"/><span>宿州(S)</span></li>
                             <li title="徐州(X)"><input type="checkbox"/><span>徐州(X)</span></li>
                             <li title="宣城(X)"><input type="checkbox"/><span>宣城(X)</span></li>
                             <li title="烟台(Y)"><input type="checkbox"/><span>烟台(Y)</span></li>
@@ -1714,14 +1583,11 @@
                             <li title="宜春(Y)"><input type="checkbox"/><span>宜春(Y)</span></li>
                             <li title="宜兴(Y)"><input type="checkbox"/><span>宜兴(Y)</span></li>
                             <li title="鹰潭(Y)"><input type="checkbox"/><span>鹰潭(Y)</span></li>
-                            <li title="余姚(Y)"><input type="checkbox"/><span>余姚(Y)</span></li>
                             <li title="枣庄(Z)"><input type="checkbox"/><span>枣庄(Z)</span></li>
                             <li title="湛江(Z)"><input type="checkbox"/><span>湛江(Z)</span></li>
                             <li title="张家港(Z)"><input type="checkbox"/><span>张家港(Z)</span></li>
                             <li title="漳州(Z)"><input type="checkbox"/><span>漳州(Z)</span></li>
                             <li title="镇江(Z)"><input type="checkbox"/><span>镇江(Z)</span></li>
-                            <li title="舟山(Z)"><input type="checkbox"/><span>舟山(Z)</span></li>
-                            <li title="诸暨(Z)"><input type="checkbox"/><span>诸暨(Z)</span></li>
                             <li title="淄博(Z)"><input type="checkbox"/><span>淄博(Z)</span></li>
                         </ul>
                     </div>
@@ -1735,7 +1601,6 @@
                             <li title="潮州(C)"><input type="checkbox"/><span>潮州(C)</span></li>
                             <li title="从化(C)"><input type="checkbox"/><span>从化(C)</span></li>
                             <li title="东莞(D)"><input type="checkbox"/><span>东莞(D)</span></li>
-                            <li title="防城港市(F)"><input type="checkbox"/><span>防城港市(F)</span></li>
                             <li title="佛山(F)"><input type="checkbox"/><span>佛山(F)</span></li>
                             <li title="广州(G)"><input type="checkbox"/><span>广州(G)</span></li>
                             <li title="桂林(G)"><input type="checkbox"/><span>桂林(G)</span></li>
@@ -1745,7 +1610,7 @@
                             <li title="惠州(H)"><input type="checkbox"/><span>惠州(H)</span></li>
                             <li title="江门(J)"><input type="checkbox"/><span>江门(J)</span></li>
                             <li title="揭阳(J)"><input type="checkbox"/><span>揭阳(J)</span></li>
-                            <li title="来宾(K)"><input type="checkbox"/><span>来宾(K)</span></li>
+                            <li title="来宾(L)"><input type="checkbox"/><span>来宾(L)</span></li>
                             <li title="柳州(L)"><input type="checkbox"/><span>柳州(L)</span></li>
                             <li title="茂名(M)"><input type="checkbox"/><span>茂名(M)</span></li>
                             <li title="梅州(M)"><input type="checkbox"/><span>梅州(M)</span></li>
@@ -1756,7 +1621,6 @@
                             <li title="汕尾(S)"><input type="checkbox"/><span>汕尾(S)</span></li>
                             <li title="韶关(S)"><input type="checkbox"/><span>韶关(S)</span></li>
                             <li title="深圳(S)"><input type="checkbox"/><span>深圳(S)</span></li>
-                            <li title="四会(S)"><input type="checkbox"/><span>四会(S)</span></li>
                             <li title="梧州(W)"><input type="checkbox"/><span>梧州(W)</span></li>
                             <li title="阳江(Y)"><input type="checkbox"/><span>阳江(Y)</span></li>
                             <li title="玉林(Y)"><input type="checkbox"/><span>玉林(Y)</span></li>
@@ -1775,14 +1639,9 @@
                             <li title="常德(C)"><input type="checkbox"/><span>常德(C)</span></li>
                             <li title="郴州(C)"><input type="checkbox"/><span>郴州(C)</span></li>
                             <li title="崇左(C)"><input type="checkbox"/><span>崇左(C)</span></li>
-                            <li title="恩施(E)"><input type="checkbox"/><span>恩施(E)</span></li>
-                            <li title="贵港(G)"><input type="checkbox"/><span>贵港(G)</span></li>
                             <li title="鹤壁(H)"><input type="checkbox"/><span>鹤壁(H)</span></li>
                             <li title="衡阳(H)"><input type="checkbox"/><span>衡阳(H)</span></li>
-                            <li title="怀化(H)"><input type="checkbox"/><span>怀化(H)</span></li>
-                            <li title="黄冈(H)"><input type="checkbox"/><span>黄冈(H)</span></li>
                             <li title="黄石(H)"><input type="checkbox"/><span>黄石(H)</span></li>
-                            <li title="济源(J)"><input type="checkbox"/><span>济源(J)</span></li>
                             <li title="焦作(J)"><input type="checkbox"/><span>焦作(J)</span></li>
                             <li title="荆门(J)"><input type="checkbox"/><span>荆门(J)</span></li>
                             <li title="荆州(J)"><input type="checkbox"/><span>荆州(J)</span></li>
@@ -1798,10 +1657,7 @@
                             <li title="十堰(S)"><input type="checkbox"/><span>十堰(S)</span></li>
                             <li title="随州(S)"><input type="checkbox"/><span>随州(S)</span></li>
                             <li title="武汉(W)"><input type="checkbox"/><span>武汉(W)</span></li>
-                            <li title="咸宁(X)"><input type="checkbox"/><span>咸宁(X)</span></li>
                             <li title="湘潭(X)"><input type="checkbox"/><span>湘潭(X)</span></li>
-                            <li title="湘西(X)"><input type="checkbox"/><span>湘西(X)</span></li>
-                            <li title="襄樊(X)"><input type="checkbox"/><span>襄樊(X)</span></li>
                             <li title="孝感(X)"><input type="checkbox"/><span>孝感(X)</span></li>
                             <li title="新乡(X)"><input type="checkbox"/><span>新乡(X)</span></li>
                             <li title="信阳(X)"><input type="checkbox"/><span>信阳(X)</span></li>
@@ -1822,50 +1678,40 @@
                 <div class="list_box clearfix">
                     <div class="listBox_s0">
                         <ul class="clearfix">
-                            <li title="阿克苏(A)"><input type="checkbox"/><span>阿克苏(A)</span></li>
                             <li title="安康(A)"><input type="checkbox"/><span>安康(A)</span></li>
                             <li title="巴音郭楞蒙古自治州(B)"><input type="checkbox"/><span>巴音郭楞蒙古自治州(B)</span></li>
                             <li title="白银(B)"><input type="checkbox"/><span>白银(B)</span></li>
                             <li title="宝鸡(B)"><input type="checkbox"/><span>宝鸡(B)</span></li>
                             <li title="博尔塔拉蒙古自治州(B)"><input type="checkbox"/><span>博尔塔拉蒙古自治州(B)</span></li>
-                            <li title="昌吉(C)"><input type="checkbox"/><span>昌吉(C)</span></li>
                             <li title="定西(D)"><input type="checkbox"/><span>定西(D)</span></li>
                             <li title="鄂尔多斯(E)"><input type="checkbox"/><span>鄂尔多斯(E)</span></li>
                             <li title="甘南藏族自治州(G)"><input type="checkbox"/><span>甘南藏族自治州(G)</span></li>
                             <li title="固原(G)"><input type="checkbox"/><span>固原(G)</span></li>
-                            <li title="哈密(H)"><input type="checkbox"/><span>哈密(H)</span></li>
                             <li title="海北藏族自治州(H)"><input type="checkbox"/><span>海北藏族自治州(H)</span></li>
                             <li title="海东地区(H)"><input type="checkbox"/><span>海东地区(H)</span></li>
                             <li title="海南藏族自治州(H)"><input type="checkbox"/><span>海南藏族自治州(H)</span></li>
                             <li title="海西蒙古族藏族自治州(H)"><input type="checkbox"/><span>海西蒙古族藏族自治州(H)</span></li>
-                            <li title="和田(H)"><input type="checkbox"/><span>和田(H)</span></li>
                             <li title="黄南藏族自治州(H)"><input type="checkbox"/><span>黄南藏族自治州(H)</span></li>
                             <li title="嘉峪关(J)"><input type="checkbox"/><span>嘉峪关(J)</span></li>
                             <li title="金昌(J)"><input type="checkbox"/><span>金昌(J)</span></li>
                             <li title="酒泉(J)"><input type="checkbox"/><span>酒泉(J)</span></li>
-                            <li title="喀什(K)"><input type="checkbox"/><span>喀什(K)</span></li>
                             <li title="克拉玛依(K)"><input type="checkbox"/><span>克拉玛依(K)</span></li>
                             <li title="克孜勒苏柯尔克孜自治州(K)"><input type="checkbox"/><span>克孜勒苏柯尔克孜自治州(K)</span></li>
                             <li title="兰州(L)"><input type="checkbox"/><span>兰州(L)</span></li>
-                            <li title="临夏(L)"><input type="checkbox"/><span>临夏(L)</span></li>
                             <li title="陇南(L)"><input type="checkbox"/><span>陇南(L)</span></li>
                             <li title="平凉(P)"><input type="checkbox"/><span>平凉(P)</span></li>
                             <li title="庆阳(Q)"><input type="checkbox"/><span>庆阳(Q)</span></li>
                             <li title="商洛(S)"><input type="checkbox"/><span>商洛(S)</span></li>
-                            <li title="塔城(T)"><input type="checkbox"/><span>塔城(T)</span></li>
                             <li title="天水(T)"><input type="checkbox"/><span>天水(T)</span></li>
                             <li title="铜川(T)"><input type="checkbox"/><span>铜川(T)</span></li>
-                            <li title="吐鲁番(T)"><input type="checkbox"/><span>吐鲁番(T)</span></li>
                             <li title="渭南(W)"><input type="checkbox"/><span>渭南(W)</span></li>
                             <li title="乌鲁木齐(W)"><input type="checkbox"/><span>乌鲁木齐(W)</span></li>
-                            <li title="吴忠(W)"><input type="checkbox"/><span>吴忠(W)</span></li>
                             <li title="武威(W)"><input type="checkbox"/><span>武威(W)</span></li>
                             <li title="西安(X)"><input type="checkbox"/><span>西安(X)</span></li>
                             <li title="西宁(X)"><input type="checkbox"/><span>西宁(X)</span></li>
                             <li title="咸阳(X)"><input type="checkbox"/><span>咸阳(X)</span></li>
                             <li title="延安(Y)"><input type="checkbox"/><span>延安(Y)</span></li>
                             <li title="伊犁哈萨克自治州(Y)"><input type="checkbox"/><span>伊犁哈萨克自治州(Y)</span></li>
-                            <li title="银川(Y)"><input type="checkbox"/><span>银川(Y)</span></li>
                             <li title="榆林(Y)"><input type="checkbox"/><span>榆林(Y)</span></li>
                             <li title="张掖(Z)"><input type="checkbox"/><span>张掖(Z)</span></li>
                             <li title="中卫(Z)"><input type="checkbox"/><span>中卫(Z)</span></li>
@@ -1877,18 +1723,13 @@
                     <div class="listBox_s0">
                         <ul class="clearfix">
                             <li title="安顺(A)"><input type="checkbox"/><span>安顺(A)</span></li>
-                            <li title="巴中(B)"><input type="checkbox"/><span>巴中(B)</span></li>
                             <li title="保山(B)"><input type="checkbox"/><span>保山(B)</span></li>
-                            <li title="毕节(B)"><input type="checkbox"/><span>毕节(B)</span></li>
                             <li title="重庆(C)"><input type="checkbox"/><span>重庆(C)</span></li>
                             <li title="成都(C)"><input type="checkbox"/><span>成都(C)</span></li>
-                            <li title="楚雄(C)"><input type="checkbox"/><span>楚雄(C)</span></li>
                             <li title="达州(D)"><input type="checkbox"/><span>达州(D)</span></li>
-                            <li title="大理(D)"><input type="checkbox"/><span>大理(D)</span></li>
                             <li title="德宏傣族景颇族自治州(D)"><input type="checkbox"/><span>德宏傣族景颇族自治州(D)</span></li>
                             <li title="德阳(D)"><input type="checkbox"/><span>德阳(D)</span></li>
                             <li title="迪庆藏族自治州(D)"><input type="checkbox"/><span>迪庆藏族自治州(D)</span></li>
-                            <li title="都江堰(D)"><input type="checkbox"/><span>都江堰(D)</span></li>
                             <li title="甘孜藏族自治州(G)"><input type="checkbox"/><span>甘孜藏族自治州(G)</span></li>
                             <li title="广安(G)"><input type="checkbox"/><span>广安(G)</span></li>
                             <li title="广元(G)"><input type="checkbox"/><span>广元(G)</span></li>
@@ -1900,7 +1741,6 @@
                             <li title="丽江(L)"><input type="checkbox"/><span>丽江(L)</span></li>
                             <li title="凉山彝族自治州(L)"><input type="checkbox"/><span>凉山彝族自治州(L)</span></li>
                             <li title="临沧(L)"><input type="checkbox"/><span>临沧(L)</span></li>
-                            <li title="六盘水(L)"><input type="checkbox"/><span>六盘水(L)</span></li>
                             <li title="泸州(L)"><input type="checkbox"/><span>泸州(L)</span></li>
                             <li title="眉山(M)"><input type="checkbox"/><span>眉山(M)</span></li>
                             <li title="绵阳(M)"><input type="checkbox"/><span>绵阳(M)</span></li>
@@ -1916,16 +1756,12 @@
                             <li title="曲靖(Q)"><input type="checkbox"/><span>曲靖(Q)</span></li>
                             <li title="遂宁(S)"><input type="checkbox"/><span>遂宁(S)</span></li>
                             <li title="铜仁地区(T)"><input type="checkbox"/><span>铜仁地区(T)</span></li>
-                            <li title="文山(W)"><input type="checkbox"/><span>文山(W)</span></li>
                             <li title="西昌(X)"><input type="checkbox"/><span>西昌(X)</span></li>
-                            <li title="西双版纳(X)"><input type="checkbox"/><span>西双版纳(X)</span></li>
-                            <li title="雅安(Y)"><input type="checkbox"/><span>雅安(Y)</span></li>
                             <li title="宜宾(Y)"><input type="checkbox"/><span>宜宾(Y)</span></li>
                             <li title="玉溪(Y)"><input type="checkbox"/><span>玉溪(Y)</span></li>
                             <li title="昭通(Z)"><input type="checkbox"/><span>昭通(Z)</span></li>
                             <li title="资阳(Z)"><input type="checkbox"/><span>资阳(Z)</span></li>
                             <li title="自贡(Z)"><input type="checkbox"/><span>自贡(Z)</span></li>
-                            <li title="遵义(Z)"><input type="checkbox"/><span>遵义(Z)</span></li>
                         </ul>
                     </div>
                 </div>
@@ -1945,14 +1781,359 @@
                             <li title="临高(L)"><input type="checkbox"/><span>临高(L)</span></li>
                             <li title="陵水(L)"><input type="checkbox"/><span>陵水(L)</span></li>
                             <li title="琼海(Q)"><input type="checkbox"/><span>琼海(Q)</span></li>
-                            <li title="琼山(Q)"><input type="checkbox"/><span>琼山(Q)</span></li>
                             <li title="琼中(Q)"><input type="checkbox"/><span>琼中(Q)</span></li>
                             <li title="三亚(S)"><input type="checkbox"/><span>三亚(S)</span></li>
                             <li title="屯昌(T)"><input type="checkbox"/><span>屯昌(T)</span></li>
                             <li title="万宁(W)"><input type="checkbox"/><span>万宁(W)</span></li>
                             <li title="文昌(W)"><input type="checkbox"/><span>文昌(W)</span></li>
                             <li title="五指山(W)"><input type="checkbox"/><span>五指山(W)</span></li>
-                            <li title="洋浦(Y)"><input type="checkbox"/><span>洋浦(Y)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wgc_tit"><input type="checkbox"/><h3>舟山</h3></div>
+                <div class="list_box clearfix">
+                    <div class="listBox_s0">
+                        <ul class="clearfix">
+                            <li title="舟山(Z)"><input type="checkbox"/><span>舟山(Z)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="wgc_item">
+                <div class="wgc_tit"><input type="checkbox"/><h3>一线城市</h3></div>
+                <div class="list_box clearfix">
+                    <div class="listBox_s0">
+                        <ul class="clearfix">
+                            <li title="北京(B)"><input type="checkbox"/><span>北京(B)</span></li>
+                            <li title="广州(G)"><input type="checkbox"/><span>广州(G)</span></li>
+                            <li title="上海(S)"><input type="checkbox"/><span>上海(S)</span></li>
+                            <li title="深圳(S)"><input type="checkbox"/><span>深圳(S)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wgc_tit"><input type="checkbox"/><h3>二线城市</h3></div>
+                <div class="list_box clearfix">
+                    <div class="listBox_s0">
+                        <ul class="clearfix">
+                            <li title="长春(C)"><input type="checkbox"/><span>长春(C)</span></li>
+                            <li title="长沙(C)"><input type="checkbox"/><span>长沙(C)</span></li>
+                            <li title="重庆(C)"><input type="checkbox"/><span>重庆(C)</span></li>
+                            <li title="成都(C)"><input type="checkbox"/><span>成都(C)</span></li>
+                            <li title="大连(D)"><input type="checkbox"/><span>大连(D)</span></li>
+                            <li title="福州(F)"><input type="checkbox"/><span>福州(F)</span></li>
+                            <li title="贵阳(G)"><input type="checkbox"/><span>贵阳(G)</span></li>
+                            <li title="哈尔滨(H)"><input type="checkbox"/><span>哈尔滨(H)</span></li>
+                            <li title="海口(H)"><input type="checkbox"/><span>海口(H)</span></li>
+                            <li title="杭州(H)"><input type="checkbox"/><span>杭州(H)</span></li>
+                            <li title="合肥(H)"><input type="checkbox"/><span>合肥(H)</span></li>
+                            <li title="呼和浩特(H)"><input type="checkbox"/><span>呼和浩特(H)</span></li>
+                            <li title="济南(J)"><input type="checkbox"/><span>济南(J)</span></li>
+                            <li title="昆明(K)"><input type="checkbox"/><span>昆明(K)</span></li>
+                            <li title="兰州(L)"><input type="checkbox"/><span>兰州(L)</span></li>
+                            <li title="南昌(N)"><input type="checkbox"/><span>南昌(N)</span></li>
+                            <li title="南京(N)"><input type="checkbox"/><span>南京(N)</span></li>
+                            <li title="南宁(N)"><input type="checkbox"/><span>南宁(N)</span></li>
+                            <li title="宁波(N)"><input type="checkbox"/><span>宁波(N)</span></li>
+                            <li title="青岛(Q)"><input type="checkbox"/><span>青岛(Q)</span></li>
+                            <li title="沈阳(S)"><input type="checkbox"/><span>沈阳(S)</span></li>
+                            <li title="石家庄(S)"><input type="checkbox"/><span>石家庄(S)</span></li>
+                            <li title="太原(T)"><input type="checkbox"/><span>太原(T)</span></li>
+                            <li title="天津(T)"><input type="checkbox"/><span>天津(T)</span></li>
+                            <li title="乌鲁木齐(W)"><input type="checkbox"/><span>乌鲁木齐(W)</span></li>
+                            <li title="武汉(W)"><input type="checkbox"/><span>武汉(W)</span></li>
+                            <li title="西安(X)"><input type="checkbox"/><span>西安(X)</span></li>
+                            <li title="西宁(X)"><input type="checkbox"/><span>西宁(X)</span></li>
+                            <li title="厦门(X)"><input type="checkbox"/><span>厦门(X)</span></li>
+                            <li title="郑州(Z)"><input type="checkbox"/><span>郑州(Z)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wgc_tit"><input type="checkbox"/><h3>三线城市</h3></div>
+                <div class="list_box clearfix">
+                    <div class="listBox_s0">
+                        <ul class="clearfix">
+                            <li title="安康(A)"><input type="checkbox"/><span>安康(A)</span></li>
+                            <li title="安庆(A)"><input type="checkbox"/><span>安庆(A)</span></li>
+                            <li title="安顺(A)"><input type="checkbox"/><span>安顺(A)</span></li>
+                            <li title="安阳(A)"><input type="checkbox"/><span>安阳(A)</span></li>
+                            <li title="鞍山(A)"><input type="checkbox"/><span>鞍山(A)</span></li>
+                            <li title="巴音郭楞蒙古自治州(B)"><input type="checkbox"/><span>巴音郭楞蒙古自治州(B)</span></li>
+                            <li title="白城(B)"><input type="checkbox"/><span>白城(B)</span></li>
+                            <li title="白沙(B)"><input type="checkbox"/><span>白沙(B)</span></li>
+                            <li title="白山(B)"><input type="checkbox"/><span>白山(B)</span></li>
+                            <li title="白银(B)"><input type="checkbox"/><span>白银(B)</span></li>
+                            <li title="百色(B)"><input type="checkbox"/><span>百色(B)</span></li>
+                            <li title="蚌埠(B)"><input type="checkbox"/><span>蚌埠(B)</span></li>
+                            <li title="包头(B)"><input type="checkbox"/><span>包头(B)</span></li>
+                            <li title="宝鸡(B)"><input type="checkbox"/><span>宝鸡(B)</span></li>
+                            <li title="保定(B)"><input type="checkbox"/><span>保定(B)</span></li>
+                            <li title="保山(B)"><input type="checkbox"/><span>保山(B)</span></li>
+                            <li title="保亭(B)"><input type="checkbox"/><span>保亭(B)</span></li>
+                            <li title="北海(B)"><input type="checkbox"/><span>北海(B)</span></li>
+                            <li title="本溪(B)"><input type="checkbox"/><span>本溪(B)</span></li>
+                            <li title="滨州(B)"><input type="checkbox"/><span>滨州(B)</span></li>
+                            <li title="亳州(B)"><input type="checkbox"/><span>亳州(B)</span></li>
+                            <li title="博尔塔拉蒙古自治州(B)"><input type="checkbox"/><span>博尔塔拉蒙古自治州(B)</span></li>
+                            <li title="沧州(C)"><input type="checkbox"/><span>沧州(C)</span></li>
+                            <li title="昌江(C)"><input type="checkbox"/><span>昌江(C)</span></li>
+                            <li title="常德(C)"><input type="checkbox"/><span>常德(C)</span></li>
+                            <li title="常熟(C)"><input type="checkbox"/><span>常熟(C)</span></li>
+                            <li title="常州(C)"><input type="checkbox"/><span>常州(C)</span></li>
+                            <li title="潮州(C)"><input type="checkbox"/><span>潮州(C)</span></li>
+                            <li title="郴州(C)"><input type="checkbox"/><span>郴州(C)</span></li>
+                            <li title="承德(C)"><input type="checkbox"/><span>承德(C)</span></li>
+                            <li title="澄迈(C)"><input type="checkbox"/><span>澄迈(C)</span></li>
+                            <li title="池州(C)"><input type="checkbox"/><span>池州(C)</span></li>
+                            <li title="赤峰(C)"><input type="checkbox"/><span>赤峰(C)</span></li>
+                            <li title="崇左(C)"><input type="checkbox"/><span>崇左(C)</span></li>
+                            <li title="滁州(C)"><input type="checkbox"/><span>滁州(C)</span></li>
+                            <li title="从化(C)"><input type="checkbox"/><span>从化(C)</span></li>
+                            <li title="达州(D)"><input type="checkbox"/><span>达州(D)</span></li>
+                            <li title="大厂(D)"><input type="checkbox"/><span>大厂(D)</span></li>
+                            <li title="大庆(D)"><input type="checkbox"/><span>大庆(D)</span></li>
+                            <li title="大同(D)"><input type="checkbox"/><span>大同(D)</span></li>
+                            <li title="丹东(D)"><input type="checkbox"/><span>丹东(D)</span></li>
+                            <li title="儋州(D)"><input type="checkbox"/><span>儋州(D)</span></li>
+                            <li title="德宏傣族景颇族自治州(D)"><input type="checkbox"/><span>德宏傣族景颇族自治州(D)</span></li>
+                            <li title="德阳(D)"><input type="checkbox"/><span>德阳(D)</span></li>
+                            <li title="德州(D)"><input type="checkbox"/><span>德州(D)</span></li>
+                            <li title="迪庆藏族自治州(D)"><input type="checkbox"/><span>迪庆藏族自治州(D)</span></li>
+                            <li title="定安(D)"><input type="checkbox"/><span>定安(D)</span></li>
+                            <li title="定西(D)"><input type="checkbox"/><span>定西(D)</span></li>
+                            <li title="东方(D)"><input type="checkbox"/><span>东方(D)</span></li>
+                            <li title="东莞(D)"><input type="checkbox"/><span>东莞(D)</span></li>
+                            <li title="东营(D)"><input type="checkbox"/><span>东营(D)</span></li>
+                            <li title="鄂尔多斯(E)"><input type="checkbox"/><span>鄂尔多斯(E)</span></li>
+                            <li title="佛山(F)"><input type="checkbox"/><span>佛山(F)</span></li>
+                            <li title="抚顺(F)"><input type="checkbox"/><span>抚顺(F)</span></li>
+                            <li title="抚州(F)"><input type="checkbox"/><span>抚州(F)</span></li>
+                            <li title="阜阳(F)"><input type="checkbox"/><span>阜阳(F)</span></li>
+                            <li title="甘南藏族自治州(G)"><input type="checkbox"/><span>甘南藏族自治州(G)</span></li>
+                            <li title="甘孜藏族自治州(G)"><input type="checkbox"/><span>甘孜藏族自治州(G)</span></li>
+                            <li title="固安(G)"><input type="checkbox"/><span>固安(G)</span></li>
+                            <li title="固原(G)"><input type="checkbox"/><span>固原(G)</span></li>
+                            <li title="广安(G)"><input type="checkbox"/><span>广安(G)</span></li>
+                            <li title="广元(G)"><input type="checkbox"/><span>广元(G)</span></li>
+                            <li title="桂林(G)"><input type="checkbox"/><span>桂林(G)</span></li>
+                            <li title="海北藏族自治州(H)"><input type="checkbox"/><span>海北藏族自治州(H)</span></li>
+                            <li title="海东地区(H)"><input type="checkbox"/><span>海东地区(H)</span></li>
+                            <li title="海门(H)"><input type="checkbox"/><span>海门(H)</span></li>
+                            <li title="海南藏族自治州(H)"><input type="checkbox"/><span>海南藏族自治州(H)</span></li>
+                            <li title="海西蒙古族藏族自治州(H)"><input type="checkbox"/><span>海西蒙古族藏族自治州(H)</span></li>
+                            <li title="邯郸(H)"><input type="checkbox"/><span>邯郸(H)</span></li>
+                            <li title="汉中(H)"><input type="checkbox"/><span>汉中(H)</span></li>
+                            <li title="河池(H)"><input type="checkbox"/><span>河池(H)</span></li>
+                            <li title="河源(H)"><input type="checkbox"/><span>河源(H)</span></li>
+                            <li title="菏泽(H)"><input type="checkbox"/><span>菏泽(H)</span></li>
+                            <li title="贺州(H)"><input type="checkbox"/><span>贺州(H)</span></li>
+                            <li title="鹤壁(H)"><input type="checkbox"/><span>鹤壁(H)</span></li>
+                            <li title="鹤岗(H)"><input type="checkbox"/><span>鹤岗(H)</span></li>
+                            <li title="黑河(H)"><input type="checkbox"/><span>黑河(H)</span></li>
+                            <li title="衡水(H)"><input type="checkbox"/><span>衡水(H)</span></li>
+                            <li title="衡阳(H)"><input type="checkbox"/><span>衡阳(H)</span></li>
+                            <li title="红河哈尼族彝族自治州(H)"><input type="checkbox"/><span>红河哈尼族彝族自治州(H)</span></li>
+                            <li title="呼伦贝尔(H)"><input type="checkbox"/><span>呼伦贝尔(H)</span></li>
+                            <li title="葫芦岛(H)"><input type="checkbox"/><span>葫芦岛(H)</span></li>
+                            <li title="湖州(H)"><input type="checkbox"/><span>湖州(H)</span></li>
+                            <li title="淮安(H)"><input type="checkbox"/><span>淮安(H)</span></li>
+                            <li title="淮北(H)"><input type="checkbox"/><span>淮北(H)</span></li>
+                            <li title="淮南(H)"><input type="checkbox"/><span>淮南(H)</span></li>
+                            <li title="黄南藏族自治州(H)"><input type="checkbox"/><span>黄南藏族自治州(H)</span></li>
+                            <li title="黄石(H)"><input type="checkbox"/><span>黄石(H)</span></li>
+                            <li title="惠州(H)"><input type="checkbox"/><span>惠州(H)</span></li>
+                            <li title="鸡西(J)"><input type="checkbox"/><span>鸡西(J)</span></li>
+                            <li title="吉安(J)"><input type="checkbox"/><span>吉安(J)</span></li>
+                            <li title="吉林(J)"><input type="checkbox"/><span>吉林(J)</span></li>
+                            <li title="济宁(J)"><input type="checkbox"/><span>济宁(J)</span></li>
+                            <li title="佳木斯(J)"><input type="checkbox"/><span>佳木斯(J)</span></li>
+                            <li title="嘉兴(J)"><input type="checkbox"/><span>嘉兴(J)</span></li>
+                            <li title="嘉峪关(J)"><input type="checkbox"/><span>嘉峪关(J)</span></li>
+                            <li title="江门(J)"><input type="checkbox"/><span>江门(J)</span></li>
+                            <li title="江阴(J)"><input type="checkbox"/><span>江阴(J)</span></li>
+                            <li title="焦作(J)"><input type="checkbox"/><span>焦作(J)</span></li>
+                            <li title="揭阳(J)"><input type="checkbox"/><span>揭阳(J)</span></li>
+                            <li title="金昌(J)"><input type="checkbox"/><span>金昌(J)</span></li>
+                            <li title="金华(J)"><input type="checkbox"/><span>金华(J)</span></li>
+                            <li title="锦州(J)"><input type="checkbox"/><span>锦州(J)</span></li>
+                            <li title="晋城(J)"><input type="checkbox"/><span>晋城(J)</span></li>
+                            <li title="晋江(J)"><input type="checkbox"/><span>晋江(J)</span></li>
+                            <li title="荆门(J)"><input type="checkbox"/><span>荆门(J)</span></li>
+                            <li title="荆州(J)"><input type="checkbox"/><span>荆州(J)</span></li>
+                            <li title="九江(J)"><input type="checkbox"/><span>九江(J)</span></li>
+                            <li title="酒泉(J)"><input type="checkbox"/><span>酒泉(J)</span></li>
+                            <li title="开封(K)"><input type="checkbox"/><span>开封(K)</span></li>
+                            <li title="克拉玛依(K)"><input type="checkbox"/><span>克拉玛依(K)</span></li>
+                            <li title="克孜勒苏柯尔克孜自治州(K)"><input type="checkbox"/><span>克孜勒苏柯尔克孜自治州(K)</span></li>
+                            <li title="昆山(K)"><input type="checkbox"/><span>昆山(K)</span></li>
+                            <li title="来宾(L)"><input type="checkbox"/><span>来宾(L)</span></li>
+                            <li title="莱芜(L)"><input type="checkbox"/><span>莱芜(L)</span></li>
+                            <li title="廊坊(L)"><input type="checkbox"/><span>廊坊(L)</span></li>
+                            <li title="乐东(L)"><input type="checkbox"/><span>乐东(L)</span></li>
+                            <li title="乐山(L)"><input type="checkbox"/><span>乐山(L)</span></li>
+                            <li title="丽江(L)"><input type="checkbox"/><span>丽江(L)</span></li>
+                            <li title="丽水(L)"><input type="checkbox"/><span>丽水(L)</span></li>
+                            <li title="连云港(L)"><input type="checkbox"/><span>连云港(L)</span></li>
+                            <li title="凉山彝族自治州(L)"><input type="checkbox"/><span>凉山彝族自治州(L)</span></li>
+                            <li title="辽阳(L)"><input type="checkbox"/><span>辽阳(L)</span></li>
+                            <li title="辽源(L)"><input type="checkbox"/><span>辽源(L)</span></li>
+                            <li title="聊城(L)"><input type="checkbox"/><span>聊城(L)</span></li>
+                            <li title="临沧(L)"><input type="checkbox"/><span>临沧(L)</span></li>
+                            <li title="临汾(L)"><input type="checkbox"/><span>临汾(L)</span></li>
+                            <li title="临高(L)"><input type="checkbox"/><span>临高(L)</span></li>
+                            <li title="临沂(L)"><input type="checkbox"/><span>临沂(L)</span></li>
+                            <li title="陵水(L)"><input type="checkbox"/><span>陵水(L)</span></li>
+                            <li title="柳州(L)"><input type="checkbox"/><span>柳州(L)</span></li>
+                            <li title="六安(L)"><input type="checkbox"/><span>六安(L)</span></li>
+                            <li title="龙岩(L)"><input type="checkbox"/><span>龙岩(L)</span></li>
+                            <li title="陇南(L)"><input type="checkbox"/><span>陇南(L)</span></li>
+                            <li title="娄底(L)"><input type="checkbox"/><span>娄底(L)</span></li>
+                            <li title="泸州(L)"><input type="checkbox"/><span>泸州(L)</span></li>
+                            <li title="洛阳(L)"><input type="checkbox"/><span>洛阳(L)</span></li>
+                            <li title="漯河(L)"><input type="checkbox"/><span>漯河(L)</span></li>
+                            <li title="吕梁(L)"><input type="checkbox"/><span>吕梁(L)</span></li>
+                            <li title="马鞍山(M)"><input type="checkbox"/><span>马鞍山(M)</span></li>
+                            <li title="茂名(M)"><input type="checkbox"/><span>茂名(M)</span></li>
+                            <li title="眉山(M)"><input type="checkbox"/><span>眉山(M)</span></li>
+                            <li title="梅州(M)"><input type="checkbox"/><span>梅州(M)</span></li>
+                            <li title="绵阳(M)"><input type="checkbox"/><span>绵阳(M)</span></li>
+                            <li title="牡丹江(M)"><input type="checkbox"/><span>牡丹江(M)</span></li>
+                            <li title="南充(N)"><input type="checkbox"/><span>南充(N)</span></li>
+                            <li title="南平(N)"><input type="checkbox"/><span>南平(N)</span></li>
+                            <li title="南通(N)"><input type="checkbox"/><span>南通(N)</span></li>
+                            <li title="内江(N)"><input type="checkbox"/><span>内江(N)</span></li>
+                            <li title="宁德(N)"><input type="checkbox"/><span>宁德(N)</span></li>
+                            <li title="怒江傈僳族自治州(N)"><input type="checkbox"/><span>怒江傈僳族自治州(N)</span></li>
+                            <li title="攀枝花(P)"><input type="checkbox"/><span>攀枝花(P)</span></li>
+                            <li title="盘锦(P)"><input type="checkbox"/><span>盘锦(P)</span></li>
+                            <li title="彭山(P)"><input type="checkbox"/><span>彭山(P)</span></li>
+                            <li title="平顶山(P)"><input type="checkbox"/><span>平顶山(P)</span></li>
+                            <li title="平凉(P)"><input type="checkbox"/><span>平凉(P)</span></li>
+                            <li title="萍乡(P)"><input type="checkbox"/><span>萍乡(P)</span></li>
+                            <li title="莆田(P)"><input type="checkbox"/><span>莆田(P)</span></li>
+                            <li title="濮阳(P)"><input type="checkbox"/><span>濮阳(P)</span></li>
+                            <li title="普洱(P)"><input type="checkbox"/><span>普洱(P)</span></li>
+                            <li title="七台河(Q)"><input type="checkbox"/><span>七台河(Q)</span></li>
+                            <li title="齐齐哈尔(Q)"><input type="checkbox"/><span>齐齐哈尔(Q)</span></li>
+                            <li title="启东(Q)"><input type="checkbox"/><span>启东(Q)</span></li>
+                            <li title="黔东南苗族侗族自治州(Q)"><input type="checkbox"/><span>黔东南苗族侗族自治州(Q)</span></li>
+                            <li title="黔南布依族苗族自治州(Q)"><input type="checkbox"/><span>黔南布依族苗族自治州(Q)</span></li>
+                            <li title="黔西南布依族苗族自治州(Q)"><input type="checkbox"/><span>黔西南布依族苗族自治州(Q)</span></li>
+                            <li title="钦州(Q)"><input type="checkbox"/><span>钦州(Q)</span></li>
+                            <li title="秦皇岛(Q)"><input type="checkbox"/><span>秦皇岛(Q)</span></li>
+                            <li title="清远(Q)"><input type="checkbox"/><span>清远(Q)</span></li>
+                            <li title="庆阳(Q)"><input type="checkbox"/><span>庆阳(Q)</span></li>
+                            <li title="琼海(Q)"><input type="checkbox"/><span>琼海(Q)</span></li>
+                            <li title="琼中(Q)"><input type="checkbox"/><span>琼中(Q)</span></li>
+                            <li title="曲靖(Q)"><input type="checkbox"/><span>曲靖(Q)</span></li>
+                            <li title="泉州(Q)"><input type="checkbox"/><span>泉州(Q)</span></li>
+                            <li title="日照(R)"><input type="checkbox"/><span>日照(R)</span></li>
+                            <li title="三河(S)"><input type="checkbox"/><span>三河(S)</span></li>
+                            <li title="三门峡(S)"><input type="checkbox"/><span>三门峡(S)</span></li>
+                            <li title="三明(S)"><input type="checkbox"/><span>三明(S)</span></li>
+                            <li title="三亚(S)"><input type="checkbox"/><span>三亚(S)</span></li>
+                            <li title="汕头(S)"><input type="checkbox"/><span>汕头(S)</span></li>
+                            <li title="汕尾(S)"><input type="checkbox"/><span>汕尾(S)</span></li>
+                            <li title="商洛(S)"><input type="checkbox"/><span>商洛(S)</span></li>
+                            <li title="商丘(S)"><input type="checkbox"/><span>商丘(S)</span></li>
+                            <li title="上饶(S)"><input type="checkbox"/><span>上饶(S)</span></li>
+                            <li title="韶关(S)"><input type="checkbox"/><span>韶关(S)</span></li>
+                            <li title="邵阳(S)"><input type="checkbox"/><span>邵阳(S)</span></li>
+                            <li title="绍兴(S)"><input type="checkbox"/><span>绍兴(S)</span></li>
+                            <li title="十堰(S)"><input type="checkbox"/><span>十堰(S)</span></li>
+                            <li title="双鸭山(S)"><input type="checkbox"/><span>双鸭山(S)</span></li>
+                            <li title="朔州(S)"><input type="checkbox"/><span>朔州(S)</span></li>
+                            <li title="四平(S)"><input type="checkbox"/><span>四平(S)</span></li>
+                            <li title="松原(S)"><input type="checkbox"/><span>松原(S)</span></li>
+                            <li title="苏州(S)"><input type="checkbox"/><span>苏州(S)</span></li>
+                            <li title="绥化(S)"><input type="checkbox"/><span>绥化(S)</span></li>
+                            <li title="随州(S)"><input type="checkbox"/><span>随州(S)</span></li>
+                            <li title="遂宁(S)"><input type="checkbox"/><span>遂宁(S)</span></li>
+                            <li title="台州(T)"><input type="checkbox"/><span>台州(T)</span></li>
+                            <li title="太仓(T)"><input type="checkbox"/><span>太仓(T)</span></li>
+                            <li title="泰安(T)"><input type="checkbox"/><span>泰安(T)</span></li>
+                            <li title="泰州(T)"><input type="checkbox"/><span>泰州(T)</span></li>
+                            <li title="天水(T)"><input type="checkbox"/><span>天水(T)</span></li>
+                            <li title="铁岭(T)"><input type="checkbox"/><span>铁岭(T)</span></li>
+                            <li title="通化(T)"><input type="checkbox"/><span>通化(T)</span></li>
+                            <li title="通辽(T)"><input type="checkbox"/><span>通辽(T)</span></li>
+                            <li title="铜川(T)"><input type="checkbox"/><span>铜川(T)</span></li>
+                            <li title="铜陵(T)"><input type="checkbox"/><span>铜陵(T)</span></li>
+                            <li title="铜仁地区(T)"><input type="checkbox"/><span>铜仁地区(T)</span></li>
+                            <li title="屯昌(T)"><input type="checkbox"/><span>屯昌(T)</span></li>
+                            <li title="万宁(W)"><input type="checkbox"/><span>万宁(W)</span></li>
+                            <li title="威海(W)"><input type="checkbox"/><span>威海(W)</span></li>
+                            <li title="潍坊(W)"><input type="checkbox"/><span>潍坊(W)</span></li>
+                            <li title="渭南(W)"><input type="checkbox"/><span>渭南(W)</span></li>
+                            <li title="温州(W)"><input type="checkbox"/><span>温州(W)</span></li>
+                            <li title="文昌(W)"><input type="checkbox"/><span>文昌(W)</span></li>
+                            <li title="无锡(W)"><input type="checkbox"/><span>无锡(W)</span></li>
+                            <li title="芜湖(W)"><input type="checkbox"/><span>芜湖(W)</span></li>
+                            <li title="吴江(W)"><input type="checkbox"/><span>吴江(W)</span></li>
+                            <li title="梧州(W)"><input type="checkbox"/><span>梧州(W)</span></li>
+                            <li title="五指山(W)"><input type="checkbox"/><span>五指山(W)</span></li>
+                            <li title="武威(W)"><input type="checkbox"/><span>武威(W)</span></li>
+                            <li title="西昌(X)"><input type="checkbox"/><span>西昌(X)</span></li>
+                            <li title="锡林郭勒盟(X)"><input type="checkbox"/><span>锡林郭勒盟(X)</span></li>
+                            <li title="咸阳(X)"><input type="checkbox"/><span>咸阳(X)</span></li>
+                            <li title="香河(X)"><input type="checkbox"/><span>香河(X)</span></li>
+                            <li title="湘潭(X)"><input type="checkbox"/><span>湘潭(X)</span></li>
+                            <li title="孝感(X)"><input type="checkbox"/><span>孝感(X)</span></li>
+                            <li title="忻州(X)"><input type="checkbox"/><span>忻州(X)</span></li>
+                            <li title="新昌(X)"><input type="checkbox"/><span>新昌(X)</span></li>
+                            <li title="新乡(X)"><input type="checkbox"/><span>新乡(X)</span></li>
+                            <li title="新余(X)"><input type="checkbox"/><span>新余(X)</span></li>
+                            <li title="信阳(X)"><input type="checkbox"/><span>信阳(X)</span></li>
+                            <li title="邢台(X)"><input type="checkbox"/><span>邢台(X)</span></li>
+                            <li title="宿迁(S)"><input type="checkbox"/><span>宿迁(S)</span></li>
+                            <li title="宿州(S)"><input type="checkbox"/><span>宿州(S)</span></li>
+                            <li title="徐州(X)"><input type="checkbox"/><span>徐州(X)</span></li>
+                            <li title="许昌(X)"><input type="checkbox"/><span>许昌(X)</span></li>
+                            <li title="宣城(X)"><input type="checkbox"/><span>宣城(X)</span></li>
+                            <li title="烟台(Y)"><input type="checkbox"/><span>烟台(Y)</span></li>
+                            <li title="延安(Y)"><input type="checkbox"/><span>延安(Y)</span></li>
+                            <li title="延边朝鲜族自治州(Y)"><input type="checkbox"/><span>延边朝鲜族自治州(Y)</span></li>
+                            <li title="盐城(Y)"><input type="checkbox"/><span>盐城(Y)</span></li>
+                            <li title="燕郊(Y)"><input type="checkbox"/><span>燕郊(Y)</span></li>
+                            <li title="扬州(Y)"><input type="checkbox"/><span>扬州(Y)</span></li>
+                            <li title="阳江(Y)"><input type="checkbox"/><span>阳江(Y)</span></li>
+                            <li title="阳泉(Y)"><input type="checkbox"/><span>阳泉(Y)</span></li>
+                            <li title="伊春(Y)"><input type="checkbox"/><span>伊春(Y)</span></li>
+                            <li title="伊犁哈萨克自治州(Y)"><input type="checkbox"/><span>伊犁哈萨克自治州(Y)</span></li>
+                            <li title="宜宾(Y)"><input type="checkbox"/><span>宜宾(Y)</span></li>
+                            <li title="宜昌(Y)"><input type="checkbox"/><span>宜昌(Y)</span></li>
+                            <li title="宜春(Y)"><input type="checkbox"/><span>宜春(Y)</span></li>
+                            <li title="宜兴(Y)"><input type="checkbox"/><span>宜兴(Y)</span></li>
+                            <li title="益阳(Y)"><input type="checkbox"/><span>益阳(Y)</span></li>
+                            <li title="鹰潭(Y)"><input type="checkbox"/><span>鹰潭(Y)</span></li>
+                            <li title="营口(Y)"><input type="checkbox"/><span>营口(Y)</span></li>
+                            <li title="永州(Y)"><input type="checkbox"/><span>永州(Y)</span></li>
+                            <li title="榆林(Y)"><input type="checkbox"/><span>榆林(Y)</span></li>
+                            <li title="玉林(Y)"><input type="checkbox"/><span>玉林(Y)</span></li>
+                            <li title="玉溪(Y)"><input type="checkbox"/><span>玉溪(Y)</span></li>
+                            <li title="岳阳(Y)"><input type="checkbox"/><span>岳阳(Y)</span></li>
+                            <li title="云浮(Y)"><input type="checkbox"/><span>云浮(Y)</span></li>
+                            <li title="运城(Y)"><input type="checkbox"/><span>运城(Y)</span></li>
+                            <li title="枣庄(Z)"><input type="checkbox"/><span>枣庄(Z)</span></li>
+                            <li title="湛江(Z)"><input type="checkbox"/><span>湛江(Z)</span></li>
+                            <li title="张家港(Z)"><input type="checkbox"/><span>张家港(Z)</span></li>
+                            <li title="张家界(Z)"><input type="checkbox"/><span>张家界(Z)</span></li>
+                            <li title="张掖(Z)"><input type="checkbox"/><span>张掖(Z)</span></li>
+                            <li title="漳州(Z)"><input type="checkbox"/><span>漳州(Z)</span></li>
+                            <li title="长治(C)"><input type="checkbox"/><span>长治(C)</span></li>
+                            <li title="昭通(Z)"><input type="checkbox"/><span>昭通(Z)</span></li>
+                            <li title="肇庆(Z)"><input type="checkbox"/><span>肇庆(Z)</span></li>
+                            <li title="镇江(Z)"><input type="checkbox"/><span>镇江(Z)</span></li>
+                            <li title="中山(Z)"><input type="checkbox"/><span>中山(Z)</span></li>
+                            <li title="中卫(Z)"><input type="checkbox"/><span>中卫(Z)</span></li>
+                            <li title="舟山(Z)"><input type="checkbox"/><span>舟山(Z)</span></li>
+                            <li title="周口(Z)"><input type="checkbox"/><span>周口(Z)</span></li>
+                            <li title="珠海(Z)"><input type="checkbox"/><span>珠海(Z)</span></li>
+                            <li title="株洲(Z)"><input type="checkbox"/><span>株洲(Z)</span></li>
+                            <li title="驻马店(Z)"><input type="checkbox"/><span>驻马店(Z)</span></li>
+                            <li title="涿州(Z)"><input type="checkbox"/><span>涿州(Z)</span></li>
+                            <li title="资阳(Z)"><input type="checkbox"/><span>资阳(Z)</span></li>
+                            <li title="淄博(Z)"><input type="checkbox"/><span>淄博(Z)</span></li>
+                            <li title="自贡(Z)"><input type="checkbox"/><span>自贡(Z)</span></li>
                         </ul>
                     </div>
                 </div>
@@ -2054,7 +2235,7 @@
                             ipt.checked = !ipt.checked;
                             _this.check(v, ipt.checked);
                             _this.getText();
-                            _this.isItemCheck(v);
+                            _this.isItemCheck();
                         }
                         if (paNodeName == 'li') {
                             var isChecked = false;
@@ -2068,7 +2249,7 @@
                             }
                             _this.check(v, isChecked);
                             _this.getText();
-                            _this.isItemCheck(v);
+                            _this.isItemCheck();
                         }
                     });
                     $('.wg_citys .wgc_tit').click(function (e) {
@@ -2102,6 +2283,7 @@
                                     _this.check(v, this.checked);
                                     _this.getText();
                                 })
+                                _this.isItemCheck();
                             }
                         }
                     });
@@ -2163,30 +2345,23 @@
                     this.$citys.text(t).attr('title', t);
                     $('.smd_val', this.ele).text(t).attr('v',v);
                 },
-                isItemCheck: function(v) {
-                    var $arrBox = this.getBox(v);
-                    $arrBox.each(function () {
-                        var flag = true;
-                        $('input', this).each(function () {
-                            if (!this.checked) {
-                                return flag = !flag;
+                isItemCheck: function() {
+                     this.$listbox.each(function(){
+                        var sign = true;
+                        // 只有内部有一个未选,就取消全选
+                        $('input',this).each(function(){
+                            if(!this.checked){
+                                sign = false;
+                                return false;
                             }
                         })
-                        var $tit = $(this).prev('.wgc_tit');
-                        $tit.find('input')[0].checked = flag;
-                    })
-                },
-                getBox: function(v) {
-                    var $arrBox = $([]),
-                        v = v.replace(/\([A-Z]\)/g, '');
-                    this.$listbox_li.find('span').each(function () {
-                        var $box = $(this).parents('.list_box'),
-                            v1 = $(this).text().replace(/\([A-Z]\)/g, '');
-                        if (v == v1) {
-                            $arrBox = $arrBox.add($box);
+                        var $tit = $(this).prev('.wgc_tit').find('input')[0];
+                        if(sign){
+                            $tit.checked = true;
+                        }else{
+                            $tit.checked = false;
                         }
-                    })
-                    return $arrBox;
+                     })
                 },
                 clean: function(){
                     var _this = this;
@@ -2215,7 +2390,7 @@
                     // 对比上一次选择项, 新的选择才调用ajax
                     if(ele.data('v') !== str){
                         // ajax
-                        console.log(str);
+                        //console.log(str);
                     }
                     $("#city_area1_box").show();
                     ele.data('v',str);
