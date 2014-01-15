@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
+    <link href="base.css" rel="stylesheet" type="text/css"/>
+    <style>
+        #a{width:800px;margin:0 auto;}
+        .tableWrap{position:relative;border-left:1px solid #ddd;border-right:1px solid #ddd;overflow:hidden;}
+        .sec0{position:absolute;left:0;top:0;z-index:1;overflow:hidden;}
+        .sec1{position:relative;left:0;top:0;overflow-x:auto;overflow-x:auto;}
+        .tableLayout{background-color:#fff;}
+        .tableLayout td{text-align:center;}
+        .tableLayout td,.tableLayout th{border:1px solid #ddd;border-right:0;padding:6px 8px;line-height:1.5;white-space:nowrap;}
+        .tableLayout td:first-of-type,.tableLayout th:first-of-type{border-left:0;border-right:0}
+        .tableLayout th{font-weight:400;}
+        .sec0 td,.sec0 th{border-right:1px solid #ddd!important;}
+
+    </style>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+        $.fn.fixTable = function(opts){
+            var defaults = {};
+            opts = $.extend({},defaults,opts);
+            var _this = $(this);
+            var init_w = parseInt($(this).width());
+            var ancestor = $(this).parents('.tableWrap');
+            if(ancestor.length){
+                if(!$('.sec0',ancestor).length){
+                    fn();
+                    return false;
+                }
+                var w = $(this).width(), fixW = 0;
+                if(opts.w > w){
+                    $(this).width(opts.w -2);
+                }
+                fixW = $(this).find('tr:first th:first').outerWidth();
+                $('.sec0',ancestor).width(fixW+1);
+            }else{
+                $(this).wrap('<div class="tableWrap" style="width:' + (opts.w-2) + 'px"></div>');
+                fn();
+            }
+
+            function fn(){
+                if(opts.w < init_w){
+                    var col_fir = '';
+                    $('tr',_this).each(function(){
+                        var a = document.createElement('div');
+                        a.appendChild($(':first-child',this).clone()[0]);
+                        col_fir += '<tr>' + a.innerHTML + '</tr>';
+                    })
+                    var $cont = $('<table class="tableLayout" width="100%">' + col_fir +'</table>');
+                    _this.before($cont);
+                    _this.width('auto').wrap('<div class="sec1"></div>');
+                    var fixW = _this.find('tr:first th:first').outerWidth();
+                    $cont.wrap('<div class="sec0" style="width:' + (fixW + 1) + 'px"></div>');
+                }else{
+                    _this.width(opts.w-2);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="a">
+        <table class="tableLayout" id="t1">
+            <tr>
+                <th>为飞洒地方萨芬</th>
+                <th>为为飞洒地方萨芬飞洒地方萨芬2</th>
+                <th>是短</th>
+                <th>124</th>
+                <th style="display:none">为飞洒</th>
+                <th style="display:none">为飞洒地方</th>
+                <th style="display:none">为为飞洒地方萨芬飞洒地方萨芬2</th>
+                <th style="display:none">是短发</th>
+                <th style="display:none">短发</th>
+                <th style="display:none">为飞洒地方萨</th>
+            </tr>
+            <tr>
+                <td>为飞洒地方萨芬</td>
+                <td><div class="ellipsis" style="width:150px;">为为为飞洒地方萨芬飞洒地方萨芬为为飞洒地方萨芬飞洒地方萨芬为飞洒地方萨芬飞洒地方萨芬2</div></td>
+                <td>是短发</td>
+                <td>124</td>
+                <th style="display:none">为飞洒</th>
+                <th style="display:none">为飞洒地方</th>
+                <th style="display:none">为为飞洒地方萨芬飞洒地方萨芬2</th>
+                <th style="display:none">是短发</th>
+                <th style="display:none">短发</th>
+                <th style="display:none">为飞洒地方萨</th>
+            </tr>
+        </table>
+        <button id="btn" data-status="1">button</button>
+        <br/></br>
+        <table class="tableLayout" id="t2">
+            <tr>
+                <th>为飞洒地方萨芬</th>
+                <th>为为飞洒地方萨芬飞洒地方萨芬2</th>
+                <th>是短</th>
+                <th>124</th>
+                <th>为飞洒地方萨芬</th>
+                <th>为为飞洒地方萨芬飞洒地方萨芬2</th>
+                <th>是短</th>
+                <th>124</th>
+                <th>为飞洒</th>
+                <th>为飞洒地方</th>
+                <th style="display:none">为为飞洒地方萨芬飞洒地方萨芬2</th>
+                <th style="display:none">是短发</th>
+                <th style="display:none">短发</th>
+                <th style="display:none">为飞洒地方萨</th>
+            </tr>
+            <tr>
+                <td>为飞洒地方萨芬</td>
+                <td><div class="ellipsis" style="width:150px;">为为为飞洒地方萨芬飞洒地方萨芬为为飞洒地方萨芬飞洒地方萨芬为飞洒地方萨芬飞洒地方萨芬2</div></td>
+                <td>是短发</td>
+                <td>124</td>
+                <th>为飞洒地方萨芬</th>
+                <th>为为飞洒地方萨芬飞洒地方萨芬2</th>
+                <th>是短</th>
+                <th>124</th>
+                <th>为飞洒</th>
+                <th>为飞洒地方</th>
+                <th style="display:none">为为飞洒地方萨芬飞洒地方萨芬2</th>
+                <th style="display:none">是短发</th>
+                <th style="display:none">短发</th>
+                <th style="display:none">为飞洒地方萨</th>
+            </tr>
+        </table>
+        <button id="btn1" data-status="1">button</button>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $("#t1").fixTable({w:800});
+            $("#t2").fixTable({w:800});
+        })
+        $('#btn').click(function(){
+            if($(this).data('status')){
+                $(this).data('status',0);
+                $("#t1 tr").each(function(){
+                    $(this).find('> :gt(3)').show();
+                })
+            }else{
+                $(this).data('status',1);
+                $("#t1 tr").each(function(){
+                    $(this).find('> :gt(3)').hide();
+                })
+            }
+            $("#t1").fixTable({w:800});
+        })
+        $('#btn1').click(function(){
+            if($(this).data('status')){
+                $(this).data('status',0);
+                $("#t2 tr").each(function(){
+                    $(this).find('> :gt(9)').show();
+                })
+            }else{
+                $(this).data('status',1);
+                $("#t2 tr").each(function(){
+                    $(this).find('> :gt(9)').hide();
+                })
+            }
+            $("#t2").fixTable({w:800});
+        })
+    </script>
+</body>
+</html>

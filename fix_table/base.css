@@ -1,0 +1,22 @@
+﻿html{background-color:#f4f4f4;overflow-y:scroll;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,hr,pre,code,form,input,button,fieldset,textarea,p,blockquote,th,td{margin:0;padding:0}
+body,button,input,select,textarea{font-size:12px;line-height:1.5;font-family:\5FAE\8F6F\96C5\9ED1,Arial,\5b8b\4f53,sans-serif;}
+table{border-collapse:collapse;border-spacing:0;table-layout:fixed}
+label{white-space:nowrap;cursor:pointer;}
+fieldset,img{border:0}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}
+ol,ul{list-style:none}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;font-family:\5FAE\8F6F\96C5\9ED1;}
+input,button,textarea,select{font-size:100%}
+input:focus{outline:none}
+button::-moz-focus-inner,input::-moz-focus-inner{ border:0px; padding:0px;}
+.clearfix{*zoom:1;}
+.clearfix:after{content:'\20';display:block;height:0;clear:both;}
+
+a{color:#666;text-decoration:none;outline:none;}
+a:hover{color:#666;text-decoration:underline;}
+body{color:#505050;}
+.hilight{color:#f60}
+.ellipsis{display:block;*display:inline;*zoom:1;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+.fl{ float:left;}
+.fr{ float:right;}
