@@ -6,16 +6,13 @@
     <link href="base.css" rel="stylesheet" type="text/css"/>
     <style>
         #a{width:800px;margin:0 auto;}
-        .tableWrap{position:relative;border-left:1px solid #ddd;border-right:1px solid #ddd;overflow:hidden;}
+        .tableWrap{position:relative;border:1px solid #ddd;border-bottom:0;}
         .sec0{position:absolute;left:0;top:0;z-index:1;overflow:hidden;}
-        .sec1{position:relative;left:0;top:0;overflow-x:auto;overflow-x:auto;}
+        .sec1{position:relative;left:0;top:0;overflow-x:scroll;overflow-y:hidden;}
         .tableLayout{background-color:#fff;}
-        .tableLayout td{text-align:center;}
-        .tableLayout td,.tableLayout th{border:1px solid #ddd;border-right:0;padding:6px 8px;line-height:1.5;white-space:nowrap;}
-        .tableLayout td:first-of-type,.tableLayout th:first-of-type{border-left:0;border-right:0}
-        .tableLayout th{font-weight:400;}
-        .sec0 td,.sec0 th{border-right:1px solid #ddd!important;}
-
+        .tableLayout td,.tableLayout th{padding:6px 8px;line-height:1.5;white-space:nowrap;}
+        .tableLayout td{text-align:center;border:1px solid #ddd;border-left:0;}
+        .tableLayout th{border-bottom:3px solid #85664B;border-right:1px solid #B9936F;background-color:#A47A54;color:#fff;}
     </style>
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript">
@@ -30,11 +27,12 @@
                     fn();
                     return false;
                 }
-                var w = $(this).width(), fixW = 0;
+                var w = $(this).width();
                 if(opts.w > w){
-                    $(this).width(opts.w -2);
+                    // 滚动条为空是,ie中滚动条右侧出现蓝色竖条
+                    $(this).width(opts.w-1);
                 }
-                fixW = $(this).find('tr:first th:first').outerWidth();
+                var fixW = $(this).find('tr:first th:first').outerWidth();
                 $('.sec0',ancestor).width(fixW+1);
             }else{
                 $(this).wrap('<div class="tableWrap" style="width:' + (opts.w-2) + 'px"></div>');
@@ -81,12 +79,12 @@
                 <td><div class="ellipsis" style="width:150px;">为为为飞洒地方萨芬飞洒地方萨芬为为飞洒地方萨芬飞洒地方萨芬为飞洒地方萨芬飞洒地方萨芬2</div></td>
                 <td>是短发</td>
                 <td>124</td>
-                <th style="display:none">为飞洒</th>
-                <th style="display:none">为飞洒地方</th>
-                <th style="display:none">为为飞洒地方萨芬飞洒地方萨芬2</th>
-                <th style="display:none">是短发</th>
-                <th style="display:none">短发</th>
-                <th style="display:none">为飞洒地方萨</th>
+                <td style="display:none">为飞洒</td>
+                <td style="display:none">为飞洒地方</td>
+                <td style="display:none">为为飞洒地方萨芬飞洒地方萨芬2</td>
+                <td style="display:none">是短发</td>
+                <td style="display:none">短发</td>
+                <td style="display:none">为飞洒地方萨</td>
             </tr>
         </table>
         <button id="btn" data-status="1">button</button>
@@ -113,16 +111,16 @@
                 <td><div class="ellipsis" style="width:150px;">为为为飞洒地方萨芬飞洒地方萨芬为为飞洒地方萨芬飞洒地方萨芬为飞洒地方萨芬飞洒地方萨芬2</div></td>
                 <td>是短发</td>
                 <td>124</td>
-                <th>为飞洒地方萨芬</th>
-                <th>为为飞洒地方萨芬飞洒地方萨芬2</th>
-                <th>是短</th>
-                <th>124</th>
-                <th>为飞洒</th>
-                <th>为飞洒地方</th>
-                <th style="display:none">为为飞洒地方萨芬飞洒地方萨芬2</th>
-                <th style="display:none">是短发</th>
-                <th style="display:none">短发</th>
-                <th style="display:none">为飞洒地方萨</th>
+                <td>为飞洒地方萨芬</td>
+                <td>为为飞洒地方萨芬飞洒地方萨芬2</td>
+                <td>是短</td>
+                <td>124</td>
+                <td>为飞洒</td>
+                <td>为飞洒地方</td>
+                <td style="display:none">为为飞洒地方萨芬飞洒地方萨芬2</td>
+                <td style="display:none">是短发</td>
+                <td style="display:none">短发</td>
+                <td style="display:none">为飞洒地方萨</td>
             </tr>
         </table>
         <button id="btn1" data-status="1">button</button>
