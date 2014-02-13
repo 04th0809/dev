@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <h1>onselectstart与onselect,</h1>
+    <p>注：onselectstart事件不被input和textarea标签支持，而onselect事件只被input和textarea支持。</p>
+    <div id="tmp" onselectstart="return false">鼠标无法选中</div>
+    <br/>
+    <br/>
+    <br/>
+    <hr/>
+
+    <h1>setSelectionRange , onselect</h1>
+    <p>默认选中1-2</p>
+    <textarea id="b">sasfsdfsfssf</textarea>
+    <p>可选中几个字，查看结果:<span id="c"></span></p>
+    <script>
+        function setTextSelected(inputDom, startIndex, endIndex)
+        {
+            if (inputDom.setSelectionRange)
+            {
+                inputDom.setSelectionRange(startIndex, endIndex);
+            }
+            else if (inputDom.createTextRange) //IE
+            {
+                var range = inputDom.createTextRange();
+                range.collapse(true);
+                range.moveStart('character', startIndex);
+                range.moveEnd('character', endIndex - startIndex-1);
+                range.select();
+            }
+            inputDom.focus();
+        }
+
+        //获取选中文本
+        function getSelectedText(inputDom){
+            if (document.selection) //IE
+            {
+                return document.selection.createRange().text;
+            }
+            else {
+                return inputDom.value.substring(inputDom.selectionStart,
+                inputDom.selectionEnd);
+            }
+        }
+        var ele = document.getElementById('b');
+        /*
+        ele.onmouseup = function(){
+            var t = getSelectedText(ele);
+            var c = document.getElementById('c');
+            if(t.length){
+                c.innerHTML = getSelectedText(ele);
+            }
+        }
+        */
+        ele.onselect = function(){
+            var t = getSelectedText(ele);
+            c.innerHTML = getSelectedText(ele);
+        }
+        setTextSelected(ele,1,3);
+    </script>
+</body>
+</html>
