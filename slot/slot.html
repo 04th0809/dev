@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <title>老虎机-canvas</title>
+    <link rel="stylesheet" href="base.css" />
+    <style>
+        body{background-color:#f5b342;}
+        .slot{position:relative;margin:0 auto;width:320px;height:200px;background-color:red;}
+        #lamp{position:relative;margin:0 10px;}
+
+    </style>
+    <script src="jquery-1.9.1"></script>
+</head>
+<body>
+    <div class="slot">
+        <!--img src="logos.jpg" width="100%"/-->
+        <!--ul class="lampWrap" id="lamp">
+            <li>&bull;</li>
+        </ul-->
+        <canvas id="lamp" width=300 height=150></canvas>
+    </div>
+    <script>
+        var lamp = document.getElementById('lamp');
+        var ctx=lamp.getContext('2d');
+        function createArc(x,y,flag){
+            ctx.beginPath();
+            ctx.arc(x,y,5,0,2*Math.PI);
+            ctx.shadowColor='#333333';
+            ctx.shadowOffsetX=1;
+            ctx.shadowOffsetY=1;
+            ctx.shadowBlur=2;
+            if(flag){
+                ctx.fillStyle='magenta';
+            }else{
+                ctx.fillStyle='#ffffff';
+                ctx.fill()
+            }
+        }
+        function draw(j){
+            for(var i=0; i<36; i++){
+                if(i==j){
+                    flag=true;
+                }else{
+                    flag=false;
+                }
+                if(i<14){
+                    createArc(20,10,flag);
+                    ctx.translate(20,0);
+                }else if(i<18){
+                    createArc(10,30,flag);
+                    ctx.translate(0,20);
+                }else if(i<32){
+                    createArc(0,30,flag);
+                    ctx.translate(-20,0);
+                }else if(i<36){
+                    createArc(10,10,flag);
+                    ctx.translate(0,-20);
+                }
+            }
+        }
+        draw();
+        /*
+        var n = 0;
+        setInterval(function(){
+            n++;
+            if(n>=36){
+                n==0;
+            }
+        },100)
+        */
+    </script>
+</body>
+</html>
