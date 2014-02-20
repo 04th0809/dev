@@ -7,21 +7,72 @@
     <link rel="stylesheet" href="base.css" />
     <style>
         body{background-color:#f5b342;}
-        .slot{position:relative;margin:0 auto;width:320px;height:200px;background-color:red;}
-        #lamp{position:relative;margin:0 10px;}
+        .slot{position:relative;margin:0 auto;width:320px;height:300px;padding-top:5px;background-color:#c00e0e;}
+        #lamp{position:absolute;top:0px;left:10px;}
+        .goods{position:relative;width:300px;height:205px;margin:0 auto;overflow:hidden;}
+        .goods img{vertical-align:top;border:1px solid #eee;}
+        .goods .item{float:left;margin-left:10px;width:80px;height:133px;background:url(img/num.png) top center repeat-y}
+        .start a{display:block;width:265px;height:52px;margin:20px auto 0;
+            background:url(img/btn_1.png) no-repeat 0 0;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
+            -khtml-border-radius:5px;
+            border-radius:5px;
+    }
 
     </style>
-    <script src="jquery-1.9.1"></script>
+    <script src="jquery-1.9.1.js"></script>
+    <script src="easing.js"></script>
 </head>
 <body>
     <div class="slot">
-        <!--img src="logos.jpg" width="100%"/-->
-        <!--ul class="lampWrap" id="lamp">
-            <li>&bull;</li>
-        </ul-->
-        <canvas id="lamp" width=300 height=150></canvas>
+        <canvas id="lamp" width=300 height=200></canvas>
+        <div class="goods">
+            <div class="item" id="item1"></div>
+            <div class="item" id="item2"></div>
+            <div class="item" id="item3"></div>
+        </div>
+        <div class="start"><a href="#"></a></div>
     </div>
     <script>
+        function numRand() {
+            var x = 999;
+            var y = 0;
+            var rand = parseInt(Math.random() * (x - y + 1) + y);
+            return rand;
+        }
+
+        var isBegin = false;
+        $(function(){
+            var u = 133;
+            $('.start a').click(function(){
+                if(isBegin) return false;
+                isBegin = true;
+                //$(".item").css('backgroundPositionY',0);
+                var result = numRand();
+                var num_arr = (result+'').split('');
+                $(".item").each(function(index){
+                    var _num = $(this);
+                    setTimeout(function(){
+                        _num.animate({
+                            backgroundPositionY: (u*20) - (u*num_arr[index])
+                        },{
+                            duration: 6000+index*3000,
+                            easing: "easeInOutCirc",
+                            complete: function(){
+                                if(index==2){
+                                    isBegin = false;
+                                    alert('恭喜您，您抽到的是'+ result);
+                                }
+                                var pos = parseInt(_num.css('backgroundPositionY'));
+                                _num.css('backgroundPositionY',pos-u*10);
+                            }
+                        });
+                    }, index * 300);
+                });
+            });
+        });
+
         var lamp = document.getElementById('lamp');
         var ctx=lamp.getContext('2d');
         function createArc(x,y,flag){
@@ -32,11 +83,11 @@
             ctx.shadowOffsetY=1;
             ctx.shadowBlur=2;
             if(flag){
-                ctx.fillStyle='magenta';
+                ctx.fillStyle='yellow';
             }else{
-                ctx.fillStyle='#ffffff';
-                ctx.fill()
+                ctx.fillStyle='#f2f2f2';
             }
+            ctx.fill()
         }
         function draw(j){
             for(var i=0; i<36; i++){
@@ -50,26 +101,17 @@
                     ctx.translate(20,0);
                 }else if(i<18){
                     createArc(10,30,flag);
-                    ctx.translate(0,20);
+                    ctx.translate(0,25);
                 }else if(i<32){
                     createArc(0,30,flag);
                     ctx.translate(-20,0);
                 }else if(i<36){
                     createArc(10,10,flag);
-                    ctx.translate(0,-20);
+                    ctx.translate(0,-25);
                 }
             }
         }
-        draw();
-        /*
-        var n = 0;
-        setInterval(function(){
-            n++;
-            if(n>=36){
-                n==0;
-            }
-        },100)
-        */
+        draw(1);
     </script>
 </body>
 </html>
