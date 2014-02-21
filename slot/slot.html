@@ -6,19 +6,25 @@
     <title>老虎机-canvas</title>
     <link rel="stylesheet" href="base.css" />
     <style>
-        body{background-color:#f5b342;}
-        .slot{position:relative;margin:0 auto;width:320px;height:300px;padding-top:5px;background-color:#c00e0e;}
-        #lamp{position:absolute;top:0px;left:10px;}
-        .goods{position:relative;width:300px;height:205px;margin:0 auto;overflow:hidden;}
+        body{background:#f5b342 url(img/bg_2.png) repeat-x 0 0;}
+        .slot{position:relative;margin:0 auto;width:320px;height:236px;padding-top:132px;background:url(img/bg.jpg) no-repeat 0 0;}
+        #lamp{position:absolute;top:109px;left:12px;}
+        .mask{position:absolute;top:125px;left:29px;width:261px;height:112px;background:url(img/shadow.png) no-repeat 0 0;}
+        .line{position:absolute;left:34px;top:183px;width:254px;height:1px;border-bottom:1px solid #333333;background-color:red;-moz-opacity:0.5;opacity:0.5;}
+
+        .goodsWrap{position:relative;width:280px;height:101px;margin:0 auto;overflow:hidden;}
+        .goods{position:absolute;width:280px;height:133px;left:8px;top:-14px;}
         .goods img{vertical-align:top;border:1px solid #eee;}
-        .goods .item{float:left;margin-left:10px;width:80px;height:133px;background:url(img/num.png) top center repeat-y}
-        .start a{display:block;width:265px;height:52px;margin:20px auto 0;
-            background:url(img/btn_1.png) no-repeat 0 0;
+        .goods .item{float:left;margin-left:6px;width:80px;height:133px;background:url(img/num.png) top center repeat-y}
+        .start{width:265px;margin:33px auto 0;}
+        .start .btn{display:block;width:265px;height:52px;
             -moz-border-radius:5px;
             -webkit-border-radius:5px;
             -khtml-border-radius:5px;
             border-radius:5px;
-    }
+        }
+        .start .btn1{background:url(img/btn_1.png) no-repeat 0 0;cursor:pointer;}
+        .start .btn2{background:url(img/btn_2.png) no-repeat 0 0;cursor:default;}
 
     </style>
     <script src="jquery-1.9.1.js"></script>
@@ -26,15 +32,77 @@
 </head>
 <body>
     <div class="slot">
-        <canvas id="lamp" width=300 height=200></canvas>
-        <div class="goods">
-            <div class="item" id="item1"></div>
-            <div class="item" id="item2"></div>
-            <div class="item" id="item3"></div>
+        <canvas id="lamp" width=300 height=150></canvas>
+        <div class="goodsWrap">
+            <div class="goods">
+                <div class="item" id="item1"></div>
+                <div class="item" id="item2"></div>
+                <div class="item" id="item3"></div>
+            </div>
         </div>
-        <div class="start"><a href="#"></a></div>
+        <div class="start"><a href="#" class="btn btn1"></a></div>
+        <div class="mask"></div>
+        <div class="line"></div>
     </div>
     <script>
+        var lamp = document.getElementById('lamp');
+        var ctx=lamp.getContext('2d');
+        function createArc(x,y,flag){
+            ctx.beginPath();
+            if(flag){
+                ctx.fillStyle='yellow';
+                ctx.arc(x,y,6,0,2*Math.PI);
+                ctx.shadowColor='yellow';
+            }else{
+                var grd=ctx.createRadialGradient(x,y,10,x-1,y-5,4);
+                grd.addColorStop(0,"#999999");
+                grd.addColorStop(1,"#ffffff");
+                ctx.fillStyle=grd;
+
+                //ctx.fillStyle='#f2f2f2';
+                ctx.arc(x,y,4,0,2*Math.PI);
+                ctx.shadowColor='#333333';
+            }
+            ctx.shadowOffsetX=1;
+            ctx.shadowOffsetY=1;
+            ctx.shadowBlur=1;
+            ctx.fill()
+        }
+
+
+        function draw(j){
+            for(var i=0; i<40; i++){
+                if(i==j){
+                    flag=true;
+                }else{
+                    flag=false;
+                }
+                if(i==14){
+                    ctx.translate(-13*19-24,-10);
+                }
+                if(i==20){
+                    ctx.translate(-20,-5*18-36);
+                }
+                if(i==34){
+                    ctx.translate(14*19,0);
+                }
+                if(i<14){
+                    createArc(24,10,flag);
+                    ctx.translate(19,0);
+                }else if(i<20){
+                    createArc(13*19+24+20,36,flag);
+                    ctx.translate(0,18);
+                }else if(i<34){
+                    createArc(13*19+24+20,5*18+36+38,flag);
+                    ctx.translate(-19,0);
+                }else if(i<40){
+                    createArc(10,6*18+10,flag);
+                    ctx.translate(0,-18);
+                }
+            }
+        }
+        draw();
+
         function numRand() {
             var x = 999;
             var y = 0;
@@ -48,70 +116,53 @@
             $('.start a').click(function(){
                 if(isBegin) return false;
                 isBegin = true;
-                //$(".item").css('backgroundPositionY',0);
+                $(this).addClass('btn2').removeClass('btn1');
                 var result = numRand();
+                var i=0,j=0,_this = $(this);
                 var num_arr = (result+'').split('');
+                var t = setInterval(function(){
+                    ctx.clearRect(0,0,300,200);
+                    draw(i);
+                    i++;
+                    j++
+                    if(i>35){i=0}
+                },50)
                 $(".item").each(function(index){
                     var _num = $(this);
                     setTimeout(function(){
                         _num.animate({
-                            backgroundPositionY: (u*20) - (u*num_arr[index])
+                            backgroundPositionY: (u*60) - (u*num_arr[index])
                         },{
                             duration: 6000+index*3000,
                             easing: "easeInOutCirc",
                             complete: function(){
                                 if(index==2){
                                     isBegin = false;
+                                    clearTimeout(t);
+                                    _this.addClass('btn1').removeClass('btn2');
                                     alert('恭喜您，您抽到的是'+ result);
                                 }
                                 var pos = parseInt(_num.css('backgroundPositionY'));
-                                _num.css('backgroundPositionY',pos-u*10);
+                                _num.css('backgroundPositionY',pos-u*60);
                             }
                         });
                     }, index * 300);
                 });
             });
         });
-
-        var lamp = document.getElementById('lamp');
-        var ctx=lamp.getContext('2d');
-        function createArc(x,y,flag){
-            ctx.beginPath();
-            ctx.arc(x,y,5,0,2*Math.PI);
-            ctx.shadowColor='#333333';
-            ctx.shadowOffsetX=1;
-            ctx.shadowOffsetY=1;
-            ctx.shadowBlur=2;
-            if(flag){
-                ctx.fillStyle='yellow';
-            }else{
-                ctx.fillStyle='#f2f2f2';
-            }
-            ctx.fill()
-        }
-        function draw(j){
-            for(var i=0; i<36; i++){
-                if(i==j){
-                    flag=true;
-                }else{
-                    flag=false;
+        function lamp(){
+            var i=0,j=0;
+            var t = setInterval(function(){
+                ctx.clearRect(0,0,300,200);
+                draw(i);
+                i++;
+                j++
+                if(i>35){i=0}
+                if(j>=36*10){
+                    clearTimeout(t);
                 }
-                if(i<14){
-                    createArc(20,10,flag);
-                    ctx.translate(20,0);
-                }else if(i<18){
-                    createArc(10,30,flag);
-                    ctx.translate(0,25);
-                }else if(i<32){
-                    createArc(0,30,flag);
-                    ctx.translate(-20,0);
-                }else if(i<36){
-                    createArc(10,10,flag);
-                    ctx.translate(0,-25);
-                }
-            }
+            },10)
         }
-        draw(1);
     </script>
 </body>
 </html>
